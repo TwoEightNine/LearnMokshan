@@ -134,7 +134,7 @@ object PhrasebookCollection {
             tags = listOf(Category.GREETINGS),
         ),
         Phrase(
-            mokshanPhrase = "Одус васедемозонк",
+            mokshanPhrase = "Оду васедемозонк",
             translations = listOf(
                 Translation(
                     value = "Until we meet again",
@@ -163,10 +163,51 @@ object PhrasebookCollection {
             ),
             tags = listOf(Category.GREETINGS),
         ),
+        Phrase(
+            mokshanPhrase = "Сюкпря",
+            translations = listOf(
+                Translation(
+                    value = "Thanks",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.THANKSGIVING),
+        ),
+        Phrase(
+            mokshanPhrase = "Оцю сюкпря",
+            translations = listOf(
+                Translation(
+                    value = "Thank you very much",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.THANKSGIVING),
+        ),
+        Phrase(
+            mokshanPhrase = "Сувак пара мяльса",
+            translations = listOf(
+                Translation(
+                    value = "Welcome (to one)",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.GREETINGS),
+        ),
+        Phrase(
+            mokshanPhrase = "Сувада пара мяльса",
+            translations = listOf(
+                Translation(
+                    value = "Welcome (to many)",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.GREETINGS),
+        ),
     )
 
     enum class Category {
         GREETINGS,
-        COMMON
+        COMMON,
+        THANKSGIVING
     }
 }

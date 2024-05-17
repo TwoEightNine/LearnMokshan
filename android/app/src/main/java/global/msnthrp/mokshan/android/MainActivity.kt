@@ -30,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import asPxToDp
 import global.msnthrp.mokshan.Greeting
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreen
 import global.msnthrp.mokshan.domain.phrasebook.PhrasebookCollection
 import toPx
 
@@ -45,11 +46,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavHost(
                         navController = rememberNavController(),
-                        startDestination = "screen",
+                        startDestination = "phrasebook",
                     ) {
-                        composable(route = "screen") {
-                            ScreenView()
-                        }
+                        composable(route = "phrasebook") { PhrasebookScreen() }
                     }
                 }
             }
@@ -57,58 +56,4 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun ScreenView(text: String = Greeting().greet()) {
-    Scaffold(
-        topBar = {
-            @OptIn(ExperimentalMaterial3Api::class)
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "Mokshan Phrasebook",
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                }
-            )
-        },
-    ) { padding ->
-        LazyColumn(
-            modifier = Modifier
-                .padding(top = padding.calculateTopPadding())
-        ) {
-            PhrasebookCollection.phrases.forEach { phrase ->
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp, end = 16.dp, top = 12.dp)
-                    ) {
-                        Text(
-                            text = phrase.mokshanPhrase,
-                            style = MaterialTheme.typography.titleMedium,
-                        )
-                        phrase.translations.forEach { translation ->
-                            Text(
-                                modifier = Modifier.padding(top = 2.dp),
-                                text = translation.value,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.secondary
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Divider(thickness = 1.asPxToDp())
-                    }
-                }
-            }
-            item { Spacer(modifier = Modifier.height(padding.calculateBottomPadding())) }
-        }
-    }
-}
 
-@Preview
-@Composable
-fun ScreenPreview() {
-    LeMokTheme {
-        ScreenView()
-    }
-}
