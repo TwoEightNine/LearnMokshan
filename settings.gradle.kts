@@ -18,3 +18,4 @@ rootProject.name = "Learn_Mokshan"
 include(":android:app")
 include(":android:core:designsystem")
 include(":shared")
+include(":android:core:utils")

@@ -27,8 +27,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import asPxToDp
 import global.msnthrp.mokshan.Greeting
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.domain.phrasebook.PhrasebookCollection
+import toPx
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +65,8 @@ fun ScreenView(text: String = Greeting().greet()) {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = text,
+                        text = "Mokshan Phrasebook",
+                        style = MaterialTheme.typography.headlineSmall,
                     )
                 }
             )
@@ -72,20 +76,31 @@ fun ScreenView(text: String = Greeting().greet()) {
             modifier = Modifier
                 .padding(top = padding.calculateTopPadding())
         ) {
-            items(100) { index ->
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                ) {
-                    Text(text = "item $index")
+            PhrasebookCollection.phrases.forEach { phrase ->
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, top = 12.dp)
+                    ) {
+                        Text(
+                            text = phrase.mokshanPhrase,
+                            style = MaterialTheme.typography.titleMedium,
+                        )
+                        phrase.translations.forEach { translation ->
+                            Text(
+                                modifier = Modifier.padding(top = 2.dp),
+                                text = translation.value,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Divider(thickness = 1.asPxToDp())
+                    }
                 }
             }
-            item {
-                Spacer(
-                    modifier = Modifier.height(padding.calculateBottomPadding())
-                )
-            }
+            item { Spacer(modifier = Modifier.height(padding.calculateBottomPadding())) }
         }
     }
 }
