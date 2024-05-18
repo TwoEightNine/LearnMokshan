@@ -1,0 +1,19 @@
+package global.msnthrp.mokshan.data.repository
+
+import global.msnthrp.mokshan.data.network.networkModules
+import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepository
+import org.koin.core.context.loadKoinModules
+import org.koin.dsl.module
+
+val repositoryModule = module {
+    loadKoinModules(
+        listOf(
+            networkModules
+        )
+    )
+    single {
+        PhrasebookRepository(
+            networkDs = get()
+        )
+    }
+}
