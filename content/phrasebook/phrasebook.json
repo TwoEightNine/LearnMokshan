@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Greeting",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "Farewell",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "Thanksgiving",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "sorry",
+      "translations": [
+        {
+          "value": "Apologies",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "common",
+      "translations": [
+        {
+          "value": "Common",
+          "language": "en"
+        }
+      ]
+    }
+  ],
+  "phrasebook": [
+    {
+      "mokshan": "Шумбрат!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Hello!",
+          "note": "to one",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Шумбратада!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Hello!",
+          "note": "to many",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Няемозонк!",
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "Goodbye!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Вандыс!",
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "See you tomorrow!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кода эрят?",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "How do you do?",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кода тефне?",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "How is it going?",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Васедемозонк!",
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "See you!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Оду васедемозонк!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Until we meet again!",
+          "language": ""
+        }
+      ]
+    },
+    {
+      "mokshan": "Илядьс!",
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "See you tonight!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сатфкст!",
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "Good luck!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сувак пара мяльса!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Welcome",
+          "note": "to one",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сувада пара мяльса!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Welcome",
+          "note": "to many",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Цебярь шобдава!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Good morning!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Пара ши!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Good afternoon!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Пара илядь!",
+      "category": "greeting",
+      "translations": [
+        {
+          "value": "Good evening!",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Да",
+      "category": "common",
+      "translations": [
+        {
+          "value": "Yes",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Аш",
+      "category": "common",
+      "translations": [
+        {
+          "value": "No",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Стане",
+      "category": "common",
+      "translations": [
+        {
+          "value": "Of course",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Цебярьста",
+      "category": "common",
+      "translations": [
+        {
+          "value": "Good",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кальдявста",
+      "category": "common",
+      "translations": [
+        {
+          "value": "Bad",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сюкпря!",
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "Thanks",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Оцю сюкпря!",
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "Thanks a lot",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Азан спасиба!",
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "Thank you!",
+          "note": "from me",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Астама спасиба!",
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "Thank you!",
+          "note": "from us",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Аш мезенкса",
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "You're welcome",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "mokshan": "Лацкас удомс!",
+      "category": "farewell",
+      "translations": [
+        {
+          "value": "Good night!",
+          "language": "en"
+        }
+      ]
+    }
+  ]
+}

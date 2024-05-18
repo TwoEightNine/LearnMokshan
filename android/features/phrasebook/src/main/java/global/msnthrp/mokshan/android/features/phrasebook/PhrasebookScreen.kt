@@ -22,14 +22,14 @@ import global.msnthrp.mokshan.domain.phrasebook.Phrase
 import global.msnthrp.mokshan.domain.phrasebook.PhrasebookCollection
 
 @Composable
-fun PhrasebookScreen() {
+fun PhrasebookScreen(appName: String) {
     Scaffold(
         topBar = {
             @OptIn(ExperimentalMaterial3Api::class)
             (CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Mokshan Phrasebook",
+                        text = appName,
                         style = MaterialTheme.typography.headlineSmall,
                     )
                 }
@@ -84,6 +84,6 @@ private fun PhraseView(phrase: Phrase) {
 @Composable
 fun ScreenPreview() {
     LeMokTheme {
-        PhrasebookScreen()
+        PhrasebookScreen(appName = "App name")
     }
 }

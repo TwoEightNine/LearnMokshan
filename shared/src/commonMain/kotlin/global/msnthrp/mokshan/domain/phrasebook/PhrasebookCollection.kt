@@ -44,26 +44,6 @@ object PhrasebookCollection {
             tags = listOf(Category.GREETINGS),
         ),
         Phrase(
-            mokshanPhrase = "Да",
-            translations = listOf(
-                Translation(
-                    value = "Yes",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.COMMON),
-        ),
-        Phrase(
-            mokshanPhrase = "Аш",
-            translations = listOf(
-                Translation(
-                    value = "No",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.COMMON),
-        ),
-        Phrase(
             mokshanPhrase = "Кода эрят?",
             translations = listOf(
                 Translation(
@@ -82,46 +62,6 @@ object PhrasebookCollection {
                 ),
             ),
             tags = listOf(Category.GREETINGS),
-        ),
-        Phrase(
-            mokshanPhrase = "Пара",
-            translations = listOf(
-                Translation(
-                    value = "Good",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.COMMON),
-        ),
-        Phrase(
-            mokshanPhrase = "Стане",
-            translations = listOf(
-                Translation(
-                    value = "Of course",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.COMMON),
-        ),
-        Phrase(
-            mokshanPhrase = "Цебярьста",
-            translations = listOf(
-                Translation(
-                    value = "Good",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.COMMON),
-        ),
-        Phrase(
-            mokshanPhrase = "Кальдяв",
-            translations = listOf(
-                Translation(
-                    value = "Bad",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.COMMON),
         ),
         Phrase(
             mokshanPhrase = "Васедемозонк",
@@ -164,26 +104,6 @@ object PhrasebookCollection {
             tags = listOf(Category.GREETINGS),
         ),
         Phrase(
-            mokshanPhrase = "Сюкпря",
-            translations = listOf(
-                Translation(
-                    value = "Thanks",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.THANKSGIVING),
-        ),
-        Phrase(
-            mokshanPhrase = "Оцю сюкпря",
-            translations = listOf(
-                Translation(
-                    value = "Thank you very much",
-                    foreignLanguage = ForeignLanguage.ENGLISH,
-                ),
-            ),
-            tags = listOf(Category.THANKSGIVING),
-        ),
-        Phrase(
             mokshanPhrase = "Сувак пара мяльса",
             translations = listOf(
                 Translation(
@@ -202,6 +122,129 @@ object PhrasebookCollection {
                 ),
             ),
             tags = listOf(Category.GREETINGS),
+        ),
+        Phrase(
+            mokshanPhrase = "Цебярь шобдава",
+            translations = listOf(
+                Translation(
+                    value = "Good morning",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.GREETINGS),
+        ),
+        Phrase(
+            mokshanPhrase = "Пара ши",
+            translations = listOf(
+                Translation(
+                    value = "Good afternoon",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.GREETINGS),
+        ),
+        Phrase(
+            mokshanPhrase = "Пара илядь",
+            translations = listOf(
+                Translation(
+                    value = "Good evening",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.GREETINGS),
+        ),
+        Phrase(
+            mokshanPhrase = "Сувада пара мяльса",
+            translations = listOf(
+                Translation(
+                    value = "Welcome (to many)",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.GREETINGS),
+        ),
+
+        Phrase(
+            mokshanPhrase = "Да",
+            translations = listOf(
+                Translation(
+                    value = "Yes",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.COMMON),
+        ),
+        Phrase(
+            mokshanPhrase = "Аш",
+            translations = listOf(
+                Translation(
+                    value = "No",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.COMMON),
+        ),
+
+        Phrase(
+            mokshanPhrase = "Пара",
+            translations = listOf(
+                Translation(
+                    value = "Good",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.COMMON),
+        ),
+        Phrase(
+            mokshanPhrase = "Стане",
+            translations = listOf(
+                Translation(
+                    value = "Of course",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.COMMON),
+        ),
+        Phrase(
+            mokshanPhrase = "Цебярьста",
+            translations = listOf(
+                Translation(
+                    value = "Good",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.COMMON),
+        ),
+        Phrase(
+            mokshanPhrase = "Кальдяв",
+            translations = listOf(
+                Translation(
+                    value = "Bad",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.COMMON),
+        ),
+
+        Phrase(
+            mokshanPhrase = "Сюкпря",
+            translations = listOf(
+                Translation(
+                    value = "Thanks",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.THANKSGIVING),
+        ),
+        Phrase(
+            mokshanPhrase = "Оцю сюкпря",
+            translations = listOf(
+                Translation(
+                    value = "Thank you very much",
+                    foreignLanguage = ForeignLanguage.ENGLISH,
+                ),
+            ),
+            tags = listOf(Category.THANKSGIVING),
         ),
     )
 
