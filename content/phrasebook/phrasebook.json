@@ -7,6 +7,10 @@
         {
           "value": "Greeting",
           "language": "en"
+        },
+        {
+          "value": "Приветствие",
+          "language": "ru"
         }
       ]
     },
@@ -16,6 +20,10 @@
         {
           "value": "Farewell",
           "language": "en"
+        },
+        {
+          "value": "Прощание",
+          "language": "ru"
         }
       ]
     },
@@ -25,6 +33,10 @@
         {
           "value": "Thanksgiving",
           "language": "en"
+        },
+        {
+          "value": "Благодарность",
+          "language": "ru"
         }
       ]
     },
@@ -34,6 +46,10 @@
         {
           "value": "Apologies",
           "language": "en"
+        },
+        {
+          "value": "Извинения",
+          "language": "ru"
         }
       ]
     },
@@ -43,6 +59,23 @@
         {
           "value": "Common",
           "language": "en"
+        },
+        {
+          "value": "Общие",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "category": "number",
+      "translations": [
+        {
+          "value": "Numbers",
+          "language": "en"
+        },
+        {
+          "value": "Числа",
+          "language": "ru"
         }
       ]
     }
@@ -56,6 +89,10 @@
           "value": "Hello!",
           "note": "to one",
           "language": "en"
+        },
+        {
+          "value": "Здравствуй!",
+          "language": "ru"
         }
       ]
     },
@@ -67,6 +104,10 @@
           "value": "Hello!",
           "note": "to many",
           "language": "en"
+        },
+        {
+          "value": "Здравствуйте!",
+          "language": "ru"
         }
       ]
     },
@@ -77,6 +118,10 @@
         {
           "value": "Goodbye!",
           "language": "en"
+        },
+        {
+          "value": "До свидания!",
+          "language": "ru"
         }
       ]
     },
@@ -87,6 +132,10 @@
         {
           "value": "See you tomorrow!",
           "language": "en"
+        },
+        {
+          "value": "До завтра!",
+          "language": "ru"
         }
       ]
     },
@@ -97,6 +146,10 @@
         {
           "value": "How do you do?",
           "language": "en"
+        },
+        {
+          "value": "Как жизнь?",
+          "language": "ru"
         }
       ]
     },
@@ -107,6 +160,10 @@
         {
           "value": "How is it going?",
           "language": "en"
+        },
+        {
+          "value": "Как дела?",
+          "language": "ru"
         }
       ]
     },
@@ -117,6 +174,10 @@
         {
           "value": "See you!",
           "language": "en"
+        },
+        {
+          "value": "До встречи!",
+          "language": "ru"
         }
       ]
     },
@@ -127,6 +188,10 @@
         {
           "value": "Until we meet again!",
           "language": "en"
+        },
+        {
+          "value": "До новых встреч!",
+          "language": "ru"
         }
       ]
     },
@@ -137,6 +202,10 @@
         {
           "value": "See you tonight!",
           "language": "en"
+        },
+        {
+          "value": "До вечера!",
+          "language": "ru"
         }
       ]
     },
@@ -147,6 +216,10 @@
         {
           "value": "Good luck!",
           "language": "en"
+        },
+        {
+          "value": "Удачи!",
+          "language": "ru"
         }
       ]
     },
@@ -158,6 +231,10 @@
           "value": "Welcome",
           "note": "to one",
           "language": "en"
+        },
+        {
+          "value": "Добро пожаловать!",
+          "language": "ru"
         }
       ]
     },
@@ -169,6 +246,10 @@
           "value": "Welcome",
           "note": "to many",
           "language": "en"
+        },
+        {
+          "value": "Добро пожаловать!",
+          "language": "ru"
         }
       ]
     },
@@ -179,6 +260,10 @@
         {
           "value": "Good morning!",
           "language": "en"
+        },
+        {
+          "value": "Доброе утро!",
+          "language": "ru"
         }
       ]
     },
@@ -189,6 +274,10 @@
         {
           "value": "Good afternoon!",
           "language": "en"
+        },
+        {
+          "value": "Добрый день!",
+          "language": "ru"
         }
       ]
     },
@@ -199,6 +288,10 @@
         {
           "value": "Good evening!",
           "language": "en"
+        },
+        {
+          "value": "Добрый вечер!",
+          "language": "ru"
         }
       ]
     },
@@ -209,6 +302,10 @@
         {
           "value": "Yes",
           "language": "en"
+        },
+        {
+          "value": "Да",
+          "language": "ru"
         }
       ]
     },
@@ -219,6 +316,10 @@
         {
           "value": "No",
           "language": "en"
+        },
+        {
+          "value": "Нет",
+          "language": "ru"
         }
       ]
     },
@@ -229,6 +330,10 @@
         {
           "value": "Of course",
           "language": "en"
+        },
+        {
+          "value": "Конечно",
+          "language": "ru"
         }
       ]
     },
@@ -239,6 +344,10 @@
         {
           "value": "Good",
           "language": "en"
+        },
+        {
+          "value": "Хорошо",
+          "language": "ru"
         }
       ]
     },
@@ -249,6 +358,10 @@
         {
           "value": "Bad",
           "language": "en"
+        },
+        {
+          "value": "Плохо",
+          "language": "ru"
         }
       ]
     },
@@ -257,8 +370,12 @@
       "category": "thanks",
       "translations": [
         {
-          "value": "Thanks",
+          "value": "Thanks!",
           "language": "en"
+        },
+        {
+          "value": "Спасибо!",
+          "language": "ru"
         }
       ]
     },
@@ -267,8 +384,12 @@
       "category": "thanks",
       "translations": [
         {
-          "value": "Thanks a lot",
+          "value": "Thanks a lot!",
           "language": "en"
+        },
+        {
+          "value": "Большое спасибо!",
+          "language": "ru"
         }
       ]
     },
@@ -280,6 +401,10 @@
           "value": "Thank you!",
           "note": "from me",
           "language": "en"
+        },
+        {
+          "value": "Благодарю!",
+          "language": "ru"
         }
       ]
     },
@@ -291,6 +416,10 @@
           "value": "Thank you!",
           "note": "from us",
           "language": "en"
+        },
+        {
+          "value": "Благодарим!",
+          "language": "ru"
         }
       ]
     },
@@ -301,6 +430,10 @@
         {
           "value": "You're welcome",
           "language": "en"
+        },
+        {
+          "value": "Не за что",
+          "language": "ru"
         }
       ]
     },
@@ -311,6 +444,416 @@
         {
           "value": "Good night!",
           "language": "en"
+        },
+        {
+          "value": "Доброй ночи!",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Ноль",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Zero",
+          "language": "en"
+        },
+        {
+          "value": "Ноль",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Фкя",
+      "category": "number",
+      "translations": [
+        {
+          "value": "One",
+          "language": "en"
+        },
+        {
+          "value": "Один",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кафта",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Two",
+          "language": "en"
+        },
+        {
+          "value": "Два",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Колма",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Three",
+          "language": "en"
+        },
+        {
+          "value": "Три",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Ниле",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Four",
+          "language": "en"
+        },
+        {
+          "value": "Четыре",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Вете",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Five",
+          "language": "en"
+        },
+        {
+          "value": "Пять",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кота",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Six",
+          "language": "en"
+        },
+        {
+          "value": "Шесть",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сисем",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Seven",
+          "language": "en"
+        },
+        {
+          "value": "Семь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кафкса",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Eight",
+          "language": "en"
+        },
+        {
+          "value": "Восемь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Вейхкса",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Nine",
+          "language": "en"
+        },
+        {
+          "value": "Девять",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Ten",
+          "language": "en"
+        },
+        {
+          "value": "Десять",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кефкие",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Eleven",
+          "language": "en"
+        },
+        {
+          "value": "Одиннадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемгафтува",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Twelve",
+          "language": "en"
+        },
+        {
+          "value": "Двенадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемголмува",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Thirteen",
+          "language": "en"
+        },
+        {
+          "value": "Тринадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемнилие",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Fourteen",
+          "language": "en"
+        },
+        {
+          "value": "Четырнадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кеветие",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Fifteen",
+          "language": "en"
+        },
+        {
+          "value": "Пятнадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемготува",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Sixteen",
+          "language": "en"
+        },
+        {
+          "value": "Шестнадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемзисемге",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Seventeen",
+          "language": "en"
+        },
+        {
+          "value": "Семнадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кемгафксува",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Eighteen",
+          "language": "en"
+        },
+        {
+          "value": "Восемнадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кевейхксые",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Nineteen",
+          "language": "en"
+        },
+        {
+          "value": "Девятнадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Комсь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Twenty",
+          "language": "en"
+        },
+        {
+          "value": "Двадцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Колмогемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Thirty",
+          "language": "en"
+        },
+        {
+          "value": "Тридцать",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Нильгемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Forty",
+          "language": "en"
+        },
+        {
+          "value": "Сорок",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Ведьгемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Fifty",
+          "language": "en"
+        },
+        {
+          "value": "Пятьдесят",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кодгемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Sixty",
+          "language": "en"
+        },
+        {
+          "value": "Шестьдесят",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сизьгемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Seventy",
+          "language": "en"
+        },
+        {
+          "value": "Семьдесят",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кафксогемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Eighty",
+          "language": "en"
+        },
+        {
+          "value": "Восемьдесят",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Вейхксогемонь",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Ninety",
+          "language": "en"
+        },
+        {
+          "value": "Девяносто",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сяда",
+      "category": "number",
+      "translations": [
+        {
+          "value": "Hundred",
+          "language": "en"
+        },
+        {
+          "value": "Сто",
+          "language": "ru"
         }
       ]
     }
