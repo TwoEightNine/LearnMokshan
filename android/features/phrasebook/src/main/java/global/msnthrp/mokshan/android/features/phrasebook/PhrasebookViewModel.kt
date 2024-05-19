@@ -2,8 +2,8 @@ package global.msnthrp.mokshan.android.features.phrasebook
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepository
-import kotlinx.coroutines.delay
+import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepositoryImpl
+import global.msnthrp.mokshan.usecase.phrasebook.PhrasebookUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,16 +13,16 @@ import org.koin.java.KoinJavaComponent.inject
 
 class PhrasebookViewModel : ViewModel() {
 
-    private val repository by inject<PhrasebookRepository>(PhrasebookRepository::class.java)
+    private val phrasebookUc by inject<PhrasebookUseCase>(PhrasebookUseCase::class.java)
 
     private val _state = MutableStateFlow(PhrasebookState())
     val state: StateFlow<PhrasebookState>
         get() = _state.asStateFlow()
 
-    init {
+    fun load() {
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch {
-            val result = repository.loadPhrasebook()
+            val result = phrasebookUc.loadPhrasebook()
             result.getOrNull()?.also {
                 println(it)
             }

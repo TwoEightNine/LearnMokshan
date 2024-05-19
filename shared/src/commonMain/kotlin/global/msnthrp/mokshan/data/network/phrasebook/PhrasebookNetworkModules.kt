@@ -1,10 +1,10 @@
 package global.msnthrp.mokshan.data.network.phrasebook
 
-import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepository
+import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepositoryImpl
 import org.koin.dsl.module
 
 val phrasebookNetworkModule = module {
-    single<PhrasebookRepository.NetworkDataSource> {
+    single<PhrasebookRepositoryImpl.NetworkDataSource> {
         PhrasebookNetworkDataSource(
             client = get()
         )
