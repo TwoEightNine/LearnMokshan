@@ -78,6 +78,19 @@
           "language": "ru"
         }
       ]
+    },
+    {
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Dates",
+          "language": "en"
+        },
+        {
+          "value": "Даты",
+          "language": "ru"
+        }
+      ]
     }
   ],
   "phrasebook": [
@@ -853,6 +866,272 @@
         },
         {
           "value": "Сто",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Понедельник",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Monday",
+          "language": "en"
+        },
+        {
+          "value": "Понедельник",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Шавши",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Tuesday",
+          "language": "en"
+        },
+        {
+          "value": "Вторник",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Вержи",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Wednesday",
+          "language": "en"
+        },
+        {
+          "value": "Среда",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Шуваланя",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Thursday",
+          "language": "en"
+        },
+        {
+          "value": "Четверг",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Пяденця",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Friday",
+          "language": "en"
+        },
+        {
+          "value": "Пятница",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Ёткши",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Saturday",
+          "language": "en"
+        },
+        {
+          "value": "Суббота",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Недляши",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "Sunday",
+          "language": "en"
+        },
+        {
+          "value": "Воскресенье",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Январь",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "January",
+          "language": "en"
+        },
+        {
+          "value": "Январь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Февраль",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "February",
+          "language": "en"
+        },
+        {
+          "value": "Февраль",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Март",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "March",
+          "language": "en"
+        },
+        {
+          "value": "Март",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Апрель",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "April",
+          "language": "en"
+        },
+        {
+          "value": "Апрель",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Май",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "May",
+          "language": "en"
+        },
+        {
+          "value": "Май",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Июнь",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "June",
+          "language": "en"
+        },
+        {
+          "value": "Июнь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Июль",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "July",
+          "language": "en"
+        },
+        {
+          "value": "Июль",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Август",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "August",
+          "language": "en"
+        },
+        {
+          "value": "Август",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сентябрь",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "September",
+          "language": "en"
+        },
+        {
+          "value": "Сентябрь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Октябрь",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "October",
+          "language": "en"
+        },
+        {
+          "value": "Октябрь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Ноябрь",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "November",
+          "language": "en"
+        },
+        {
+          "value": "Ноябрь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Декабрь",
+      "category": "dates",
+      "translations": [
+        {
+          "value": "December",
+          "language": "en"
+        },
+        {
+          "value": "Декабрь",
           "language": "ru"
         }
       ]
