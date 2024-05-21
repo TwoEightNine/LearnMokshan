@@ -11,9 +11,13 @@ class PhrasebookUseCase(
     private val phrasebookRepository: PhrasebookRepository,
 ) {
 
-    suspend fun loadPhrasebook(): Result<Phrasebook> {
+    suspend fun loadPhrasebook(): Result<CategorizedPhrasebook> {
         val phrasebookResult = phrasebookRepository.loadPhrasebook()
-        val phrasebook = phrasebookResult.getOrNull() ?: return phrasebookResult
+        val phrasebook = phrasebookResult.getOrNull()
+            ?: return Result.failure(
+                phrasebookResult.exceptionOrNull()
+                    ?: IllegalStateException("Error without throwable")
+            )
 
         val deviceLocale = deviceLocaleProvider.getDeviceLocale()
         var phrasebookWithOneLocale = phrasebook.getWithDeviceLocale(deviceLocale)
@@ -27,7 +31,7 @@ class PhrasebookUseCase(
         }
     }
 
-    private fun Phrasebook.getWithDeviceLocale(deviceLocale: ForeignLanguage): Phrasebook? {
+    private fun Phrasebook.getWithDeviceLocale(deviceLocale: ForeignLanguage): CategorizedPhrasebook? {
         val categories = this.categories.mapNotNull { it.getWithDeviceLocale(deviceLocale) }
         if (categories.isEmpty()) return null
 
@@ -36,7 +40,22 @@ class PhrasebookUseCase(
             .filter { it.category.id in categoryIds }
         if (phrases.isEmpty()) return null
 
-        return Phrasebook(version, categories, phrases)
+        val categoryIdToPhrasesMap = mutableMapOf<String, MutableList<Phrase>>()
+        phrases.forEach { phrase ->
+            if (phrase.category.id !in categoryIdToPhrasesMap) {
+                categoryIdToPhrasesMap[phrase.category.id] = mutableListOf()
+            }
+            categoryIdToPhrasesMap[phrase.category.id]?.add(phrase)
+        }
+
+        return CategorizedPhrasebook(
+            phrases = categoryIdToPhrasesMap.mapNotNull { (categoryId, phrases) ->
+                PhrasesByCategories(
+                    category = categories.find { it.id == categoryId } ?: return@mapNotNull null,
+                    phrases = phrases,
+                )
+            }
+        )
     }
 
     private fun Category.getWithDeviceLocale(deviceLocale: ForeignLanguage): Category? {
@@ -54,4 +73,13 @@ class PhrasebookUseCase(
             )
         }
     }
+
+    data class CategorizedPhrasebook(
+        val phrases: List<PhrasesByCategories>
+    )
+
+    data class PhrasesByCategories(
+        val category: Category,
+        val phrases: List<Phrase>
+    )
 }

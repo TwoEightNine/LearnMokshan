@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.android.features.phrasebook
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepositoryImpl
+import global.msnthrp.mokshan.domain.phrasebook.Category
 import global.msnthrp.mokshan.usecase.phrasebook.PhrasebookUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -36,5 +37,14 @@ class PhrasebookViewModel : ViewModel() {
                 )
             }
         }
+    }
+
+    fun onCategoryClicked(category: Category) {
+        val currentlyVisibleCategory = _state.value.visibleCategory
+        val newlyVisibleCategory = when {
+            currentlyVisibleCategory == category.id -> null
+            else -> category.id
+        }
+        _state.update { it.copy(visibleCategory = newlyVisibleCategory) }
     }
 }
