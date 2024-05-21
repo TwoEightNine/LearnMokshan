@@ -119,7 +119,7 @@ fun LeMokTheme(
     }
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = MaterialTheme.typography,
+        typography = typography,
         content = content,
     )
 }
