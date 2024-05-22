@@ -21,6 +21,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -34,6 +35,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -44,6 +46,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.domain.phrasebook.Category
 import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import global.msnthrp.mokshan.domain.phrasebook.Phrase
@@ -52,26 +55,24 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PhrasebookScreen(
-    appName: String,
-    phrasebookViewModel: PhrasebookViewModel = viewModel()
+    onInfoClicked: () -> Unit,
+    phrasebookViewModel: PhrasebookViewModel = viewModel(),
 ) {
     val state by phrasebookViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "huy") {
         phrasebookViewModel.load()
         onPauseOrDispose {}
     }
-
-    Scaffold(
-        topBar = {
-            @OptIn(ExperimentalMaterial3Api::class)
-            (CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = appName,
-                        style = MaterialTheme.typography.headlineSmall,
-                    )
-                }
-            ))
+    LeMokScreen(
+        title = stringResource(id = R.string.phrasebook_title),
+        actions = {
+            IconButton(onClick = onInfoClicked) {
+                Icon(
+                    imageVector = Icons.info,
+                    contentDescription = "App info",
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
         },
     ) { padding ->
         if (state.isLoading && state.phrasebook == null) {
@@ -216,7 +217,9 @@ private fun PhraseView(phrase: Phrase) {
 @Composable
 fun ScreenPreview() {
     LeMokTheme {
-        PhrasebookScreen(appName = "App name")
+        PhrasebookScreen(
+            onInfoClicked = {},
+        )
     }
 }
 

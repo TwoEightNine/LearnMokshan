@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_info_title">About app</string>
+    <string name="app_info_privacy_policy">Privacy policy</string>
+    <string name="app_info_tos">Terms of service</string>
+    <string name="app_info_app_version">App version: </string>
+    <string name="app_info_content_version">Content version: </string>
+</resources>

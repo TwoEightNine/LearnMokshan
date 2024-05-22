@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_info_title">О приложении</string>
+    <string name="app_info_privacy_policy">Политика конфиденциальности</string>
+    <string name="app_info_tos">Условия использования</string>
+    <string name="app_info_app_version">Версия приложения:</string>
+    <string name="app_info_content_version">Версия данных:</string>
+</resources>

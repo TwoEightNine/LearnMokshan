@@ -44,6 +44,7 @@ dependencies {
     implementation(projects.android.core.utils)
     implementation(projects.android.features.phrasebook)
     implementation(projects.android.features.ispeak)
+    implementation(projects.android.features.appinfo)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)

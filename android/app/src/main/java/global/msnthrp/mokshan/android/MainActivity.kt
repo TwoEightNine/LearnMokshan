@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreen
 import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreen
 
 class MainActivity : ComponentActivity() {
@@ -24,13 +25,21 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val navController = rememberNavController()
                     NavHost(
-                        navController = rememberNavController(),
+                        navController = navController,
                         startDestination = "phrasebook",
                     ) {
                         composable(route = "phrasebook") {
                             PhrasebookScreen(
-                                appName = stringResource(id = R.string.app_name)
+                                onInfoClicked = { navController.navigate("app_info") },
+                            )
+                        }
+                        composable(route = "app_info") {
+                            AppInfoScreen(
+                                onBackClicked = { navController.popBackStack() },
+                                onPrivacyPolicyClicked = {},
+                                onTermsOfServiceClicked = {},
                             )
                         }
                     }
