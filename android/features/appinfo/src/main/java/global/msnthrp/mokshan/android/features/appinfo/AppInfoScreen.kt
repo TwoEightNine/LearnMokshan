@@ -11,12 +11,17 @@ import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCell
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import java.util.Locale
+
+private const val PP_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+        "master/content/legal/pp-{locale}.txt"
+private const val TOS_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+        "master/content/legal/tos-{locale}.txt"
 
 @Composable
 fun AppInfoScreen(
     onBackClicked: () -> Unit,
-    onPrivacyPolicyClicked: () -> Unit,
-    onTermsOfServiceClicked: () -> Unit,
+    customTabsLauncher: (url: String) -> Unit,
 ) {
     LeMokScreen(
         onNavigationClick = onBackClicked,
@@ -30,12 +35,12 @@ fun AppInfoScreen(
             LeMokCell(
                 text = stringResource(id = R.string.app_info_privacy_policy),
                 icon = Icons.externalLink,
-                onClicked = onPrivacyPolicyClicked,
+                onClicked = { customTabsLauncher(getPrivacyPolicyUrl()) },
             )
             LeMokCell(
                 text = stringResource(id = R.string.app_info_tos),
                 icon = Icons.externalLink,
-                onClicked = onTermsOfServiceClicked,
+                onClicked = { customTabsLauncher(getTermsOfServiceUrl()) },
             )
         }
     }
@@ -47,8 +52,21 @@ fun AppInfoPreview() {
     LeMokTheme {
         AppInfoScreen(
             onBackClicked = {},
-            onPrivacyPolicyClicked = {},
-            onTermsOfServiceClicked = {}
+            customTabsLauncher = {},
         )
     }
+}
+
+private fun getPrivacyPolicyUrl(): String {
+    return PP_URL.replace("{locale}", getLocaleForUrl())
+}
+
+private fun getTermsOfServiceUrl(): String {
+    return TOS_URL.replace("{locale}", getLocaleForUrl())
+}
+
+private fun getLocaleForUrl(): String {
+    val language = Locale.getDefault().language
+    val supportedLanguages = setOf("en", "ru")
+    return language.takeIf { it in supportedLanguages } ?: "en"
 }
