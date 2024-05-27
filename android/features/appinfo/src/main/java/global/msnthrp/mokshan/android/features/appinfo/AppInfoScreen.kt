@@ -13,14 +13,15 @@ import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCell
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import java.util.Locale
 
-private const val PP_URL = "https://github.com/TwoEightNine/LearnMokshan/blob/master/readme.md"
+private const val PP_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+        "master/content/legal/pp-{locale}.json"
 private const val TOS_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-        "master/content/legal/tos-{locale}.html"
+        "master/content/legal/tos-{locale}.json"
 
 @Composable
 fun AppInfoScreen(
     onBackClicked: () -> Unit,
-    customTabsLauncher: (url: String) -> Unit,
+    onArticleClicked: (url: String, title: String) -> Unit,
 ) {
     LeMokScreen(
         onNavigationClick = onBackClicked,
@@ -31,15 +32,28 @@ fun AppInfoScreen(
                 .fillMaxWidth()
                 .padding(top = padding.calculateTopPadding()),
         ) {
+            val privacyPolicyTitle = stringResource(id = R.string.app_info_privacy_policy)
             LeMokCell(
-                text = stringResource(id = R.string.app_info_privacy_policy),
+                text = privacyPolicyTitle,
                 icon = Icons.externalLink,
-                onClicked = { customTabsLauncher(getPrivacyPolicyUrl()) },
+                onClicked = {
+                    onArticleClicked(
+                        getPrivacyPolicyUrl(),
+                        privacyPolicyTitle
+                    )
+                },
             )
+
+            val tosTitle = stringResource(id = R.string.app_info_tos)
             LeMokCell(
-                text = stringResource(id = R.string.app_info_tos),
+                text = tosTitle,
                 icon = Icons.externalLink,
-                onClicked = { customTabsLauncher(getTermsOfServiceUrl()) },
+                onClicked = {
+                    onArticleClicked(
+                        getTermsOfServiceUrl(),
+                        tosTitle
+                    )
+                },
             )
         }
     }
@@ -51,7 +65,7 @@ fun AppInfoPreview() {
     LeMokTheme {
         AppInfoScreen(
             onBackClicked = {},
-            customTabsLauncher = {},
+            onArticleClicked = { _, _ -> },
         )
     }
 }

@@ -26,5 +26,6 @@ private fun JartEntryResponse.toDomain(): JartEntry? {
 }
 
 private fun String.asJartEntryType(): JartEntryType {
-    return runCatching { JartEntryType.valueOf(this) }.getOrNull() ?: JartEntryType.UNKNOWN
+    return runCatching { JartEntryType.valueOf(this.uppercase()) }.getOrNull()
+        ?: JartEntryType.UNKNOWN
 }

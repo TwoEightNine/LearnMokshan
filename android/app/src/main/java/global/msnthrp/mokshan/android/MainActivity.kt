@@ -11,13 +11,16 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreen
 import global.msnthrp.mokshan.android.features.articles.ArticleScreen
 import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreen
+import java.net.URLEncoder
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,25 +39,29 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = "phrasebook") {
                             PhrasebookScreen(
-                                onInfoClicked = { navController.navigate("articles") },
+                                onInfoClicked = { navController.navigate("app_info") },
                             )
                         }
                         composable(route = "app_info") {
-                            val context = LocalContext.current
                             AppInfoScreen(
                                 onBackClicked = { navController.popBackStack() },
-                                customTabsLauncher = { url ->
-                                    CustomTabsIntent.Builder()
-                                        .build()
-                                        .launchUrl(context, Uri.parse(url))
+                                onArticleClicked = { url, title ->
+                                    navController.navigate(
+                                        "article?" +
+                                                "title=${URLEncoder.encode(title)}" +
+                                                "&url=${URLEncoder.encode(url)}")
                                 }
                             )
                         }
-                        composable(route = "articles") {
+                        composable(
+                            route = "article?title={title}&url={url}",
+                        ) { backStackEntry ->
+                            val title = backStackEntry.arguments?.getString("title")
+                            val url = backStackEntry.arguments?.getString("url") ?: return@composable
+
                             ArticleScreen(
-                                articleUrl = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-                                        "master/content/legal/pp-en.json",
-                                title = "Privacy policy",
+                                articleUrl = url,
+                                title = title.orEmpty(),
                                 onBackClicked = { navController.popBackStack() }
                             )
                         }
