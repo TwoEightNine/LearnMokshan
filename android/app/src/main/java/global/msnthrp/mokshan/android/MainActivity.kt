@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreen
+import global.msnthrp.mokshan.android.features.articles.ArticleScreen
 import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreen
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(route = "phrasebook") {
                             PhrasebookScreen(
-                                onInfoClicked = { navController.navigate("app_info") },
+                                onInfoClicked = { navController.navigate("articles") },
                             )
                         }
                         composable(route = "app_info") {
@@ -47,6 +48,14 @@ class MainActivity : ComponentActivity() {
                                         .build()
                                         .launchUrl(context, Uri.parse(url))
                                 }
+                            )
+                        }
+                        composable(route = "articles") {
+                            ArticleScreen(
+                                articleUrl = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+                                        "master/content/legal/pp-en.json",
+                                title = "Privacy policy",
+                                onBackClicked = { navController.popBackStack() }
                             )
                         }
                     }

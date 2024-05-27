@@ -13,8 +13,7 @@ import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCell
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import java.util.Locale
 
-private const val PP_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-        "master/content/legal/pp-{locale}.html"
+private const val PP_URL = "https://github.com/TwoEightNine/LearnMokshan/blob/master/readme.md"
 private const val TOS_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
         "master/content/legal/tos-{locale}.html"
 

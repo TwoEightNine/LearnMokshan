@@ -10,7 +10,6 @@ class PhrasebookNetworkDataSource(
     private val client: HttpClient
 ) : PhrasebookRepositoryImpl.NetworkDataSource {
 
-
     override suspend fun loadPhrasebook(): Phrasebook {
         val response: PhrasebookResponse = client.get(PHRASEBOOK_URL).getFromJson()
         println(response)
