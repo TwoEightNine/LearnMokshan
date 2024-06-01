@@ -28,6 +28,7 @@ dependencies {
     implementation(projects.shared)
     implementation(projects.android.core.designsystem)
     implementation(projects.android.core.utils)
+    implementation(projects.android.core.navigation)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)

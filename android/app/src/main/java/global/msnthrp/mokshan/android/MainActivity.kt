@@ -1,26 +1,24 @@
 package global.msnthrp.mokshan.android
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
-import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreen
-import global.msnthrp.mokshan.android.features.articles.ArticleScreen
-import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreen
-import java.net.URLEncoder
+import global.msnthrp.mokshan.android.core.navigation.LeMokNavHost
+import global.msnthrp.mokshan.android.core.navigation.navigateWith
+import global.msnthrp.mokshan.android.features.appinfo.AppInfoRouter
+import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreenFactory
+import global.msnthrp.mokshan.android.features.articles.ArticleDefaultRouter
+import global.msnthrp.mokshan.android.features.articles.ArticleRouter
+import global.msnthrp.mokshan.android.features.articles.ArticleScreenFactory
+import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookRouter
+import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreenFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,39 +31,24 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(
+                    LeMokNavHost(
                         navController = navController,
-                        startDestination = "phrasebook",
-                    ) {
-                        composable(route = "phrasebook") {
-                            PhrasebookScreen(
-                                onInfoClicked = { navController.navigate("app_info") },
-                            )
-                        }
-                        composable(route = "app_info") {
-                            AppInfoScreen(
+                        startDestinationRouter = PhrasebookRouter,
+                        screens = mapOf(
+                            PhrasebookRouter to PhrasebookScreenFactory(
+                                onInfoClicked = { navController.navigateWith(AppInfoRouter) }
+                            ),
+                            AppInfoRouter to AppInfoScreenFactory(
                                 onBackClicked = { navController.popBackStack() },
                                 onArticleClicked = { url, title ->
-                                    navController.navigate(
-                                        "article?" +
-                                                "title=${URLEncoder.encode(title)}" +
-                                                "&url=${URLEncoder.encode(url)}")
-                                }
+                                    navController.navigateWith(ArticleRouter(url, title))
+                                },
+                            ),
+                            ArticleDefaultRouter() to ArticleScreenFactory(
+                                onBackClicked = { navController.popBackStack() },
                             )
-                        }
-                        composable(
-                            route = "article?title={title}&url={url}",
-                        ) { backStackEntry ->
-                            val title = backStackEntry.arguments?.getString("title")
-                            val url = backStackEntry.arguments?.getString("url") ?: return@composable
-
-                            ArticleScreen(
-                                articleUrl = url,
-                                title = title.orEmpty(),
-                                onBackClicked = { navController.popBackStack() }
-                            )
-                        }
-                    }
+                        ),
+                    )
                 }
             }
         }

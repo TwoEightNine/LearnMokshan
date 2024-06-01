@@ -42,6 +42,7 @@ dependencies {
     implementation(projects.shared)
     implementation(projects.android.core.designsystem)
     implementation(projects.android.core.utils)
+    implementation(projects.android.core.navigation)
     implementation(projects.android.features.phrasebook)
     implementation(projects.android.features.ispeak)
     implementation(projects.android.features.appinfo)
