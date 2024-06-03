@@ -91,6 +91,32 @@
           "language": "ru"
         }
       ]
+    },
+    {
+      "category": "meet",
+      "translations": [
+        {
+          "value": "Meeting",
+          "language": "en"
+        },
+        {
+          "value": "Знакомство",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Understanding",
+          "language": "en"
+        },
+        {
+          "value": "Взаимопонимание",
+          "language": "ru"
+        }
+      ]
     }
   ],
   "phrasebook": [
@@ -1134,6 +1160,205 @@
         },
         {
           "value": "Декабрь",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кода лемонте?",
+      "category": "meet",
+      "translations": [
+        {
+          "value": "What is your name?",
+          "language": "en",
+          "note": "(to one)"
+        },
+        {
+          "value": "Как вас зовут?",
+          "language": "ru",
+          "note": "(к одному)"
+        }
+      ]
+    },
+    {
+      "mokshan": "Монь лемозе ...",
+      "category": "meet",
+      "translations": [
+        {
+          "value": "My name is ...",
+          "language": "en"
+        },
+        {
+          "value": "Меня зовут ...",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Кода сонь лемоц?",
+      "category": "meet",
+      "translations": [
+        {
+          "value": "What is his/her name?",
+          "language": "en"
+        },
+        {
+          "value": "Как его/её зовут?",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сонь лемоц ...",
+      "category": "meet",
+      "translations": [
+        {
+          "value": "His/her name is ...",
+          "language": "en"
+        },
+        {
+          "value": "Его/её зовут ...",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Пара содавомс мархтонт",
+      "category": "meet",
+      "translations": [
+        {
+          "value": "Pleased to meet you",
+          "language": "en"
+        },
+        {
+          "value": "Приятно познакомиться",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Тинь монь шарьхкодьсамасть?",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Do you understand me?",
+          "language": "en"
+        },
+        {
+          "value": "Вы меня понимаете?",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Мон тинь (аф) шарьхкодтядязь",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "I (don't) understand you",
+          "language": "en"
+        },
+        {
+          "value": "Я вас (не) понимаю",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Корхтада сяда кайгиста",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Speak louder",
+          "language": "en"
+        },
+        {
+          "value": "Говорите громче",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Корхтада валомня",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Speak slower",
+          "language": "en"
+        },
+        {
+          "value": "Говорите медленнее",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Сёрмадода",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Write it down",
+          "language": "en"
+        },
+        {
+          "value": "Напишите",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Ётафтость тянь",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Translate it",
+          "language": "en"
+        },
+        {
+          "value": "Переведите это",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Нинге весть азость",
+      "category": "understand",
+      "translations": [
+        {
+          "value": "Say it again",
+          "language": "en"
+        },
+        {
+          "value": "Повторите",
+          "language": "ru"
+        }
+      ]
+    },
+    {
+      "mokshan": "Эняльдян",
+      "category": "thanks",
+      "translations": [
+        {
+          "value": "Please",
+          "language": "en"
+        },
+        {
+          "value": "Пожалуйста",
+          "language": "ru",
+          "note": "просьба"
+        }
+      ]
+    },
+    {
+      "mokshan": "Аф содаса",
+      "category": "common",
+      "translations": [
+        {
+          "value": "I don't know",
+          "language": "en"
+        },
+        {
+          "value": "Я не знаю",
           "language": "ru"
         }
       ]
