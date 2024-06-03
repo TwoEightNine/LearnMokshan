@@ -24,4 +24,4 @@ fun ArticleDefaultRouter() = ArticleRouter("{$ARG_URL}", "{$ARG_TITLE}")
 fun ArticleRouter(
     url: String,
     title: String = "",
-) = Router { "article?title=${URLEncoder.encode(title)}&url=${URLEncoder.encode(url)}" }
+) = Router { "article?title=$title&url=${URLEncoder.encode(url)}" }

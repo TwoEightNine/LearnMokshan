@@ -1,5 +1,7 @@
 package global.msnthrp.mokshan.android.core.designsystem.uikit
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -10,8 +12,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
+import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LeMokScreen(
     title: String,
@@ -25,6 +31,7 @@ fun LeMokScreen(
             (CenterAlignedTopAppBar(
                 title = {
                     Text(
+                        modifier = Modifier.basicMarquee(),
                         text = title,
                         style = MaterialTheme.typography.headlineSmall,
                     )
@@ -45,4 +52,17 @@ fun LeMokScreen(
         },
         content = content,
     )
+}
+
+@Preview
+@Composable
+fun ScreenPreview() {
+    LeMokTheme {
+        LeMokScreen(
+            title = "Политика конфиденциальности",
+            onNavigationClick = {},
+        ) {
+
+        }
+    }
 }
