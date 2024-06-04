@@ -1171,12 +1171,12 @@
         {
           "value": "What is your name?",
           "language": "en",
-          "note": "(to one)"
+          "note": "to one"
         },
         {
           "value": "Как вас зовут?",
           "language": "ru",
-          "note": "(к одному)"
+          "note": "к одному"
         }
       ]
     },
