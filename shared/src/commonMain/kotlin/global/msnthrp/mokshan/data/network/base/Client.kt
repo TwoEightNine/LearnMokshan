@@ -14,6 +14,7 @@ import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
 
 class NetworkClient(
@@ -44,7 +45,7 @@ class NetworkClient(
 
     interface CacheStorage {
         suspend fun saveResponse(url: String, response: String)
-        suspend fun getResponse(url: String): String?
+        suspend fun getResponse(url: String, ttlMs: Long = 1.days.inWholeMilliseconds): String?
     }
 }
 

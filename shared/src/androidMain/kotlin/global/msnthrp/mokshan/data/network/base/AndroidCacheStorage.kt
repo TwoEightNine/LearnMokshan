@@ -1,6 +1,7 @@
 package global.msnthrp.mokshan.data.network.base
 
 import android.content.Context
+import android.content.SharedPreferences
 import java.io.File
 import java.security.MessageDigest
 
@@ -8,6 +9,8 @@ internal class AndroidCacheStorage(
     private val applicationContext: Context,
 ) : NetworkClient.CacheStorage {
 
+    private val metaSharedPreferences =
+        applicationContext.getSharedPreferences("ktor_cache_meta", Context.MODE_PRIVATE)
     private val cacheDir by lazy { File(applicationContext.cacheDir, "ktor_cache") }
 
     init {
@@ -17,26 +20,36 @@ internal class AndroidCacheStorage(
     }
 
     override suspend fun saveResponse(url: String, response: String) {
+        val fileName = getCacheFileName(url)
         val result = kotlin.runCatching {
-            getCacheFile(url).writeText(response)
+            File(cacheDir, fileName).writeText(response)
+        }
+        if (result.isSuccess) {
+            metaSharedPreferences.edit().putLong(fileName, System.currentTimeMillis()).apply()
         }
         result.exceptionOrNull()?.printStackTrace()
     }
 
-    override suspend fun getResponse(url: String): String? {
+    override suspend fun getResponse(url: String, ttlMs: Long): String? {
+        val fileName = getCacheFileName(url)
+        val createdAt = metaSharedPreferences.getLong(fileName, 0L)
+        if (createdAt + ttlMs < System.currentTimeMillis()) return null
+
         val result = kotlin.runCatching {
-            getCacheFile(url).takeIf { it.exists() }?.readText()
+            File(cacheDir, fileName).takeIf { it.exists() }?.readText()
+        }
+        if (result.isFailure) {
+            metaSharedPreferences.edit().putLong(fileName, 0L).apply()
         }
         result.exceptionOrNull()?.printStackTrace()
         return result.getOrNull()
     }
 
     @OptIn(ExperimentalStdlibApi::class)
-    private fun getCacheFile(url: String): File {
-        val fileName = MessageDigest
+    private fun getCacheFileName(url: String): String {
+        return MessageDigest
             .getInstance("SHA-512")
             .digest(url.toByteArray())
             .toHexString()
-        return File(cacheDir, fileName)
     }
 }
