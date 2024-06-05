@@ -52,19 +52,26 @@ fun JartEntry(
     onClicked: ((JartEntry) -> Unit)? = null,
 ) {
     val textStyle = when (entry.type) {
-        JartEntryType.H1 -> MaterialTheme.typography.displaySmall
-        JartEntryType.H2 -> MaterialTheme.typography.headlineMedium
-        JartEntryType.H3 -> MaterialTheme.typography.headlineSmall
-        JartEntryType.BODY -> MaterialTheme.typography.bodyMedium
-        JartEntryType.HINT -> MaterialTheme.typography.labelMedium
-        JartEntryType.TITLE -> MaterialTheme.typography.displayMedium
-        else -> MaterialTheme.typography.bodyMedium
+        JartEntryType.H1 -> MaterialTheme.typography.headlineSmall
+        JartEntryType.H2 -> MaterialTheme.typography.titleLarge
+        JartEntryType.H3 -> MaterialTheme.typography.titleMedium
+        JartEntryType.BODY -> MaterialTheme.typography.bodyLarge
+        JartEntryType.HINT -> MaterialTheme.typography.bodyMedium
+        JartEntryType.TITLE -> MaterialTheme.typography.headlineLarge
+        else -> MaterialTheme.typography.bodyLarge
     }
     val textColor = when (entry.type) {
-        JartEntryType.HINT -> MaterialTheme.colorScheme.tertiary
+        JartEntryType.HINT -> MaterialTheme.colorScheme.secondary
         JartEntryType.TITLE,
             JartEntryType.H1 -> MaterialTheme.colorScheme.primary
-        else -> MaterialTheme.colorScheme.secondary
+        else -> MaterialTheme.colorScheme.onBackground
+    }
+    val paddingVertical = when (entry.type) {
+        JartEntryType.H1,
+        JartEntryType.TITLE -> 8.dp
+        JartEntryType.H2,
+        JartEntryType.H3 -> 6.dp
+        else -> 4.dp
     }
     val textModifier = Modifier
         .run {
@@ -74,7 +81,7 @@ fun JartEntry(
                 this
             }
         }
-        .padding(vertical = 4.dp)
+        .padding(vertical = paddingVertical)
         .fillMaxWidth()
     Text(
         modifier = textModifier,
