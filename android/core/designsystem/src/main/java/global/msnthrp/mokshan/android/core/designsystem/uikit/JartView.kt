@@ -61,8 +61,10 @@ fun JartEntry(
         else -> MaterialTheme.typography.bodyMedium
     }
     val textColor = when (entry.type) {
-        JartEntryType.HINT -> Color.DarkGray
-        else -> Color.Black
+        JartEntryType.HINT -> MaterialTheme.colorScheme.tertiary
+        JartEntryType.TITLE,
+            JartEntryType.H1 -> MaterialTheme.colorScheme.primary
+        else -> MaterialTheme.colorScheme.secondary
     }
     val textModifier = Modifier
         .run {

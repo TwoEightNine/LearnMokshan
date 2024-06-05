@@ -11,6 +11,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +34,7 @@ fun LeMokScreen(
                     Text(
                         modifier = Modifier.basicMarquee(),
                         text = title,
+                        color = MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.headlineSmall,
                     )
                 },
@@ -47,6 +49,13 @@ fun LeMokScreen(
                         }
                     }
                 },
+                colors = TopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    scrolledContainerColor = MaterialTheme.colorScheme.surface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.primary,
+                    titleContentColor = MaterialTheme.colorScheme.onBackground,
+                    actionIconContentColor = MaterialTheme.colorScheme.primary,
+                ),
                 actions = actions,
             ))
         },

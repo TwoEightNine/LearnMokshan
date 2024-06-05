@@ -52,6 +52,7 @@ fun LeMokCell(
                     .padding(start = 16.dp)
                     .align(Alignment.CenterVertically),
                 style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onBackground,
                 maxLines = 1,
             )
         }
