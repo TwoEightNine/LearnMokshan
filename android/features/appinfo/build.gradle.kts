@@ -38,5 +38,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.compose.runtime)
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
     debugImplementation(libs.compose.ui.tooling)
 }

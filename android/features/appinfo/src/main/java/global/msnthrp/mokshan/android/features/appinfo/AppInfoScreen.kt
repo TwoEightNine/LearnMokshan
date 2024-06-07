@@ -3,14 +3,20 @@ package global.msnthrp.mokshan.android.features.appinfo
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCell
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.utils.LeMokBuildConfig
+import global.msnthrp.mokshan.android.core.utils.stringResource
+import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.getKoin
 import java.util.Locale
 
 private const val PP_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
@@ -22,6 +28,7 @@ private const val TOS_URL = "https://raw.githubusercontent.com/TwoEightNine/Lear
 fun AppInfoScreen(
     onBackClicked: () -> Unit,
     onArticleClicked: (url: String, title: String) -> Unit,
+    buildConfig: LeMokBuildConfig = getKoin().get(),
 ) {
     LeMokScreen(
         onNavigationClick = onBackClicked,
@@ -54,6 +61,16 @@ fun AppInfoScreen(
                         tosTitle
                     )
                 },
+            )
+
+            Text(
+                modifier = Modifier
+                    .padding(start = 56.dp, end = 16.dp, top = 16.dp, bottom = 12.dp),
+                text = stringResource(
+                    id = R.string.app_info_app_version,
+                    "version" to buildConfig.versionName,
+                ),
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
     }
