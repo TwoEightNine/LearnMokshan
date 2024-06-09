@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "version": 1
+  },
+  "content": [
+    {
+      "type": "title",
+      "value": "Script and pronunciation rules"
+    },
+    {
+      "type": "h2",
+      "value": "Script"
+    },
+    {
+      "type": "body",
+      "value": "The Mokshan language uses the Cyrillic script. The official script is the same as the Russian Cyrillic script, although it doesn’t fully accommodate all Mokshan features:"
+    },
+    {
+      "type": "h3",
+      "value": "Аа Бб Вв Гг Дд Ее Ёё Жж Зз Ии Йй Кк Лл Мм Нн Оо Пп Рр Сс Тт Уу Фф Хх Цц Чч Шш Щщ Ъъ Ыы Ьь Ээ Юю Яя"
+    },
+    {
+      "type": "body",
+      "value": "Below is a table that illustrates the letters of the alphabet alongside their corresponding phonemes, transliterations, and English examples to help clarify their pronunciation and usage:"
+    },
+    {
+      "type": "table",
+      "size": [4, 34],
+      "header": true,
+      "cells": [
+        "Letter", "Phoneme*", "Transliteration*", "Similar sound",
+        "Аа", "/a/", "a", "like ar in far",
+        "Бб", "/b/", "b", "like b in bee",
+        "Вв", "/v/", "v", "like v in vest",
+        "Гг", "/g/", "g", "like g in good",
+        "Дд", "/d/", "d", "like d in day",
+        "Ее", "/je/", "je, ʲe*", "like ye in yes",
+        "Ёё", "/jo/", "jo, ʲo*", "like yaw in yawn",
+        "Жж", "/ʐ/~/ʒ/", "ž (zh)", "like s in treasure",
+        "Зз", "/z/", "z", "like z in zebra",
+        "Ии", "/i/", "i", "like ee in meet",
+        "Йй", "/j/", "j (y)", "like y in yes",
+        "Кк", "/k/", "k", "like k in key",
+        "Лл", "/l/", "l", "like l in lamp",
+        "Мм", "/m/", "m", "like m in me",
+        "Нн", "/n/", "n", "like n in no",
+        "Оо", "/o/", "o", "like aw in yawn",
+        "Пп", "/p/", "p", "like p in pet",
+        "Рр", "/r/", "r", "like r in rock",
+        "Сс", "/s/", "s", "like s in sun",
+        "Тт", "/t/", "t", "like t in tea",
+        "Уу", "/u/", "u", "like oo in moon",
+        "Фф", "/f/", "f", "like f in food",
+        "Хх", "/x/", "x (h)", "like j in Spanish jamón",
+        "Цц", "/ts/", "c", "like ts in boots",
+        "Чч", "/tɕ/", "č", "like ch in chat",
+        "Шш", "/ʂ/~/ʃ/", "š", "like sh in short",
+        "Щщ", "/ɕtɕ/", "šč", "š + č",
+        "Ъъ", "/ə/", "ə", "like a in tuna",
+        "Ыы", "/ɨ/", "y", "uncommon for European languages, like ı in Turkish sığ",
+        "Ьь", "/ʲ/", "'*", "has no sound, palatalization* (softening) marker",
+        "Ээ", "/e/", "e, ä (ē)", "like a in cat",
+        "Юю", "/ju/", "ju, ʲu*", "like u in use",
+        "Яя", "/ja/", "ja, ʲa*, ʲä", "like ya in yard"
+      ]
+    },
+    {
+      "type": "body",
+      "value": "Notes:"
+    },
+    {
+      "type": "list",
+      "value": "Some letter may represent different sounds depending on a word and a place in a word. For such letters possible phonemes are given separated by comma (excl. schwa). See 'Pronunciation' and 'Reduction' blocks;"
+    },
+    {
+      "type": "list",
+      "value": "Palatalization is an uncommon feature for European languages. Cyrillic and Latin scripts handle it in different ways. See 'Palatalization' for more explanation;"
+    },
+    {
+      "type": "list",
+      "value": "There are no official transliteration rules for the Mokshan language, resulting in numerous variations, so it's important to be cautious and consistent when working with its transliteration. Possible transliteration variants are given in parentheses;"
+    },
+    {
+      "type": "h2",
+      "value": "Palatalization"
+    },
+    {
+      "type": "body",
+      "value": "Palatalization is important for Mokshan phonology as it introduces a secondary articulation that distinguishes phonemes, increasing the phonetic inventory of a language. This distinction can lead to different meanings: palatalized and non-palatalized consonants create minimal pairs, contributing to the complexity and richness of the language's sound system."
+    },
+    {
+      "type": "body",
+      "value": "Palatalization involves moving the tongue closer to the high palate, the upper part of the mouth. This action softens the consonant sound, hence palatalized sounds are referred to as 'soft'. Palatalization is present in many European languages, though its importance in distinguishing words varies. In Mokshan, it's crucial to differentiate between palatalized and plain consonants, dividing them into two groups: hard (plain) and soft (palatalized). To denote soft consonants two different ways are used in Cyrillic and Latin scripts:"
+    },
+    {
+      "type": "list",
+      "value": "The Cyrillic script includes characters such as ь, е, ё, ю, я, which indicate that the preceding consonant is soft. For example, нос /nos/ – нёс /nʲos/, мон /mon/ – монь /monʲ/;"
+    },
+    {
+      "type": "list",
+      "value": "In Latin-script based writing, the apostrophe (') serves as an analogue of the Cyrillic character ь. Therefore, 'e, 'o, 'u, 'a are used instead of е, ё, ю, я, respectively (except for the first letter position). Sometimes, the apostrophe is replaced by an acute accent for the preceding consonant. For example, nos /nos/ – n’os/ńos /nʲos/;"
+    },
+    {
+      "type": "h2",
+      "value": "Phonology"
+    },
+    {
+      "type": "body",
+      "value": "Script"
+    }
+  ]
+}
