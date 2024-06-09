@@ -37,8 +37,8 @@ class MainActivity : ComponentActivity() {
                         screens = mapOf(
                             PhrasebookRouter to PhrasebookScreenFactory(
                                 onInfoClicked = { navController.navigateWith(AppInfoRouter) },
-                                onPronunciationArticleClicked = { url ->
-                                    navController.navigateWith(ArticleRouter(url))
+                                onPronunciationArticleClicked = { url, title ->
+                                    navController.navigateWith(ArticleRouter(url, title))
                                 }
                             ),
                             AppInfoRouter to AppInfoScreenFactory(

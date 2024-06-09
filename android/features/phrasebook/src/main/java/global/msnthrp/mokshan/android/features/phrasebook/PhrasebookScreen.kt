@@ -57,12 +57,12 @@ import java.util.Locale
 
 private const val PRONUNCIATION_ARTICLE_URL =
     "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-            "master/content/legal/pronunciation-{locale}.json"
+            "master/content/articles/pronunciation-{locale}.json"
 
 @Composable
 fun PhrasebookScreen(
     onInfoClicked: () -> Unit,
-    onPronunciationArticleClicked: (url: String) -> Unit,
+    onPronunciationArticleClicked: (url: String, title: String) -> Unit,
     phrasebookViewModel: PhrasebookViewModel = viewModel(),
 ) {
     val state by phrasebookViewModel.state.collectAsState()
@@ -100,13 +100,15 @@ fun PhrasebookScreen(
                     .padding(top = padding.calculateTopPadding())
             ) {
                 item {
+                    val articleTitle = stringResource(id = R.string.phrasebook_pronunciation_article_title)
                     ArticleItem(
-                        title = stringResource(id = R.string.phrasebook_pronunciation_article_title),
+                        title = articleTitle,
                         description = stringResource(id = R.string.phrasebook_pronunciation_article_description),
                         showChevron = true,
                         onClick = {
                             onPronunciationArticleClicked(
-                                PRONUNCIATION_ARTICLE_URL.replace("{locale}", getLocaleForUrl())
+                                PRONUNCIATION_ARTICLE_URL.replace("{locale}", getLocaleForUrl()),
+                                articleTitle,
                             )
                         },
                     )
@@ -243,7 +245,7 @@ private fun getLocaleForUrl(): String {
 fun ScreenPreview() {
     LeMokTheme {
         PhrasebookScreen(
-            onPronunciationArticleClicked = {},
+            onPronunciationArticleClicked = { _, _ -> },
             onInfoClicked = {},
         )
     }

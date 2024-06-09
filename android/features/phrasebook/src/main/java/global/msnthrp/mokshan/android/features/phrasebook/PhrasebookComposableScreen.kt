@@ -5,7 +5,7 @@ import global.msnthrp.mokshan.android.core.navigation.ScreenFactory
 
 fun PhrasebookScreenFactory(
     onInfoClicked: () -> Unit,
-    onPronunciationArticleClicked: (url: String) -> Unit,
+    onPronunciationArticleClicked: (url: String, title: String) -> Unit,
 ): ScreenFactory {
     return ScreenFactory {
         PhrasebookScreen(

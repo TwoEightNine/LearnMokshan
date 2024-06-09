@@ -26,7 +26,7 @@ private const val PP_URL = "https://raw.githubusercontent.com/TwoEightNine/Learn
 private const val TOS_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
         "master/content/legal/tos-{locale}.json"
 private const val DEV_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-        "master/content/legal/thanks-{locale}.json"
+        "master/content/articles/thanks-{locale}.json"
 
 @Composable
 fun AppInfoScreen(
@@ -44,12 +44,13 @@ fun AppInfoScreen(
                 .padding(top = padding.calculateTopPadding()),
         ) {
 
+            val messageTitle = androidx.compose.ui.res.stringResource(id = R.string.app_info_message_from_developer)
             ArticleItem(
-                title = "A message from developer",
+                title = messageTitle,
                 showChevron = true,
                 onClick = {
                     val url = DEV_URL.replace("{locale}", getLocaleForUrl())
-                    onArticleClicked(url, "")
+                    onArticleClicked(url, messageTitle)
                 }
             )
 

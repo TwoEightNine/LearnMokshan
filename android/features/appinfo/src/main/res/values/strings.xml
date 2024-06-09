@@ -5,4 +5,5 @@
     <string name="app_info_tos">Terms of service</string>
     <string name="app_info_app_version">App version: {version}</string>
     <string name="app_info_content_version">Content version: </string>
+    <string name="app_info_message_from_developer">A message from developer</string>
 </resources>

@@ -5,4 +5,5 @@
     <string name="app_info_tos">Условия использования</string>
     <string name="app_info_app_version">Версия приложения: {version}</string>
     <string name="app_info_content_version">Версия данных:</string>
+    <string name="app_info_message_from_developer">Сообщение от разработчика</string>
 </resources>
