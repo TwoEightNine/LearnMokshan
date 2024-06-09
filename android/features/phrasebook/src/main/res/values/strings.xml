@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="phrasebook_title">Phrasebook</string>
+    <string name="phrasebook_pronunciation_article_title">Writing system and pronunciation rules</string>
+    <string name="phrasebook_pronunciation_article_description">Get familiar with the Mokshan language\'s basics that will help you use the phrasebook more effectively.</string>
 </resources>

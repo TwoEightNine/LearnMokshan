@@ -11,6 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleItem
+import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleItemPreview
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCell
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.LeMokBuildConfig
@@ -23,6 +25,8 @@ private const val PP_URL = "https://raw.githubusercontent.com/TwoEightNine/Learn
         "master/content/legal/pp-{locale}.json"
 private const val TOS_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
         "master/content/legal/tos-{locale}.json"
+private const val DEV_URL = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+        "master/content/legal/thanks-{locale}.json"
 
 @Composable
 fun AppInfoScreen(
@@ -39,6 +43,16 @@ fun AppInfoScreen(
                 .fillMaxWidth()
                 .padding(top = padding.calculateTopPadding()),
         ) {
+
+            ArticleItem(
+                title = "A message from developer",
+                showChevron = true,
+                onClick = {
+                    val url = DEV_URL.replace("{locale}", getLocaleForUrl())
+                    onArticleClicked(url, "")
+                }
+            )
+
             val privacyPolicyTitle = stringResource(id = R.string.app_info_privacy_policy)
             LeMokCell(
                 text = privacyPolicyTitle,

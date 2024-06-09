@@ -3,10 +3,14 @@ package global.msnthrp.mokshan.android.features.phrasebook
 import global.msnthrp.mokshan.android.core.navigation.Router
 import global.msnthrp.mokshan.android.core.navigation.ScreenFactory
 
-fun PhrasebookScreenFactory(onInfoClicked: () -> Unit): ScreenFactory {
+fun PhrasebookScreenFactory(
+    onInfoClicked: () -> Unit,
+    onPronunciationArticleClicked: (url: String) -> Unit,
+): ScreenFactory {
     return ScreenFactory {
         PhrasebookScreen(
-            onInfoClicked = onInfoClicked
+            onInfoClicked = onInfoClicked,
+            onPronunciationArticleClicked = onPronunciationArticleClicked
         )
     }
 }

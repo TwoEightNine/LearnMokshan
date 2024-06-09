@@ -46,16 +46,23 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleItem
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.domain.phrasebook.Category
 import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import global.msnthrp.mokshan.domain.phrasebook.Phrase
 import global.msnthrp.mokshan.domain.phrasebook.Translation
 import kotlinx.coroutines.launch
+import java.util.Locale
+
+private const val PRONUNCIATION_ARTICLE_URL =
+    "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+            "master/content/legal/pronunciation-{locale}.json"
 
 @Composable
 fun PhrasebookScreen(
     onInfoClicked: () -> Unit,
+    onPronunciationArticleClicked: (url: String) -> Unit,
     phrasebookViewModel: PhrasebookViewModel = viewModel(),
 ) {
     val state by phrasebookViewModel.state.collectAsState()
@@ -92,6 +99,18 @@ fun PhrasebookScreen(
                 modifier = Modifier
                     .padding(top = padding.calculateTopPadding())
             ) {
+                item {
+                    ArticleItem(
+                        title = stringResource(id = R.string.phrasebook_pronunciation_article_title),
+                        description = stringResource(id = R.string.phrasebook_pronunciation_article_description),
+                        showChevron = true,
+                        onClick = {
+                            onPronunciationArticleClicked(
+                                PRONUNCIATION_ARTICLE_URL.replace("{locale}", getLocaleForUrl())
+                            )
+                        },
+                    )
+                }
                 state.phrasebook?.phrases?.forEach { phrasesByCategory ->
                     val category = phrasesByCategory.category
                     val isExpanded = category.id == state.visibleCategory
@@ -213,11 +232,18 @@ private fun PhraseView(phrase: Phrase) {
     }
 }
 
+private fun getLocaleForUrl(): String {
+    val language = Locale.getDefault().language
+    val supportedLanguages = setOf("en", "ru")
+    return language.takeIf { it in supportedLanguages } ?: "en"
+}
+
 @Preview
 @Composable
 fun ScreenPreview() {
     LeMokTheme {
         PhrasebookScreen(
+            onPronunciationArticleClicked = {},
             onInfoClicked = {},
         )
     }
