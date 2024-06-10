@@ -1,7 +1,5 @@
 package global.msnthrp.mokshan.android.core.designsystem.theme
 
-import android.os.Build
-import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +23,7 @@ internal fun LeMokColorScheme(
             surface = darkSurface,
             surfaceVariant = darkSurface,
             error = darkError,
+            outline = darkDivider,
         )
     } else {
         lightColorScheme(
@@ -37,6 +36,7 @@ internal fun LeMokColorScheme(
             surface = lightSurface,
             surfaceVariant = lightSurface,
             error = lightError,
+            outline = lightDivider,
         )
     }
 }

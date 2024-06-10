@@ -13,9 +13,18 @@ import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.seconds
+
+@OptIn(ExperimentalSerializationApi::class)
+val defaultJson = Json {
+    ignoreUnknownKeys = true
+    prettyPrint = true
+    isLenient = true
+    explicitNulls = false
+}
 
 class NetworkClient(
     private val client: HttpClient,
@@ -39,7 +48,7 @@ class NetworkClient(
         val plainResponse = getPlain(url)
         return when {
             T::class == String::class -> plainResponse as T
-            else -> Json.decodeFromString(plainResponse)
+            else -> defaultJson.decodeFromString(plainResponse)
         }
     }
 
@@ -51,10 +60,7 @@ class NetworkClient(
 
 internal val client = HttpClient {
     install(ContentNegotiation) {
-        json(Json {
-            prettyPrint = true
-            isLenient = true
-        })
+        json(defaultJson)
     }
     install(HttpCache)
     install(HttpTimeout) {

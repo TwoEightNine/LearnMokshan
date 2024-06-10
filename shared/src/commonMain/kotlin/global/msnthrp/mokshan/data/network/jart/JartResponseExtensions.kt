@@ -19,13 +19,22 @@ private fun JartMetaResponse.toDomain(): JartMeta? {
 }
 
 private fun JartEntryResponse.toDomain(): JartEntry? {
-    return JartEntry(
-        type = this.type?.asJartEntryType() ?: JartEntryType.UNKNOWN,
-        value = this.value.orEmpty().takeIf { it.isNotBlank() } ?: return null
-    )
-}
-
-private fun String.asJartEntryType(): JartEntryType {
-    return runCatching { JartEntryType.valueOf(this.uppercase()) }.getOrNull()
-        ?: JartEntryType.UNKNOWN
+    val type = this.type?.lowercase()
+    val value = this.value.orEmpty()
+    return when (type) {
+        "h1" -> JartEntry.Header1(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "h2" -> JartEntry.Header2(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "h3" -> JartEntry.Header3(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "title" -> JartEntry.Title(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "body" -> JartEntry.Body(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "hint" -> JartEntry.Hint(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "list" -> JartEntry.ListItem(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "sublist" -> JartEntry.SubListItem(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "table" -> JartEntry.Table(
+            cells = this.cells ?: return null,
+            size = this.size?.run { first() to last() } ?: return null,
+            header = this.header ?: false,
+        )
+        else -> JartEntry.Unknown(value = value.takeIf { it.isNotBlank() } ?: return null)
+    }
 }

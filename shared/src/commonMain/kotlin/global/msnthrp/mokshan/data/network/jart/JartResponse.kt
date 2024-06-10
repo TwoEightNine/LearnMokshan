@@ -19,4 +19,7 @@ typealias JartContentResponse = List<JartEntryResponse>
 data class JartEntryResponse(
     val type: String?,
     val value: String?,
+    val size: List<Int>?,
+    val header: Boolean?,
+    val cells: List<String>?,
 )
