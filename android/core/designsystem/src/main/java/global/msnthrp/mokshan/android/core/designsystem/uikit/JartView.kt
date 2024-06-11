@@ -199,9 +199,14 @@ fun JartPreview() {
                             value = "Header 3"
                         ),
                         JartEntry.Table(
-                            cells = "Some body once toooooooold me this world is gonnaroror roll me, i aint the sharpest tool of the sheeeed. But you looking kinda dumb with this".split(
-                                ' '
-                            ),
+                            cells = ("Some body once toooooooold " +
+                                    "me this world is " +
+                                    "gonnaroror roll me, i " +
+                                    "aint the sharpest tool " +
+                                    "of the sheeeed. But " +
+                                    "you looking kinda dumb " +
+                                    "with this"
+                                    ).split(' '),
                             size = 4 to 20,
                             header = true,
                         ),

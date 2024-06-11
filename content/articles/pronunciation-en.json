@@ -106,7 +106,133 @@
     },
     {
       "type": "body",
-      "value": "Script"
+      "value": "The Mokshan language has 8 vowels and 33 consonants, some of which are uncommon in European languages and can be challenging to reproduce. Notable phonological features of Mokshan include palatalization, where consonants are softened, and vowel reduction, where vowels are weakened in unstressed positions."
+    },
+    {
+      "type": "h3",
+      "value": "Vowels"
+    },
+    {
+      "type": "body",
+      "value": "Here are all 8 vowels with corresponding letters:"
+    },
+    {
+      "type": "table",
+      "size": [4, 8],
+      "header": true,
+      "cells": [
+        "Letter", "Vowel", "Translit.", "Similar sound",
+        "Аа", "/a/", "a", "like ar in far",
+        "Ии", "/i/", "i", "like ee in meet",
+        "Оо", "/o/", "o", "like aw in yawn",
+        "Уу", "/u/", "u", "like oo in moon",
+        "Ъъ", "/ə/", "ə", "like a in tuna",
+        "Ыы", "/ɨ/", "y", "uncommon for European languages, like ı in Turkish sığ",
+        "Ээ", "/e/, /æ/", "e (ē)", "/e/ is like e in end; /æ/ is like a in cat"
+      ]
+    },
+    {
+      "type": "body",
+      "value": "In the Mokshan language, there are 4 letters that do not add new vowels but indicate the /j/ sound and palatalization of the preceding consonant. These letters serve to modify the consonant before them, softening it, or adding a /j/ glide sound, which is essential for correct pronunciation:"
+    },
+    {
+      "type": "table",
+      "size": [3, 8],
+      "header": true,
+      "cells": [
+        "Letter", "After consonant", "After vowel/at start",
+        "Ее", "/ʲe/", "je",
+        "Ёё", "/ʲo/", "jo",
+        "Юю", "/ʲu/", "ju",
+        "Яя", "/ʲæ/", "ja"
+      ]
+    },
+    {
+      "type": "h3",
+      "value": "Palatalization"
+    },
+    {
+      "type": "body",
+      "value": "Palatalization is important for Mokshan phonology as it introduces a secondary articulation that distinguishes phonemes, increasing the phonetic inventory of a language. This distinction can lead to different meanings: palatalized and non-palatalized consonants create minimal pairs, contributing to the complexity and richness of the language's sound system."
+    },
+    {
+      "type": "body",
+      "value": "Palatalization involves moving the tongue closer to the high palate, the upper part of the mouth. This action softens the consonant sound, hence palatalized sounds are referred to as 'soft'. Palatalization is present in many European languages, though its importance in distinguishing words varies. In Mokshan, it's crucial to differentiate between palatalized and plain consonants, dividing them into two groups: hard (plain) and soft (palatalized)."
+    },
+    {
+      "type": "h3",
+      "value": "Vowel reduction"
+    },
+    {
+      "type": "h3",
+      "value": "Familiar consonants"
+    },
+    {
+      "type": "body",
+      "value": "19 consonants in the Mokshan language are familiar to English speakers and most Europeans. Here they are:"
+    },
+    {
+      "type": "table",
+      "size": [4, 20],
+      "header": true,
+      "cells": [
+        "Letter", "Phoneme", "Translit.", "Sounds like",
+        "Бб", "/b/", "b", "like b in bee",
+        "Вв", "/v/", "v", "like v in vest",
+        "Гг", "/g/", "g", "like g in good",
+        "Дд", "/d/", "d", "like d in day",
+        "Жж", "/ʐ/~/ʒ/", "ž", "like s in treasure",
+        "Зз", "/z/", "z", "like z in zebra",
+        "Йй", "/j/", "j", "like y in yes",
+        "Кк", "/k/", "k", "like k in key",
+        "Лл", "/l/", "l", "like l in lamp",
+        "Мм", "/m/", "m", "like m in me",
+        "Нн", "/n/", "n", "like n in no",
+        "Пп", "/p/", "p", "like p in pet",
+        "Рр", "/r/", "r", "like r in rock",
+        "Сс", "/s/", "s", "like s in sun",
+        "Тт", "/t/", "t", "like t in tea",
+        "Фф", "/f/", "f", "like f in food",
+        "Цц", "/ts/", "c", "like ts in boots",
+        "Чч", "/tɕ/", "č", "like ch in chat",
+        "Шш", "/ʂ/~/ʃ/", "š", "like sh in short"
+      ]
+    },
+    {
+      "type": "h3",
+      "value": "Uncommon consonants"
+    },
+    {
+      "type": "body",
+      "value": "The Mokshan language includes 4 consonants that are not present in English but can be found in other European languages. Some of them do not have a unique letter and are instead represented by combinations of letters:"
+    },
+    {
+      "type": "table",
+      "size": [3, 20],
+      "header": true,
+      "cells": [
+        "Written as", "Phoneme", "Translit.", "Sounds like",
+        "Хх", "/x/", "x", "like j in Spanish jamón or ch in German nach",
+        "йх", "/ç/", "jx", "like g in German richtig",
+        "лх", "/l̥/", "lx", "voiceless l",
+        "рх", "/r̥/", "rx", "voiceless r"
+      ]
+    },
+    {
+      "type": "h3",
+      "value": "Palatalization"
+    },
+    {
+      "type": "body",
+      "value": "Palatalization is important for Mokshan phonology as it introduces a secondary articulation that distinguishes phonemes, increasing the phonetic inventory of a language. This distinction can lead to different meanings: palatalized and non-palatalized consonants create minimal pairs, contributing to the complexity and richness of the language's sound system."
+    },
+    {
+      "type": "body",
+      "value": "Palatalization involves moving the tongue closer to the high palate, the upper part of the mouth. This action softens the consonant sound, hence palatalized sounds are referred to as 'soft'. Palatalization is present in many European languages, though its importance in distinguishing words varies. In Mokshan, it's crucial to differentiate between palatalized and plain consonants, dividing them into two groups: hard (plain) and soft (palatalized)."
+    },
+    {
+      "type": "body",
+      "value": "Don't you forget about palatalization? In the Mokshan language, palatalization produces an additional 10 consonants: /nʲ/, /tʲ/, /dʲ/, /tsʲ/, /sʲ/, /zʲ/, /l̥ʲ/, /r̥ʲ/, /lʲ/, /rʲ/. The Mokshan language uses Cyrillic script that does not have special letters for soft (palatalized) consonants; instead, it uses additional vowel letters to indicate palatalization: ь."
     }
   ]
 }
