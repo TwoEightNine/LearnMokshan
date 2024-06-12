@@ -17,6 +17,12 @@ import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -110,7 +116,7 @@ fun JartEntry(
         modifier = textModifier,
         style = textStyle,
         color = textColor,
-        text = value
+        text = formatText(value)
     )
 }
 
@@ -154,7 +160,7 @@ fun JartTable(table: JartEntry.Table) {
                         modifier = Modifier
                             .weight(itemWeight)
                             .padding(8.dp),
-                        text = value,
+                        text = formatText(value),
                         style = style,
                     )
                     VerticalDivider(
@@ -169,6 +175,29 @@ fun JartTable(table: JartEntry.Table) {
                 color = MaterialTheme.colorScheme.outline,
             )
             isHeaderRequired = false
+        }
+    }
+}
+
+private fun formatText(value: String): AnnotatedString {
+    var inBold = false
+    var escaped = false
+    return buildAnnotatedString {
+        value.forEachIndexed { _, char ->
+            if (char == '*' && !escaped) {
+                inBold = !inBold
+            } else if (char == '\\') {
+                escaped = true
+            } else {
+                if (inBold) {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(char)
+                    }
+                } else {
+                    append(char)
+                }
+                escaped = false
+            }
         }
     }
 }
@@ -211,7 +240,7 @@ fun JartPreview() {
                             header = true,
                         ),
                         JartEntry.Body(
-                            value = "Some body once told me this world is gonna roll me, i aint the sharpest tool of the sheeeed. But you looking kinda dumb with this"
+                            value = "Some body once told me this world is gonna roll me, i aint the sh*arp*est to\\*ol of the sheeeed. But you looking kinda dumb with this"
                         ),
                         JartEntry.ListItem(
                             value = "Some body once told me"
