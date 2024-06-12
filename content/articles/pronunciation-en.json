@@ -17,10 +17,10 @@
     },
     {
       "type": "table",
-      "size": [11, 3],
+      "size": [7, 5],
       "cells": [
-        "*Аа*\na", "*Бб*\nb", "*Вв*\nv", "*Гг*\ng", "*Дд*\nd", "*Ее*\nje", "*Ёё*\njo", "*Жж*\nž", "*Зз*\nz", "*Ии\ni", "*Йй\nj",
-        "*Кк*\nk", "*Лл*\nl", "*Мм*\nm", "*Нн*\nn", "*Оо*\no", "*Пп*\np", "*Рр*\nr", "*Сс*\ns", "*Тт*\nt", "*Уу*\ny", "*Фф\nf",
+        "*Аа*\na", "*Бб*\nb", "*Вв*\nv", "*Гг*\ng", "*Дд*\nd", "*Ее*\nje", "*Ёё*\njo", "*Жж*\nž", "*Зз*\nz", "*Ии*\ni", "*Йй*\nj",
+        "*Кк*\nk", "*Лл*\nl", "*Мм*\nm", "*Нн*\nn", "*Оо*\no", "*Пп*\np", "*Рр*\nr", "*Сс*\ns", "*Тт*\nt", "*Уу*\ny", "*Фф*\nf",
         "*Хх*\nx", "*Цц*\nc", "*Чч*\nč", "*Шш*\nš", "*Щщ*\nšč", "*Ъъ*\nə", "*Ыы*\ny", "*Ьь*\n'", "*Ээ*\nē", "*Юю*\nju", "*Яя*\nja"
       ]
     },
@@ -129,7 +129,23 @@
     },
     {
       "type": "list",
-      "value": "Ее – always;"
+      "value": "Ее – always."
+    },
+    {
+      "type": "body",
+      "value": "Examples:"
+    },
+    {
+      "type": "list",
+      "value": "Кода (koda) /'kodə/, not /'koda/;"
+    },
+    {
+      "type": "list",
+      "value": "Сазор (sazor) /'sazər/, not /'sazor/;"
+    },
+    {
+      "type": "list",
+      "value": "Веле (vele) /'velʲə/, not /'velʲe/."
     },
     {
       "type": "h3",
@@ -163,7 +179,8 @@
         "Фф", "/f/", "f", "like *f* in *f*ood",
         "Цц", "/ts/", "c", "like *ts* in boo*ts*",
         "Чч", "/tɕ/", "č", "like *ch* in *ch*at",
-        "Шш", "/ʂ/~/ʃ/", "š", "like *sh* in *sh*ort"
+        "Шш", "/ʂ/~/ʃ/", "š", "like *sh* in *sh*ort",
+        "Щщ", "/ɕtɕ/", "šč", "like š + č"
       ]
     },
     {
@@ -199,7 +216,7 @@
       "value": "In Latin-script based writing, the apostrophe (') serves as an analogue of the Cyrillic character ь. Therefore, 'e, 'o, 'u are used instead of е, ё, ю, respectively (except for the first letter position). Sometimes, the apostrophe is replaced by an acute accent for the preceding consonant."
     },
     {
-      "type": "h3",
+      "type": "body",
       "value": "Let's look at examples:"
     },
     {
@@ -217,6 +234,26 @@
     {
       "type": "body",
       "value": "The stress in the Mokshan language is placed on the first syllable. However, if the first syllable contains /i/, /u/, or /ə/ and there is /a/ or /æ/ in other syllables, the first syllable with /a/ or /æ/ draws the stress. Loanwords may not obey these rules and often retain the stress patterns of their original language. Minority of complex or archaic words might not obey these rules either."
+    },
+    {
+      "type": "body",
+      "value": "For example:"
+    },
+    {
+      "type": "list",
+      "value": "Симомс (simoms) /'siməms/;"
+    },
+    {
+      "type": "list",
+      "value": "Cиман (siman) /si'man/;"
+    },
+    {
+      "type": "list",
+      "value": "Тюжя (ťužä) /tʲu'ʒæ/;"
+    },
+    {
+      "type": "list",
+      "value": "Ърьвя (əŕvä) /ərʲvʲæ'/."
     }
   ]
 }
