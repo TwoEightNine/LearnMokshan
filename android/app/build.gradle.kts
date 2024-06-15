@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -12,6 +15,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "0.1"
+        resourceConfigurations.addAll(listOf("en", "ru"))
     }
     buildFeatures {
         compose = true
@@ -25,9 +29,27 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    signingConfigs {
+        val projectDir = "../../"
+        val propFile = file(projectDir + "local.properties")
+        val props = Properties()
+        props.load(FileInputStream(propFile))
+        create("release") {
+            storeFile = file(projectDir + props["storeFile"] as String)
+            storePassword = props["storePassword"] as? String
+            keyAlias = props["keyAlias"] as? String
+            keyPassword = props["keyPassword"] as? String
+        }
+    }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
