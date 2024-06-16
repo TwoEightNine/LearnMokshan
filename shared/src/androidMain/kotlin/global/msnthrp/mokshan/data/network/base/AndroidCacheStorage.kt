@@ -30,10 +30,16 @@ internal class AndroidCacheStorage(
         result.exceptionOrNull()?.printStackTrace()
     }
 
-    override suspend fun getResponse(url: String, ttlMs: Long): String? {
+    override suspend fun getResponse(
+        url: String,
+        ttlMs: Long
+    ): NetworkClient.CacheStorage.CachedResponse? {
+        var isExpired = false
         val fileName = getCacheFileName(url)
         val createdAt = metaSharedPreferences.getLong(fileName, 0L)
-        if (createdAt + ttlMs < System.currentTimeMillis()) return null
+        if (createdAt + ttlMs < System.currentTimeMillis()) {
+            isExpired = true
+        }
 
         val result = kotlin.runCatching {
             File(cacheDir, fileName).takeIf { it.exists() }?.readText()
@@ -42,7 +48,9 @@ internal class AndroidCacheStorage(
             metaSharedPreferences.edit().putLong(fileName, 0L).apply()
         }
         result.exceptionOrNull()?.printStackTrace()
-        return result.getOrNull()
+        return result.getOrNull()?.let { response ->
+            NetworkClient.CacheStorage.CachedResponse(response, isExpired)
+        }
     }
 
     @OptIn(ExperimentalStdlibApi::class)

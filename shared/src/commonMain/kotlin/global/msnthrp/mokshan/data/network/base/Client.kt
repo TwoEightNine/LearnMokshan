@@ -5,13 +5,11 @@ import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
-import io.ktor.client.statement.HttpResponse
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -35,13 +33,20 @@ class NetworkClient(
         url: String
     ): String {
         val cachedResponse = cacheStorage.getResponse(url)
-        if (cachedResponse != null) {
-            return cachedResponse
+        if (cachedResponse != null && !cachedResponse.isExpired) {
+            return cachedResponse.response
         }
 
-        val response: String = client.get(url).body()
-        cacheStorage.saveResponse(url, response)
-        return response
+        val result: Result<String> = kotlin.runCatching { client.get(url).body() }
+        val response = result.getOrNull()
+        if (response != null) {
+            cacheStorage.saveResponse(url, response)
+            return response
+        } else if (cachedResponse != null) {
+            return cachedResponse.response
+        } else {
+            throw (result.exceptionOrNull() ?: IllegalStateException("Result thrown but exception is null"))
+        }
     }
 
     suspend inline fun <reified T> get(url: String): T {
@@ -54,7 +59,12 @@ class NetworkClient(
 
     interface CacheStorage {
         suspend fun saveResponse(url: String, response: String)
-        suspend fun getResponse(url: String, ttlMs: Long = 1.days.inWholeMilliseconds): String?
+        suspend fun getResponse(url: String, ttlMs: Long = 1.days.inWholeMilliseconds): CachedResponse?
+
+        data class CachedResponse(
+            val response: String,
+            val isExpired: Boolean,
+        )
     }
 }
 
