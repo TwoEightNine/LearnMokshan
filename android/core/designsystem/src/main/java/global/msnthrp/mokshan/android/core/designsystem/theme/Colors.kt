@@ -29,4 +29,4 @@ val darkBackground = Color(0xFF222222)
 val darkSurface = Color(0xFF333033)
 
 val darkError = Color(0xFFE22653)
-val darkDivider = Color(0xFF252525)
+val darkDivider = Color(0xFF4D4C4C)
