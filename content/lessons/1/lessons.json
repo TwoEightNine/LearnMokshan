@@ -1,0 +1,165 @@
+{
+  "topic": "Greetings",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Шумбрат!",
+          "native": ["Hello!"]
+        },
+        {
+          "mokshan": "Шумбратада!",
+          "native": ["Hello!"]
+        },
+        {
+          "mokshan": "Шумбраши!",
+          "native": ["Good day!"]
+        },
+        {
+          "mokshan": "Кода тефне?",
+          "native": ["How are you?"]
+        },
+        {
+          "mokshan": "Кода эрят?",
+          "native": ["How do you do?"]
+        },
+        {
+          "mokshan": "Кода эрятада?",
+          "native": ["How do you all do?"]
+        },
+        {
+          "mokshan": "Кальдявста",
+          "native": ["Bad"]
+        },
+        {
+          "mokshan": "Аф кальдявста",
+          "native": ["Not bad"]
+        },
+        {
+          "mokshan": "Цебярьста",
+          "native": ["Great"]
+        },
+        {
+          "mokshan": "Лац",
+          "native": ["Fine"]
+        },
+        {
+          "mokshan": "Аф пяк",
+          "native": ["So-so"]
+        }
+      ],
+      "dictionary": [
+        "Шумбрат!", "Шумбратада!", "Шумбраши!", "Кода тефне?", "Кода эрят?",
+        "Кода эрятада?", "Кальдявста", "Аф кальдявста", "Цебярьста", "Аф пяк", "Лац"
+      ],
+      "translations": [
+        {
+          "mokshan": "кода",
+          "native": "how"
+        },
+        {
+          "mokshan": "тефне",
+          "native": "deals"
+        },
+        {
+          "mokshan": "эрят",
+          "native": "lives"
+        },
+        {
+          "mokshan": "эрятада",
+          "native": "live"
+        },
+        {
+          "mokshan": "аф",
+          "native": "not"
+        },
+        {
+          "mokshan": "пяк",
+          "native": "very"
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Шумбрат! Кода тефне?",
+          "native": ["Hello! How are you?"]
+        },
+        {
+          "mokshan": "Шумбратада! Кода тефне?",
+          "native": ["Hello! How are you?"]
+        },
+        {
+          "mokshan": "Шумбраши! Кода тефне?",
+          "native": ["Good day! How are you?"]
+        },
+        {
+          "mokshan": "Шумбрат! Кода эрят?",
+          "native": ["Hello! How do you do?"]
+        },
+        {
+          "mokshan": "Шумбратада! Кода эрятада?",
+          "native": ["Hello! How do you all do?"]
+        },
+        {
+          "mokshan": "Шумбраши! Кода эрят?",
+          "native": ["Good day! How do you do?"]
+        },
+        {
+          "mokshan": "Кода тефне? – Лац, сюкпря",
+          "native": ["How are you? – Fine, thanks"]
+        },
+        {
+          "mokshan": "Кода тефне? – Аф пяк",
+          "native": ["How are you? – So-so"]
+        },
+        {
+          "mokshan": "Кода тефне? – Аф кальдявста",
+          "native": ["How are you? – Not bad"]
+        },
+        {
+          "mokshan": "Кода эрят? – Сюкпря, цебярьста",
+          "native": ["How do you do? – Thanks, great"]
+        },
+        {
+          "mokshan": "Кода эрятада? – Сюкпря, лац",
+          "native": ["How do you all do? – Thanks, fine"]
+        },
+        {
+          "mokshan": "Кода эрят? – Аф пяк",
+          "native": ["How do you do? – So-so"]
+        }
+      ],
+      "dictionary": []
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "кода",
+      "native": "how"
+    },
+    {
+      "mokshan": "тефне",
+      "native": "deals"
+    },
+    {
+      "mokshan": "эрят",
+      "native": "lives"
+    },
+    {
+      "mokshan": "эрятада",
+      "native": "live"
+    },
+    {
+      "mokshan": "аф",
+      "native": "not"
+    },
+    {
+      "mokshan": "пяк",
+      "native": "very"
+    }
+  ]
+}
