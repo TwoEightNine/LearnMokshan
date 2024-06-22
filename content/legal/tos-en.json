@@ -33,7 +33,7 @@
     },
     {
       "type": "body",
-      "value": "By using the App, you represent that you are at least 13 years old. If you are under 13, you may only use the App with the consent and supervision of a parent or guardian."
+      "value": "By using the App, you represent that you are at least 6 years old. If you are under 6, you may only use the App with the consent and supervision of a parent or guardian."
     },
     {
       "type": "h2",
@@ -61,7 +61,7 @@
     },
     {
       "type": "body",
-      "value": "All content and materials available on the App, including but not limited to text, graphics, logos, and software, are the property of TwoEightNine and are protected by intellectual property laws. You agree not to use, reproduce, or distribute any such content without our prior written permission."
+      "value": "All language materials available in the Application are the intangible cultural heritage of humanity and the Moksha people in particular. All contents of the repository, including but not limited to text, graphics, logos and software, are the property of TwoEightNine and are licensed under the GNU GPL v3.0 license."
     },
     {
       "type": "h2",
@@ -101,7 +101,7 @@
     },
     {
       "type": "body",
-      "value": "Thank you for choosing 'Learn Mokshan'!"
+      "value": "Thank you for learning Mokshan!"
     },
     {
       "type": "hint",
