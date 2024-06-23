@@ -1,7 +1,7 @@
 # Privacy Policy
 ## Introduction
 
-Welcome to 'Learn Mokshan' (the "App"). At 'Learn Mokshan', your privacy is my top priority. This Privacy Policy outlines how I handle your information when you use my App. I am committed to protecting your privacy and ensuring a secure experience.
+Welcome to 'Mokshan Phrasebook' (the "App"). At 'Learn Mokshan', your privacy is my top priority. This Privacy Policy outlines how I handle your information when you use my App. I am committed to protecting your privacy and ensuring a secure experience.
 
 ## Information I Collect
 ### Personal Data

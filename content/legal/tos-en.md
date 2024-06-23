@@ -1,6 +1,6 @@
 # Terms of Service
 ## Introduction
-Welcome to 'Learn Mokshan' (the \"App\"). These Terms of Service (\"Terms\") govern your use of the App. By using the App, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, please do not use the App.
+Welcome to 'Mokshan Phrasebook' (the \"App\"). These Terms of Service (\"Terms\") govern your use of the App. By using the App, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, please do not use the App.
 ## Use of the App
 ### Purpose
 The App is designed to provide users with educational content.
