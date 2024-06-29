@@ -42,6 +42,10 @@ class PhrasebookViewModel : ViewModel() {
             val topic = lessonsRepository.getTopic(1)
             Log.i("qwer", "${topic.getOrNull()}")
             Log.i("qwer", "${topic.exceptionOrNull()}")
+
+            val topicSummary = lessonsRepository.getTopicsSummary()
+            Log.i("qwer", "${topicSummary.getOrNull()}")
+            Log.i("qwer", "${topicSummary.exceptionOrNull()}")
         }
     }
 

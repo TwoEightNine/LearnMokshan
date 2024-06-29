@@ -1,4 +1,4 @@
-package global.msnthrp.mokshan.data.network.lessons
+package global.msnthrp.mokshan.data.network.lessons.response
 
 import global.msnthrp.mokshan.domain.lessons.Lesson
 import global.msnthrp.mokshan.domain.lessons.LessonPair
