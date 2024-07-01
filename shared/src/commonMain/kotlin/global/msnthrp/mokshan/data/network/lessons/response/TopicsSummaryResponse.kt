@@ -5,11 +5,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class TopicsSummaryResponse(
     val topicsCount: Int?,
-    val lessonsCountByTopics: List<TopicCountEntry>?
+    val topicsInfo: List<TopicInfoResponse>?
 )
 
 @Serializable
-internal data class TopicCountEntry(
-    val topicId: Int?,
-    val count: Int?,
+internal data class TopicInfoResponse(
+    val id: Int?,
+    val lessonsCount: Int?,
+    val title: String?,
 )
