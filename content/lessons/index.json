@@ -1,9 +1,10 @@
 {
   "topicsCount": 1,
-  "lessonsCountByTopics": [
+  "topicsInfo": [
     {
-      "topicId": 1,
-      "count": 2
+      "id": 1,
+      "lessonsCount": 2,
+      "title": "Greetings"
     }
   ]
 }
