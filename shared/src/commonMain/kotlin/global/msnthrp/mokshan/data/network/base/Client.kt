@@ -80,4 +80,5 @@ internal val client = HttpClient {
         logger = Logger.SIMPLE
         level = LogLevel.HEADERS
     }
+    expectSuccess = true
 }
