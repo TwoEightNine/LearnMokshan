@@ -17,6 +17,8 @@ import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreenFactory
 import global.msnthrp.mokshan.android.features.articles.ArticleDefaultRouter
 import global.msnthrp.mokshan.android.features.articles.ArticleRouter
 import global.msnthrp.mokshan.android.features.articles.ArticleScreenFactory
+import global.msnthrp.mokshan.android.features.lessons.TopicsListRouter
+import global.msnthrp.mokshan.android.features.lessons.TopicsListScreenFactory
 import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookRouter
 import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreenFactory
 
@@ -49,6 +51,9 @@ class MainActivity : ComponentActivity() {
                             ),
                             ArticleDefaultRouter() to ArticleScreenFactory(
                                 onBackClicked = { navController.popBackStack() },
+                            ),
+                            TopicsListRouter to TopicsListScreenFactory(
+                                onTopicClicked = {  }
                             )
                         ),
                     )

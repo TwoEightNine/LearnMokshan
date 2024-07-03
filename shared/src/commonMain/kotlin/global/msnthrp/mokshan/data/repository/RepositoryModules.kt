@@ -3,7 +3,7 @@ package global.msnthrp.mokshan.data.repository
 import global.msnthrp.mokshan.data.network.networkModules
 import global.msnthrp.mokshan.data.repository.article.ArticlesRepository
 import global.msnthrp.mokshan.data.repository.jart.JartRepository
-import global.msnthrp.mokshan.data.repository.lessons.LessonsRepository
+import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
 import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepositoryImpl
 import global.msnthrp.mokshan.usecase.phrasebook.PhrasebookRepository
 import org.koin.core.context.loadKoinModules
@@ -31,7 +31,7 @@ val repositoryModule = module {
         )
     }
     single {
-        LessonsRepository(
+        TopicsRepository(
             networkDs = get(),
         )
     }

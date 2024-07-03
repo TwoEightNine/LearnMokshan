@@ -3,7 +3,7 @@ package global.msnthrp.mokshan.data.repository.lessons
 import global.msnthrp.mokshan.domain.lessons.Topic
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
 
-class LessonsRepository(
+class TopicsRepository(
     private val networkDs: NetworkDataSource,
 ) {
 

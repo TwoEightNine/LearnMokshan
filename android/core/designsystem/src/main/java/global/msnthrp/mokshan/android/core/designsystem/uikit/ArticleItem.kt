@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,18 +27,11 @@ fun ArticleItem(
     showChevron: Boolean = false,
     onClick: () -> Unit
 ) {
-    Card(
+    LeMokCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        elevation = CardDefaults.elevatedCardElevation(),
-        colors = CardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.primary,
-            disabledContentColor = MaterialTheme.colorScheme.tertiary,
-            disabledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        ),
-        onClick = onClick
+        onClicked = onClick
     ) {
         Box(
             modifier = Modifier

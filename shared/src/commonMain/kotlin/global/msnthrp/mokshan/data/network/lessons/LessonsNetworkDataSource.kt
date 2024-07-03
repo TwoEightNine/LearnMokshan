@@ -5,13 +5,13 @@ import global.msnthrp.mokshan.data.network.base.NetworkClient
 import global.msnthrp.mokshan.data.network.lessons.response.TopicResponse
 import global.msnthrp.mokshan.data.network.lessons.response.TopicsSummaryResponse
 import global.msnthrp.mokshan.data.network.lessons.response.toDomain
-import global.msnthrp.mokshan.data.repository.lessons.LessonsRepository
+import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
 import global.msnthrp.mokshan.domain.lessons.Topic
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
 
 internal class LessonsNetworkDataSource(
     private val client: NetworkClient,
-) : LessonsRepository.NetworkDataSource {
+) : TopicsRepository.NetworkDataSource {
 
     override suspend fun getTopicsSummary(): TopicsSummary {
         val response: TopicsSummaryResponse = client.get(TOPICS_INDEX_URL)

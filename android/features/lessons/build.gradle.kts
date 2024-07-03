@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "global.msnthrp.mokshan.android.features.phrasebook"
+    namespace = "global.msnthrp.mokshan.android.features.lessons"
     compileSdk = 34
     defaultConfig {
         minSdk = 26
@@ -38,7 +38,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.lifecycle.compose.runtime)
-    implementation(libs.androidx.lifecycle.common)
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
     debugImplementation(libs.compose.ui.tooling)
 }
