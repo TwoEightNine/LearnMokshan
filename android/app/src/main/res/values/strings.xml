@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Mokshan Phrasebook</string>
+    <string name="bottom_item_phrasebook">Phrasebook</string>
+    <string name="bottom_item_lessons">Lessons</string>
+    <string name="bottom_item_articles">Articles</string>
 </resources>
