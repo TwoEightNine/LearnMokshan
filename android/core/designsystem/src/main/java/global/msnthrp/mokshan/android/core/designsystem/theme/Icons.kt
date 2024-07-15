@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.ui.graphics.Color
@@ -20,6 +21,7 @@ object Icons {
     val info = Icons.Outlined.Info
     val externalLink = Icons.AutoMirrored.Outlined.ExitToApp
     val arrowBack = Icons.AutoMirrored.Outlined.ArrowBack
+    val close = Icons.Outlined.Close
 
     val study = Study
     val article = Article

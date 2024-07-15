@@ -11,6 +11,9 @@ abstract class BaseViewModel<State> : ViewModel() {
     val state: StateFlow<State>
         get() = _state.asStateFlow()
 
+    protected val currentState: State
+        get() = _state.value
+
     abstract fun getInitialState(): State
 
     protected fun updateState(copier: State.() -> State) {

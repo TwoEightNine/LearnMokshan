@@ -1,4 +1,4 @@
-package global.msnthrp.mokshan.android.features.lessons
+package global.msnthrp.mokshan.android.features.lessons.topic
 
 import androidx.lifecycle.viewModelScope
 import global.msnthrp.mokshan.android.core.arch.BaseViewModel

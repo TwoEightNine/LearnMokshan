@@ -19,6 +19,9 @@ import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreenFactory
 import global.msnthrp.mokshan.android.features.articles.ArticleDefaultRouter
 import global.msnthrp.mokshan.android.features.articles.ArticleRouter
 import global.msnthrp.mokshan.android.features.articles.ArticleScreenFactory
+import global.msnthrp.mokshan.android.features.lessons.lesson.LessonRouter
+import global.msnthrp.mokshan.android.features.lessons.lesson.LessonRouterDefault
+import global.msnthrp.mokshan.android.features.lessons.lesson.LessonScreenFactory
 import global.msnthrp.mokshan.android.main.MainRouter
 import global.msnthrp.mokshan.android.main.MainScreenFactory
 
@@ -50,7 +53,9 @@ private fun MainContent() {
                     onPronunciationArticleClicked = { url, title ->
                         navController.navigateWith(ArticleRouter(url, title))
                     },
-                    onTopicClicked = {},
+                    onTopicClicked = { topicInfo ->
+                        navController.navigateWith(LessonRouter(topicInfo, 1))
+                    },
                 ),
                 AppInfoRouter to AppInfoScreenFactory(
                     onBackClicked = { navController.popBackStack() },
@@ -61,6 +66,9 @@ private fun MainContent() {
                 ArticleDefaultRouter() to ArticleScreenFactory(
                     onBackClicked = { navController.popBackStack() },
                 ),
+                LessonRouterDefault() to LessonScreenFactory(
+                    onBackPressed = { navController.popBackStack() },
+                )
             ),
         )
     }

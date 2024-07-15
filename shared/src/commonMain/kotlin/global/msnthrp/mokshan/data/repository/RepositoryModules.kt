@@ -5,8 +5,10 @@ import global.msnthrp.mokshan.data.repository.article.ArticlesRepository
 import global.msnthrp.mokshan.data.repository.jart.JartRepository
 import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
 import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepositoryImpl
+import global.msnthrp.mokshan.usecase.lesson.LessonRepository
 import global.msnthrp.mokshan.usecase.phrasebook.PhrasebookRepository
 import org.koin.core.context.loadKoinModules
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val repositoryModule = module {
@@ -34,5 +36,5 @@ val repositoryModule = module {
         TopicsRepository(
             networkDs = get(),
         )
-    }
+    } bind LessonRepository::class
 }

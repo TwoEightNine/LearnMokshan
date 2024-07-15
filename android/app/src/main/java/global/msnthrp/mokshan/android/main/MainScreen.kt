@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
-import global.msnthrp.mokshan.android.features.lessons.TopicsListScreenFactory
+import global.msnthrp.mokshan.android.features.lessons.topic.TopicsListScreenFactory
 import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreenFactory
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 

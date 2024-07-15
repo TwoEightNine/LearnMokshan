@@ -49,7 +49,7 @@ internal val typography = Typography(
     ),
     titleLarge = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 22.sp,
+        fontSize = 20.sp,
         lineHeight = 28.sp,
         letterSpacing = 0.sp,
         lineHeightStyle = LineHeightStyle(
@@ -59,7 +59,7 @@ internal val typography = Typography(
     ),
     titleMedium = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.1.sp,
     ),

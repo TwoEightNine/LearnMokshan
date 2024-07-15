@@ -1,4 +1,4 @@
-package global.msnthrp.mokshan.android.features.lessons
+package global.msnthrp.mokshan.android.features.lessons.topic
 
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
 

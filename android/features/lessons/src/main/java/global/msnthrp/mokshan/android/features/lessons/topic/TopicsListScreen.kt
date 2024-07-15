@@ -1,4 +1,4 @@
-package global.msnthrp.mokshan.android.features.lessons
+package global.msnthrp.mokshan.android.features.lessons.topic
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -25,6 +25,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.utils.stringResource
+import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
 @Composable
@@ -37,7 +39,7 @@ internal fun TopicsListScreen(
         topicsListViewModel.load()
         onPauseOrDispose {}
     }
-    LeMokScreen(title = "Topics") { padding ->
+    LeMokScreen(title = stringResource(id = R.string.lessons_title)) { padding ->
         if (state.isLoading && state.summary == null) {
             Box(
                 modifier = Modifier
