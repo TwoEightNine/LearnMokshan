@@ -20,14 +20,14 @@ class LessonUseCase(
 
         val lessonsCount = topic.lessons.size
         val lessonByNumber = getLessonByNumber(lessonsCount, lessonNumber)
-        val exactLesson = (lessonNumber % (lessonsCount + 1)).takeIf { lessonNumber <= 3 * (lessonsCount + 1) }
+        val exactLesson = (lessonNumber % (lessonsCount + 1)).takeIf { it in 1..lessonsCount }
         println("LessonUC: lessonsCount = $lessonsCount, lessonByNumber = $lessonByNumber, exactLesson = $exactLesson")
 
         val lessonPairs = when (exactLesson) {
             null -> topic.lessons.flatMap { it.toNative }
             else -> topic.lessons.find { it.order == exactLesson }?.toNative ?: emptyList()
         }
-        println("LessonUC: lessonPairs = $lessonPairs")
+        println("LessonUC: lessonPairs(${lessonPairs.size}) = $lessonPairs")
         if (lessonPairs.isEmpty()) {
             return Result.failure(IllegalStateException("Lesson pairs not found"))
         }
@@ -118,6 +118,8 @@ class LessonUseCase(
             .replace("!", "")
             .replace(".", "")
             .replace(",", "")
+            .replace("–", "")
+            .replace("  ", " ")
             .lowercase()
     }
 

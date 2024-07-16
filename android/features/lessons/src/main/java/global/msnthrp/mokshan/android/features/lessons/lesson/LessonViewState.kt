@@ -14,10 +14,14 @@ data class LessonViewState(
     val showCorrectCheck: Boolean = false,
     val showIncorrectCheck: Boolean = false,
     val exit: Boolean = false,
+    val showCompleted: Boolean = false,
+    // repeats currentStepIndex but updated a bit earlier to complete the progress after
+    // correct answer but before increasing the currentStepIndex
+    val completedStepsCount: Int = 0,
 ) {
 
     val progress: Float
-        get() = currentStepIndex.toFloat() / (preparedLesson?.lessonSteps?.size ?: 1)
+        get() = completedStepsCount.toFloat() / (preparedLesson?.lessonSteps?.size ?: 1)
 }
 
 

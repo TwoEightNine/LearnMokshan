@@ -18,7 +18,7 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
 
     init {
         viewModelScope.launch {
-            val preparedLesson = lessonUseCase.prepareLesson(topicId = 1, lessonNumber = 1).getOrNull()
+            val preparedLesson = lessonUseCase.prepareLesson(topicId = 1, lessonNumber = 3).getOrNull()
             println(preparedLesson)
             preparedLesson ?: return@launch
 
@@ -68,6 +68,10 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
         }
     }
 
+    fun onCompletedClosed() {
+        updateState { copy(exit = true) }
+    }
+
     fun onCheckClicked() {
         val currentInput = currentState.userInput ?: return
         val currentLesson = currentState.preparedLesson ?: return
@@ -75,7 +79,7 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
 
         val isCorrect = lessonUseCase.isCorrect(currentInput, currentStep)
         if (isCorrect) {
-            updateState { copy(showCorrectCheck = true) }
+            updateState { copy(showCorrectCheck = true, completedStepsCount = currentState.completedStepsCount.inc()) }
         } else {
             updateState { copy(showIncorrectCheck = true) }
         }
@@ -89,7 +93,7 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
         val nextLessonIndex = currentState.currentStepIndex.inc()
         val currentLesson = currentState.preparedLesson ?: return
         if (nextLessonIndex == currentLesson.lessonSteps.size) {
-            updateState { copy(exit = true) }
+            updateState { copy(showCompleted = true) }
             return
         }
 

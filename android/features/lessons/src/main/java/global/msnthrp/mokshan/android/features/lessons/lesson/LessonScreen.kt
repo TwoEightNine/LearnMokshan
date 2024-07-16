@@ -42,6 +42,8 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
@@ -59,9 +61,12 @@ fun LessonScreen(
     onBackPressed: () -> Unit,
 ) {
     val viewState by lessonViewModel.state.collectAsState()
-    if (viewState.exit) {
-        lessonViewModel.onCloseInvoked()
-        onBackPressed()
+    if (viewState.showCompleted) {
+        CompletedSurface(onContinueClicked = lessonViewModel::onCompletedClosed)
+        if (viewState.exit) {
+            lessonViewModel.onCloseInvoked()
+            onBackPressed()
+        }
         return
     }
 
@@ -383,6 +388,55 @@ private fun BoxScope.CommonSheet(
             )
         }
         Spacer(modifier = Modifier.height(height = padding.calculateBottomPadding() + 16.dp))
+    }
+}
+
+@Composable
+private fun CompletedSurface(
+    onContinueClicked: () -> Unit
+) {
+    Scaffold { padding ->
+        Box(modifier = Modifier.fillMaxSize()) {
+            
+            Column(
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = "\uD83C\uDF89",
+                    fontSize = TextUnit(64f, TextUnitType.Sp)
+                )
+                Text(
+                    modifier = Modifier.padding(top = 16.dp),
+                    text = "Completed!",
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
+
+            Button(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp, bottom = 16.dp + padding.calculateBottomPadding()),
+                onClick = onContinueClicked,
+            ) {
+                Text(
+                    text = "Continue",
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CompletedSurfacePreview() {
+    LeMokTheme {
+        CompletedSurface(
+            onContinueClicked = {},
+        )
     }
 }
 
