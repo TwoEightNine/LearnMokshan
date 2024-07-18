@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -32,15 +34,21 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -61,16 +69,17 @@ fun LessonScreen(
     onBackPressed: () -> Unit,
 ) {
     val viewState by lessonViewModel.state.collectAsState()
+    if (viewState.exit) {
+        lessonViewModel.onCloseInvoked()
+        onBackPressed()
+    }
+
     if (viewState.showCompleted) {
         CompletedSurface(onContinueClicked = lessonViewModel::onCompletedClosed)
-        if (viewState.exit) {
-            lessonViewModel.onCloseInvoked()
-            onBackPressed()
-        }
         return
     }
 
-    val currentLesson = viewState.preparedLesson?.lessonSteps?.getOrNull(viewState.currentStepIndex) ?: return
+    val currentStep = viewState.preparedLesson?.lessonSteps?.getOrNull(viewState.currentStepIndex) ?: return
     if (viewState.showExitAlert) {
         ExitAlert(
             onDismissed = lessonViewModel::onCloseDismissed,
@@ -118,6 +127,11 @@ fun LessonScreen(
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
+            val focusManager = LocalFocusManager.current
+            val onInputDone: () -> Unit = {
+                focusManager.clearFocus()
+                lessonViewModel.onCheckClicked()
+            }
             Column(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -131,7 +145,7 @@ fun LessonScreen(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = currentLesson.sentence,
+                    text = currentStep.sentence,
                     style = MaterialTheme.typography.titleLarge,
                 )
 
@@ -140,7 +154,7 @@ fun LessonScreen(
                     is UserInput.Bank -> {
                         WordBank(
                             selectedWords = userInput.words,
-                            allWords = (currentLesson.type as? LessonStepType.WordBank)?.availableWords
+                            allWords = (currentStep.type as? LessonStepType.WordBank)?.availableWords
                                 ?: emptyList(),
                             onWordAdded = lessonViewModel::onWordAdded,
                             onWordRemoved = lessonViewModel::onWordRemoved,
@@ -148,7 +162,12 @@ fun LessonScreen(
                     }
 
                     is UserInput.Input -> {
-                        Input(value = userInput.text)
+                        Input(
+                            value = userInput.text,
+                            uniqueStepId = currentStep.sentence,
+                            onInputUpdated = lessonViewModel::onInputUpdated,
+                            onDoneEntered = { onInputDone() },
+                        )
                     }
 
                     null -> Unit
@@ -161,7 +180,7 @@ fun LessonScreen(
                     .padding(horizontal = 16.dp)
                     .padding(bottom = padding.calculateBottomPadding() + 16.dp)
                     .align(Alignment.BottomCenter),
-                onClick = { lessonViewModel.onCheckClicked() }
+                onClick = onInputDone
             ) {
                 Text(
                     text = "Check",
@@ -170,9 +189,9 @@ fun LessonScreen(
             }
 
             if (viewState.showCorrectCheck) {
-                val otherPossibleVariant = when (currentLesson.answers.size) {
+                val otherPossibleVariant = when (currentStep.answers.size) {
                     0, 1 -> ""
-                    else -> currentLesson.answers[1]
+                    else -> currentStep.answers[1]
                 }
                 CorrectSheet(
                     padding = padding,
@@ -184,7 +203,7 @@ fun LessonScreen(
             if (viewState.showIncorrectCheck) {
                 IncorrectSheet(
                     padding = padding,
-                    correctAnswer = currentLesson.answers.first(),
+                    correctAnswer = currentStep.answers.first(),
                     onContinueClicked = lessonViewModel::onCheckSheetClosed,
                 )
                 LocalHapticFeedback.current.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -291,19 +310,30 @@ private fun ExitAlert(
 }
 
 @Composable
-private fun Input(value: String) {
+private fun Input(
+    value: String,
+    uniqueStepId: String,
+    onInputUpdated: (String) -> Unit,
+    onDoneEntered: () -> Unit,
+) {
+    val focusRequester = remember { FocusRequester() }
     Column {
         Spacer(modifier = Modifier.height(32.dp))
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 128.dp)
+                .focusRequester(focusRequester)
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(size = 16.dp)
                 ),
             value = value,
-            onValueChange = {},
+            keyboardActions = KeyboardActions(
+                onDone = { onDoneEntered() },
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            onValueChange = onInputUpdated,
             colors = TextFieldDefaults.colors(
                 disabledTextColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
@@ -311,6 +341,9 @@ private fun Input(value: String) {
                 disabledIndicatorColor = Color.Transparent
             )
         )
+    }
+    LaunchedEffect(key1 = "input_focus_$uniqueStepId") {
+        focusRequester.requestFocus()
     }
 }
 

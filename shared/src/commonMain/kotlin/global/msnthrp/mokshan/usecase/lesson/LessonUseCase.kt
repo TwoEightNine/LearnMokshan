@@ -8,6 +8,7 @@ import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.PreparedLesson
 import global.msnthrp.mokshan.domain.lessons.UserInput
 import global.msnthrp.mokshan.utils.failureOf
+import kotlin.reflect.KClass
 
 class LessonUseCase(
     private val repository: LessonRepository,
@@ -16,6 +17,13 @@ class LessonUseCase(
     suspend fun prepareLesson(topicId: Int, lessonNumber: Int): Result<PreparedLesson> {
         val topicResult = repository.getTopic(topicId)
         val topic = topicResult.getOrNull() ?: return Result.failureOf(topicResult)
+        if (lessonNumber > topic.topicLength) {
+            return Result.failure(
+                IllegalArgumentException(
+                    "Lesson number $lessonNumber received while topic ${topic.id} offers " +
+                            "only ${topic.topicLength} lessons")
+            )
+        }
         println("LessonUC: topic = $topic")
 
         val lessonsCount = topic.lessons.size
@@ -38,7 +46,8 @@ class LessonUseCase(
         val pairsCount = lessonPairs.size
         val lessonSteps = lessonPairs.shuffled()
             .mapIndexed { index, pair ->
-                val direction = getDirectionByNumber(index, lessonByNumber)
+                val stepRatio = index.inc().toFloat() / pairsCount
+                val direction = getDirectionByNumber(stepRatio, lessonByNumber)
                 val correctWords = when (direction) {
                     LessonStepDirection.FROM_MOKSHAN -> pair.getNativeWords()
                     LessonStepDirection.TO_MOKSHAN -> pair.getMokshanWords()
@@ -47,18 +56,27 @@ class LessonUseCase(
                     LessonStepDirection.FROM_MOKSHAN -> allAvailableWordsNative
                     LessonStepDirection.TO_MOKSHAN -> allAvailableWordsMokshan
                 }
+                val sentence = when (direction) {
+                    LessonStepDirection.FROM_MOKSHAN -> pair.mokshan
+                    LessonStepDirection.TO_MOKSHAN -> pair.native.first()
+                }
+                val answers = when (direction) {
+                    LessonStepDirection.FROM_MOKSHAN -> pair.native
+                    LessonStepDirection.TO_MOKSHAN -> listOf(pair.mokshan)
+                }
                 val suggestedWords = getListExtendedFrom(correctWords, extendFrom, desiredSize = 10)
                     .mapIndexed { i, word -> BankWord(word, i) }
 
+                val type = when (getTypeByLessonNumber(stepRatio, lessonByNumber)) {
+                    LessonStepType.WordBank::class -> LessonStepType.WordBank(suggestedWords)
+                    LessonStepType.Input::class -> LessonStepType.Input
+                    else -> throw NotImplementedError("what else do you want?")
+                }
                 LessonStep(
-                    type = when (lessonByNumber) {
-                        LessonByNumber.BANK_ONLY, LessonByNumber.BANK_SUMMARY -> LessonStepType.WordBank(suggestedWords)
-                        LessonByNumber.INPUT_ONLY, LessonByNumber.INPUT_SUMMARY, LessonByNumber.FULL_REVIEW -> LessonStepType.Input
-                        else -> if (index.toFloat() / pairsCount <= 0.5f) LessonStepType.WordBank(suggestedWords) else LessonStepType.Input
-                    },
+                    type = type,
                     direction = direction,
-                    sentence = pair.mokshan,
-                    answers = pair.native,
+                    sentence = sentence,
+                    answers = answers,
                 )
             }
         return Result.success(PreparedLesson(topic, lessonSteps))
@@ -68,7 +86,7 @@ class LessonUseCase(
         val cleanInput = when (userInput) {
             is UserInput.Bank -> userInput.words.joinToString(separator = " ") { it.word }
             is UserInput.Input -> userInput.text
-        }.cleanUp()
+        }.cleanUp().trim()
         val cleanAnswers = lesson.answers.map { it.cleanUp() }
         return cleanInput in cleanAnswers
     }
@@ -89,10 +107,23 @@ class LessonUseCase(
         return native.flatMap { it.splitToWords() }
     }
 
-    private fun getDirectionByNumber(stepIndex: Int, lessonByNumber: LessonByNumber): LessonStepDirection {
+    private fun getDirectionByNumber(stepRatio: Float, lessonByNumber: LessonByNumber): LessonStepDirection {
         return when (lessonByNumber) {
             LessonByNumber.BANK_ONLY, LessonByNumber.BANK_SUMMARY -> LessonStepDirection.FROM_MOKSHAN
-            else -> if (stepIndex % 2 == 0) LessonStepDirection.FROM_MOKSHAN else LessonStepDirection.TO_MOKSHAN
+            else -> if (stepRatio in 0f..0.25f || stepRatio in 0.501f..0.75f) {
+                LessonStepDirection.FROM_MOKSHAN
+            } else {
+                LessonStepDirection.TO_MOKSHAN
+            }
+        }
+    }
+
+    private fun getTypeByLessonNumber(stepRatio: Float, lessonByNumber: LessonByNumber): KClass<out LessonStepType> {
+        return when (lessonByNumber) {
+            LessonByNumber.BANK_ONLY, LessonByNumber.BANK_SUMMARY -> LessonStepType.WordBank::class
+            LessonByNumber.INPUT_ONLY, LessonByNumber.INPUT_SUMMARY, LessonByNumber.FULL_REVIEW -> LessonStepType.Input::class
+            else -> if (stepRatio <= 0.5f) LessonStepType.WordBank::class else LessonStepType.Input::class
+//                        else -> LessonStepType.Input
         }
     }
 

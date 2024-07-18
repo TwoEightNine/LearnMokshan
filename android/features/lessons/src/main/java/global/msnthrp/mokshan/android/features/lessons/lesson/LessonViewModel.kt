@@ -18,7 +18,7 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
 
     init {
         viewModelScope.launch {
-            val preparedLesson = lessonUseCase.prepareLesson(topicId = 1, lessonNumber = 3).getOrNull()
+            val preparedLesson = lessonUseCase.prepareLesson(topicId = 1, lessonNumber = 10).getOrNull()
             println(preparedLesson)
             preparedLesson ?: return@launch
 
@@ -45,7 +45,9 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
     }
 
     fun onInputUpdated(text: String) {
-
+        val currentInput = currentState.userInput as? UserInput.Input ?: return
+        val updatedInput = currentInput.copy(text = text)
+        updateState { copy(userInput = updatedInput) }
     }
 
     fun onCloseClicked() {
@@ -57,7 +59,7 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
     }
 
     fun onCloseConfirmed() {
-        updateState { copy(exit = true) }
+        updateState { copy(exit = true, showExitAlert = false) }
     }
 
     fun onCheckSheetClosed() {

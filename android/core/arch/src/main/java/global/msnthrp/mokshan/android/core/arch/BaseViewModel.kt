@@ -11,6 +11,10 @@ abstract class BaseViewModel<State> : ViewModel() {
     val state: StateFlow<State>
         get() = _state.asStateFlow()
 
+//    private val _command = MutableStateFlow<Command?>(value = null)
+//    val command: Flow<Command>
+//        get() = _command.asSharedFlow().mapNotNull { it }
+
     protected val currentState: State
         get() = _state.value
 
@@ -19,4 +23,10 @@ abstract class BaseViewModel<State> : ViewModel() {
     protected fun updateState(copier: State.() -> State) {
         _state.value = _state.value.copier()
     }
+
+//    protected fun sendCommand(command: Command) {
+//        viewModelScope.launch {
+//            _command.emit(command)
+//        }
+//    }
 }

@@ -5,7 +5,10 @@ data class Topic(
     val title: String,
     val lessons: List<Lesson>,
     val translations: List<Translation>,
-)
+) {
+
+    val topicLength: Int by lazy { lessons.size * 3 + 4 }
+}
 
 data class Lesson(
     val order: Int,
