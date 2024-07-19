@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="lessons_title">Уроки</string>
+    <string name="lesson_button_check">Проверить</string>
+    <string name="lesson_back_accessibility">Назад</string>
+    <string name="lesson_translate_title">Переведите предложение</string>
+    <string name="lesson_quit_title">Вы хотите покинуть урок?</string>
+    <string name="lesson_quit_message">Прогресс урока не будет сохранен</string>
+    <string name="lesson_quit_confirm">Покинуть</string>
+    <string name="lesson_quit_cancel">К уроку</string>
+    <string name="lesson_answer_correct">Верно!</string>
+    <string name="lesson_answer_correct_variant">Возможный вариант: {possibleVariant}</string>
+    <string name="lesson_answer_incorrect">Неверно</string>
+    <string name="lesson_answer_correct_answer">Правильный ответ: {correctAnswer}</string>
+    <string name="lesson_completed">Урок пройден!</string>
+    <string name="lesson_continue">Продолжить</string>
 </resources>

@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="lessons_title">Lessons</string>
+    <string name="lesson_button_check">Check</string>
+    <string name="lesson_back_accessibility">Go back</string>
+    <string name="lesson_translate_title">Translate this sentence</string>
+    <string name="lesson_quit_title">Do you want to quit the lesson?</string>
+    <string name="lesson_quit_message">Lesson progress will not be saved</string>
+    <string name="lesson_quit_confirm">Quit</string>
+    <string name="lesson_quit_cancel">Keep going</string>
+    <string name="lesson_answer_correct">Correct!</string>
+    <string name="lesson_answer_correct_variant">Possible variant: {possibleVariant}</string>
+    <string name="lesson_answer_incorrect">Incorrect</string>
+    <string name="lesson_answer_correct_answer">Correct answer: {correctAnswer}</string>
+    <string name="lesson_completed">Completed!</string>
+    <string name="lesson_continue">Continue</string>
 </resources>

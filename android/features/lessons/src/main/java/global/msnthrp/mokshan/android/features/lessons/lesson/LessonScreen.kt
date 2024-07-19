@@ -56,6 +56,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.utils.stringResource
+import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
@@ -103,7 +105,7 @@ fun LessonScreen(
                         IconButton(onClick = lessonViewModel::onCloseClicked) {
                             Icon(
                                 imageVector = Icons.close,
-                                contentDescription = "Go back",
+                                contentDescription = stringResource(id = R.string.lesson_back_accessibility),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
@@ -139,7 +141,7 @@ fun LessonScreen(
             ) {
                 Spacer(modifier = Modifier.height(padding.calculateTopPadding()))
                 Text(
-                    text = "Translate this sentence",
+                    text = stringResource(id = R.string.lesson_translate_title),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -183,7 +185,7 @@ fun LessonScreen(
                 onClick = onInputDone
             ) {
                 Text(
-                    text = "Check",
+                    text = stringResource(id = R.string.lesson_button_check),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -289,21 +291,21 @@ private fun ExitAlert(
     onConfirmed: () -> Unit,
 ) {
     AlertDialog(
-        title = { Text(text = "Do you want to quit the lesson?") },
-        text = { Text(text = "Lesson progress will not be saved") },
+        title = { Text(text = stringResource(id = R.string.lesson_quit_title)) },
+        text = { Text(text = stringResource(id = R.string.lesson_quit_message)) },
         onDismissRequest = onDismissed,
         confirmButton = {
             TextButton(
                 onClick = onConfirmed,
             ) {
-                Text(text = "Quit")
+                Text(text = stringResource(id = R.string.lesson_quit_confirm))
             }
         },
         dismissButton = {
             TextButton(
                 onClick = onDismissed,
             ) {
-                Text(text = "Keep going")
+                Text(text = stringResource(id = R.string.lesson_quit_cancel))
             }
         },
     )
@@ -354,13 +356,16 @@ private fun BoxScope.CorrectSheet(
     onContinueClicked: () -> Unit,
 ) {
     val message = if (otherPossibleVariant.isNotBlank()) {
-        "Possible variant: $otherPossibleVariant"
+        stringResource(
+            id = R.string.lesson_translate_title,
+            "possibleVariant" to otherPossibleVariant
+        )
     } else {
         otherPossibleVariant
     }
     CommonSheet(
         padding = padding,
-        title = "Correct!",
+        title = stringResource(id = R.string.lesson_answer_correct),
         message = message,
         onButtonClicked = onContinueClicked
     )
@@ -374,8 +379,8 @@ private fun BoxScope.IncorrectSheet(
 ) {
     CommonSheet(
         padding = padding,
-        title = "Incorrect",
-        message = "Correct answer: $correctAnswer",
+        title = stringResource(id = R.string.lesson_answer_incorrect),
+        message = stringResource(id = R.string.lesson_answer_correct_answer, "correctAnswer" to correctAnswer),
         onButtonClicked = onContinueClicked,
     )
 }
@@ -416,7 +421,7 @@ private fun BoxScope.CommonSheet(
             onClick = { onButtonClicked?.invoke() }
         ) {
             Text(
-                text = "Continue",
+                text = stringResource(id = R.string.lesson_continue),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -441,7 +446,7 @@ private fun CompletedSurface(
                 )
                 Text(
                     modifier = Modifier.padding(top = 16.dp),
-                    text = "Completed!",
+                    text = stringResource(id = R.string.lesson_completed),
                     style = MaterialTheme.typography.titleLarge
                 )
             }
@@ -455,7 +460,7 @@ private fun CompletedSurface(
                 onClick = onContinueClicked,
             ) {
                 Text(
-                    text = "Continue",
+                    text = stringResource(id = R.string.lesson_continue),
                     style = MaterialTheme.typography.titleMedium
                 )
             }
