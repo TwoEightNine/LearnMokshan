@@ -5,7 +5,7 @@ import global.msnthrp.mokshan.android.core.navigation.ScreenFactory
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
 fun TopicsListScreenFactory(
-    onTopicClicked: (TopicInfo) -> Unit,
+    onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ): ScreenFactory {
     return ScreenFactory {
         TopicsListScreen(

@@ -36,7 +36,7 @@ import global.msnthrp.mokshan.domain.lessons.TopicInfo
 @Composable
 internal fun TopicsListScreen(
     topicsListViewModel: TopicsListViewModel = viewModel(),
-    onTopicClicked: (TopicInfo) -> Unit,
+    onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
     val state by topicsListViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
@@ -44,7 +44,7 @@ internal fun TopicsListScreen(
         onPauseOrDispose {}
     }
     LeMokScreen(title = stringResource(id = R.string.lessons_title)) { padding ->
-        if (state.isLoading && state.summary == null) {
+        if (state.isLoading && state.topics == null) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -61,10 +61,18 @@ internal fun TopicsListScreen(
                 modifier = Modifier
                     .padding(top = padding.calculateTopPadding())
             ) {
-                state.summary?.topicsInfo?.forEach { topicInfo: TopicInfo ->
+                val topicsWithProgress = state.topics
+                topicsWithProgress?.summary?.topicsInfo?.forEach { topicInfo: TopicInfo ->
+                    val progress = topicsWithProgress.progress
+                    val lessonsCompletedCount = when {
+                        topicInfo.id < progress.topicId -> topicInfo.topicLength
+                        topicInfo.id == progress.topicId -> progress.lessonNumber
+                        else -> 0
+                    }
                     item {
                         TopicInfoCard(
                             topicInfo = topicInfo,
+                            lessonsCompletedCount = lessonsCompletedCount,
                             onClicked = onTopicClicked,
                         )
                     }
@@ -77,14 +85,20 @@ internal fun TopicsListScreen(
 @Composable
 private fun TopicInfoCard(
     topicInfo: TopicInfo,
-    onClicked: (TopicInfo) -> Unit,
+    lessonsCompletedCount: Int,
+    onClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
+    val progress = lessonsCompletedCount.toFloat() / topicInfo.topicLength
+    val nextLessonNumber = when (lessonsCompletedCount) {
+        topicInfo.topicLength -> lessonsCompletedCount
+        else -> lessonsCompletedCount.inc()
+    }
     LeMokCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(96.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        onClicked = { onClicked(topicInfo) },
+        onClicked = { onClicked(topicInfo, nextLessonNumber) },
     ) {
         Row(
             modifier = Modifier
@@ -111,12 +125,13 @@ private fun TopicInfoCard(
                     modifier = Modifier
                         .fillMaxSize()
                         .align(Alignment.Center),
-                    progress = { 0.5f },
+                    progress = { progress },
+                    trackColor = MaterialTheme.colorScheme.surfaceDim,
                     strokeCap = StrokeCap.Round,
                 )
                 Text(
                     modifier = Modifier.align(Alignment.Center),
-                    text = "0/5",
+                    text = "$lessonsCompletedCount/${topicInfo.topicLength}",
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -138,7 +153,7 @@ private fun TopicInfoCard(
 private fun TopicsListScreenPreview() {
     LeMokTheme {
         TopicsListScreen(
-            onTopicClicked = {},
+            onTopicClicked = {_, _ -> },
         )
     }
 }
@@ -150,10 +165,11 @@ private fun TopicInfoCardPreview() {
         TopicInfoCard(
             topicInfo = TopicInfo(
                 id = 6,
-                lessonsCount = 4,
+                lessonsCount = 2,
                 title = "Best topic ever ever ever"
             ),
-            onClicked = {}
+            lessonsCompletedCount = 2,
+            onClicked = {_, _ -> }
         )
     }
 }

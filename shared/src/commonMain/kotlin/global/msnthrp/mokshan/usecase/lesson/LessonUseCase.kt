@@ -15,6 +15,7 @@ class LessonUseCase(
 ) {
 
     suspend fun prepareLesson(topicId: Int, lessonNumber: Int): Result<PreparedLesson> {
+        println("prepareLesson(topicId=$topicId, lessonNumber=$lessonNumber)")
         val topicResult = repository.getTopic(topicId)
         val topic = topicResult.getOrNull() ?: return Result.failureOf(topicResult)
         if (lessonNumber > topic.topicLength) {
@@ -28,7 +29,9 @@ class LessonUseCase(
 
         val lessonsCount = topic.lessons.size
         val lessonByNumber = getLessonByNumber(lessonsCount, lessonNumber)
-        val exactLesson = (lessonNumber % (lessonsCount + 1)).takeIf { it in 1..lessonsCount }
+        val exactLesson = (lessonNumber % (lessonsCount + 1))
+            .takeIf { it in 1..lessonsCount }
+            ?.takeIf { topic.topicLength != lessonNumber }
         println("LessonUC: lessonsCount = $lessonsCount, lessonByNumber = $lessonByNumber, exactLesson = $exactLesson")
 
         val lessonPairs = when (exactLesson) {
@@ -89,6 +92,10 @@ class LessonUseCase(
         }.cleanUp().trim()
         val cleanAnswers = lesson.answers.map { it.cleanUp() }
         return cleanInput in cleanAnswers
+    }
+
+    suspend fun completeLesson(topicId: Int, lessonNumber: Int): Result<Unit> {
+        return repository.markLessonAsCompleted(topicId, lessonNumber)
     }
 
     private fun getListExtendedFrom(source: List<String>, extendFrom: Collection<String>, desiredSize: Int): List<String> {

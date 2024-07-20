@@ -53,7 +53,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.utils.stringResource
@@ -62,12 +61,14 @@ import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.UserInput
+import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun LessonScreen(
     topicInfo: TopicInfo,
     lessonNumber: Int,
-    lessonViewModel: LessonViewModel = viewModel(),
+    lessonViewModel: LessonViewModel = koinViewModel(parameters = { parametersOf(topicInfo, lessonNumber) }),
     onBackPressed: () -> Unit,
 ) {
     val viewState by lessonViewModel.state.collectAsState()

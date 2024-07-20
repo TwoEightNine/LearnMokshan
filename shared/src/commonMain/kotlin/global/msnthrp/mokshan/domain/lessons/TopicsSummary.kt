@@ -9,4 +9,16 @@ data class TopicInfo(
     val id: Int,
     val lessonsCount: Int,
     val title: String,
+) {
+    val topicLength: Int by lazy { lessonsCount * 3 + 4 }
+}
+
+data class TopicsSummaryWithProgress(
+    val summary: TopicsSummary,
+    val progress: TopicsProgress,
+)
+
+data class TopicsProgress(
+    val topicId: Int,
+    val lessonNumber: Int,
 )

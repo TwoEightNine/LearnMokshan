@@ -15,14 +15,14 @@ internal class TopicsListViewModel : BaseViewModel<TopicsListState>() {
     fun load() {
         updateState { copy(isLoading = true) }
         viewModelScope.launch {
-            val summaryResult = topicsRepository.getTopicsSummary()
+            val summaryResult = topicsRepository.getTopicsSummaryWithProgress()
             summaryResult.getOrNull()?.also {
                 println(it)
             }
             summaryResult.exceptionOrNull()?.also {
                 it.printStackTrace()
             }
-            updateState { copy(isLoading = false, summary = summaryResult.getOrNull()) }
+            updateState { copy(isLoading = false, topics = summaryResult.getOrNull()) }
         }
     }
 }

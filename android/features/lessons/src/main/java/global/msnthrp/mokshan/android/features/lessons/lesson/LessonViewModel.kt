@@ -5,20 +5,23 @@ import global.msnthrp.mokshan.android.core.arch.BaseViewModel
 import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.PreparedLesson
+import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.UserInput
 import global.msnthrp.mokshan.usecase.lesson.LessonUseCase
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent.inject
 
-class LessonViewModel : BaseViewModel<LessonViewState>() {
-
-    private val lessonUseCase by inject<LessonUseCase>(LessonUseCase::class.java)
+class LessonViewModel(
+    topicInfo: TopicInfo,
+    lessonNumber: Int,
+    private val lessonUc: LessonUseCase
+) : BaseViewModel<LessonViewState>() {
 
     override fun getInitialState(): LessonViewState = LessonViewState()
 
     init {
+        updateState { copy(topicInfo = topicInfo, lessonNumber = lessonNumber) }
         viewModelScope.launch {
-            val preparedLesson = lessonUseCase.prepareLesson(topicId = 1, lessonNumber = 10).getOrNull()
+            val preparedLesson = lessonUc.prepareLesson(topicId = topicInfo.id, lessonNumber = lessonNumber).getOrNull()
             println(preparedLesson)
             preparedLesson ?: return@launch
 
@@ -79,7 +82,7 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
         val currentLesson = currentState.preparedLesson ?: return
         val currentStep = currentLesson.lessonSteps.getOrNull(currentState.currentStepIndex) ?: return
 
-        val isCorrect = lessonUseCase.isCorrect(currentInput, currentStep)
+        val isCorrect = lessonUc.isCorrect(currentInput, currentStep)
         if (isCorrect) {
             updateState { copy(showCorrectCheck = true, completedStepsCount = currentState.completedStepsCount.inc()) }
         } else {
@@ -95,6 +98,12 @@ class LessonViewModel : BaseViewModel<LessonViewState>() {
         val nextLessonIndex = currentState.currentStepIndex.inc()
         val currentLesson = currentState.preparedLesson ?: return
         if (nextLessonIndex == currentLesson.lessonSteps.size) {
+            viewModelScope.launch {
+                lessonUc.completeLesson(
+                    topicId = currentLesson.topic.id,
+                    lessonNumber = currentState.lessonNumber,
+                )
+            }
             updateState { copy(showCompleted = true) }
             return
         }

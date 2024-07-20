@@ -24,7 +24,7 @@ import global.msnthrp.mokshan.domain.lessons.TopicInfo
 fun MainScreen(
     onInfoClicked: () -> Unit,
     onPronunciationArticleClicked: (String, String) -> Unit,
-    onTopicClicked: (TopicInfo) -> Unit,
+    onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
     var state by remember { mutableStateOf(BottomItem.FIRST) }
     Scaffold(
@@ -86,7 +86,7 @@ private fun MainScreenPreview() {
         MainScreen(
             onInfoClicked = {},
             onPronunciationArticleClicked = { _, _ -> },
-            onTopicClicked = {}
+            onTopicClicked = { _, _ -> }
         )
     }
 }

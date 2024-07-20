@@ -71,6 +71,9 @@ dependencies {
     implementation(projects.android.features.appinfo)
     implementation(projects.android.features.articles)
     implementation(projects.android.features.lessons)
+
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.core)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)

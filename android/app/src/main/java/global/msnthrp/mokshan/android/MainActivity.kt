@@ -53,8 +53,8 @@ private fun MainContent() {
                     onPronunciationArticleClicked = { url, title ->
                         navController.navigateWith(ArticleRouter(url, title))
                     },
-                    onTopicClicked = { topicInfo ->
-                        navController.navigateWith(LessonRouter(topicInfo, 1))
+                    onTopicClicked = { topicInfo, lessonNumber ->
+                        navController.navigateWith(LessonRouter(topicInfo, lessonNumber))
                     },
                 ),
                 AppInfoRouter to AppInfoScreenFactory(
