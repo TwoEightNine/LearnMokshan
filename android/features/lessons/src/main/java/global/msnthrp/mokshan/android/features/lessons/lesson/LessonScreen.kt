@@ -17,11 +17,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -37,22 +39,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.boundsInWindow
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.utils.stringResource
@@ -68,7 +82,12 @@ import org.koin.core.parameter.parametersOf
 fun LessonScreen(
     topicInfo: TopicInfo,
     lessonNumber: Int,
-    lessonViewModel: LessonViewModel = koinViewModel(parameters = { parametersOf(topicInfo, lessonNumber) }),
+    lessonViewModel: LessonViewModel = koinViewModel(parameters = {
+        parametersOf(
+            topicInfo,
+            lessonNumber
+        )
+    }),
     onBackPressed: () -> Unit,
 ) {
     val viewState by lessonViewModel.state.collectAsState()
@@ -82,12 +101,35 @@ fun LessonScreen(
         return
     }
 
-    val currentStep = viewState.preparedLesson?.lessonSteps?.getOrNull(viewState.currentStepIndex) ?: return
+    val preparedLesson = viewState.preparedLesson ?: return
+    val currentStep = preparedLesson.lessonSteps.getOrNull(viewState.currentStepIndex) ?: return
     if (viewState.showExitAlert) {
         ExitAlert(
             onDismissed = lessonViewModel::onCloseDismissed,
             onConfirmed = lessonViewModel::onCloseConfirmed,
         )
+    }
+
+    var sentenceBounds by remember { mutableStateOf(Rect.Zero) }
+    val hint = viewState.translationHint
+    if (hint != null) {
+        val topLeft = sentenceBounds.topLeft
+        val sentence = currentStep.sentence
+        val wordRelativeOffset = if (sentence.isNotEmpty()) hint.pos.toFloat() / sentence.length else 0f
+        val wordOffsetX = sentenceBounds.width * wordRelativeOffset
+        DropdownMenu(
+            expanded = true,
+            onDismissRequest = lessonViewModel::onHintDismissed,
+            offset = DpOffset((topLeft.x + wordOffsetX).asPxToDp(), topLeft.y.asPxToDp())
+        ) {
+            hint.translations.forEach { hint ->
+                Text(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 0.dp),
+                    text = hint,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+            }
+        }
     }
 
     Scaffold(
@@ -147,10 +189,22 @@ fun LessonScreen(
                     color = MaterialTheme.colorScheme.secondary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = currentStep.sentence,
-                    style = MaterialTheme.typography.titleLarge,
-                )
+                if (preparedLesson.withHints) {
+                    HintedText(
+                        modifier = Modifier
+                            .onGloballyPositioned { coordinates ->
+                                sentenceBounds = coordinates.boundsInWindow()
+                            },
+                        text = currentStep.sentence,
+                        style = MaterialTheme.typography.titleLarge,
+                        onClicked = lessonViewModel::onWordInSentenceClicked,
+                    )
+                } else {
+                    Text(
+                        text = currentStep.sentence,
+                        style = MaterialTheme.typography.titleLarge,
+                    )
+                }
 
                 val userInput = viewState.userInput
                 when (userInput) {
@@ -381,7 +435,10 @@ private fun BoxScope.IncorrectSheet(
     CommonSheet(
         padding = padding,
         title = stringResource(id = R.string.lesson_answer_incorrect),
-        message = stringResource(id = R.string.lesson_answer_correct_answer, "correctAnswer" to correctAnswer),
+        message = stringResource(
+            id = R.string.lesson_answer_correct_answer,
+            "correctAnswer" to correctAnswer
+        ),
         onButtonClicked = onContinueClicked,
     )
 }
@@ -436,7 +493,7 @@ private fun CompletedSurface(
 ) {
     Scaffold { padding ->
         Box(modifier = Modifier.fillMaxSize()) {
-            
+
             Column(
                 modifier = Modifier.align(Alignment.Center)
             ) {
@@ -466,6 +523,56 @@ private fun CompletedSurface(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun HintedText(
+    modifier: Modifier = Modifier,
+    style: TextStyle = TextStyle.Default,
+    text: String,
+    onClicked: (word: String, pos: Int) -> Unit,
+) {
+    val words = text.split(" ")
+    val string = buildAnnotatedString {
+        words.forEach { word ->
+            withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
+                append(word)
+            }
+            append(" ")
+        }
+    }
+    ClickableText(
+        modifier = modifier,
+        style = style,
+        text = string,
+        onClick = { offset ->
+            var startIndex = 0
+            var fired = false
+            for (word in words) {
+                if (offset in startIndex..(startIndex + word.length)) {
+                    onClicked(word, startIndex)
+                    fired = true
+                    break
+                } else {
+                    startIndex += word.length.inc()
+                }
+            }
+            if (!fired) {
+                words.lastOrNull()?.also { word -> onClicked(word, text.length - word.length) }
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun HintedTextPreview() {
+    LeMokTheme {
+        HintedText(
+            text = "Hello! Is it great?",
+            onClicked = { _, _ -> },
+        )
     }
 }
 

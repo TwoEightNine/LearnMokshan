@@ -18,11 +18,18 @@ data class LessonViewState(
     // repeats currentStepIndex but updated a bit earlier to complete the progress after
     // correct answer but before increasing the currentStepIndex
     val completedStepsCount: Int = 0,
+    val translationHint: TranslationHint? = null,
 ) {
 
     val progress: Float
         get() = completedStepsCount.toFloat() / (preparedLesson?.lessonSteps?.size ?: 1)
 }
+
+data class TranslationHint(
+    val wordSrc: String,
+    val pos: Int,
+    val translations: List<String>,
+)
 
 
 

@@ -6,6 +6,8 @@ import global.msnthrp.mokshan.domain.lessons.LessonStep
 import global.msnthrp.mokshan.domain.lessons.LessonStepDirection
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.PreparedLesson
+import global.msnthrp.mokshan.domain.lessons.Topic
+import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.UserInput
 import global.msnthrp.mokshan.utils.failureOf
 import kotlin.reflect.KClass
@@ -34,20 +36,30 @@ class LessonUseCase(
             ?.takeIf { topic.topicLength != lessonNumber }
         println("LessonUC: lessonsCount = $lessonsCount, lessonByNumber = $lessonByNumber, exactLesson = $exactLesson")
 
-        val lessonPairs = when (exactLesson) {
+        val lessonPairsFromMokshan = when (exactLesson) {
             null -> topic.lessons.flatMap { it.toNative }
             else -> topic.lessons.find { it.order == exactLesson }?.toNative ?: emptyList()
         }
-        println("LessonUC: lessonPairs(${lessonPairs.size}) = $lessonPairs")
-        if (lessonPairs.isEmpty()) {
+        println("LessonUC: lessonPairs(${lessonPairsFromMokshan.size}) = $lessonPairsFromMokshan")
+        if (lessonPairsFromMokshan.isEmpty()) {
             return Result.failure(IllegalStateException("Lesson pairs not found"))
         }
 
-        val allAvailableWordsMokshan = lessonPairs.flatMap { it.getMokshanWords() }.toSet()
-        val allAvailableWordsNative = lessonPairs.flatMap { it.getNativeWords() }.toSet()
+        val lessonPairsFromNativeMap = mutableMapOf<String, MutableList<String>>()
+        for (pair in lessonPairsFromMokshan) {
+            pair.native.forEach { native ->
+                if (native !in lessonPairsFromNativeMap) {
+                    lessonPairsFromNativeMap[native] = mutableListOf()
+                }
+                lessonPairsFromNativeMap[native]?.add(pair.mokshan)
+            }
+        }
 
-        val pairsCount = lessonPairs.size
-        val lessonSteps = lessonPairs.shuffled()
+        val allAvailableWordsMokshan = lessonPairsFromMokshan.flatMap { it.getMokshanWords() }.toSet()
+        val allAvailableWordsNative = lessonPairsFromMokshan.flatMap { it.getNativeWords() }.toSet()
+
+        val pairsCount = lessonPairsFromMokshan.size
+        val lessonSteps = lessonPairsFromMokshan.shuffled()
             .mapIndexed { index, pair ->
                 val stepRatio = index.inc().toFloat() / pairsCount
                 val direction = getDirectionByNumber(stepRatio, lessonByNumber)
@@ -65,7 +77,7 @@ class LessonUseCase(
                 }
                 val answers = when (direction) {
                     LessonStepDirection.FROM_MOKSHAN -> pair.native
-                    LessonStepDirection.TO_MOKSHAN -> listOf(pair.mokshan)
+                    LessonStepDirection.TO_MOKSHAN -> lessonPairsFromNativeMap[sentence] ?: listOf(pair.mokshan)
                 }
                 val suggestedWords = getListExtendedFrom(correctWords, extendFrom, desiredSize = 10)
                     .mapIndexed { i, word -> BankWord(word, i) }
@@ -82,7 +94,8 @@ class LessonUseCase(
                     answers = answers,
                 )
             }
-        return Result.success(PreparedLesson(topic, lessonSteps))
+        val withHints = lessonByNumber != LessonByNumber.FULL_REVIEW
+        return Result.success(PreparedLesson(topic, lessonSteps, withHints))
     }
 
     fun isCorrect(userInput: UserInput, lesson: LessonStep): Boolean {
@@ -94,8 +107,27 @@ class LessonUseCase(
         return cleanInput in cleanAnswers
     }
 
-    suspend fun completeLesson(topicId: Int, lessonNumber: Int): Result<Unit> {
-        return repository.markLessonAsCompleted(topicId, lessonNumber)
+    suspend fun completeLesson(topic: TopicInfo, lessonNumber: Int): Result<Unit> {
+        return repository.markLessonAsCompleted(topic, lessonNumber)
+    }
+
+    fun getTranslationsForWord(word: String, topic: Topic, direction: LessonStepDirection): List<String> {
+        val cleanWord = word.cleanUp()
+        val translations = topic.translations
+        val wordTranslations = when (direction) {
+            LessonStepDirection.FROM_MOKSHAN -> translations.filter { it.mokshan == cleanWord }.map { it.native }
+            LessonStepDirection.TO_MOKSHAN -> translations.filter { it.native == cleanWord }.map { it.mokshan }
+        }
+
+        val cleanSentences = topic.lessons.flatMap { it.toNative }.map {
+            LessonPair(mokshan = it.mokshan.cleanUp(), native = it.native.map { it.cleanUp() })
+        }
+        val wordTranslationsFromSentences = when (direction) {
+            LessonStepDirection.FROM_MOKSHAN -> cleanSentences.filter { it.mokshan == cleanWord }.flatMap { it.native }
+            LessonStepDirection.TO_MOKSHAN -> cleanSentences.filter { cleanWord in it.native }.map { it.mokshan }
+        }
+        val cleanTranslationsFromSentences = wordTranslationsFromSentences.map { it.cleanUp() }
+        return (wordTranslations + cleanTranslationsFromSentences).distinct()
     }
 
     private fun getListExtendedFrom(source: List<String>, extendFrom: Collection<String>, desiredSize: Int): List<String> {

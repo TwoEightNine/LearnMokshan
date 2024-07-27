@@ -1,6 +1,7 @@
 package global.msnthrp.mokshan.data.repository.lessons
 
 import global.msnthrp.mokshan.domain.lessons.Topic
+import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.TopicsProgress
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
 import global.msnthrp.mokshan.domain.lessons.TopicsSummaryWithProgress
@@ -23,12 +24,19 @@ class TopicsRepository(
         )
     }
 
-    override suspend fun markLessonAsCompleted(topicId: Int, lessonNumber: Int): Result<Unit> {
-        return setProgress(topicId, lessonNumber)
-    }
-
-    suspend fun setProgress(topicId: Int, completedLessonNumber: Int): Result<Unit> {
-        return kotlin.runCatching { storageDs.setTopicsProgress(topicId, completedLessonNumber) }
+    override suspend fun markLessonAsCompleted(topic: TopicInfo, completedLessonNumber: Int): Result<Unit> {
+        val isLastLessonInTopic = completedLessonNumber == topic.topicLength
+        val topicId = when {
+            isLastLessonInTopic -> topic.id.inc()
+            else -> topic.id
+        }
+        val lessonNumber = when {
+            isLastLessonInTopic -> 0
+            else -> completedLessonNumber
+        }
+        return kotlin.runCatching {
+            storageDs.setTopicsProgress(topicId, lessonNumber)
+        }
     }
 
     private suspend fun getTopicsSummary(): Result<TopicsSummary> {

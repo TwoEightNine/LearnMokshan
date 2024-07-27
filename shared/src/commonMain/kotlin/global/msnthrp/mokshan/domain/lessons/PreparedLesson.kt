@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.domain.lessons
 data class PreparedLesson(
     val topic: Topic,
     val lessonSteps: List<LessonStep>,
+    val withHints: Boolean,
 )
 
 data class LessonStep(

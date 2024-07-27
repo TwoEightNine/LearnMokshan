@@ -8,3 +8,6 @@ fun Dp.toPx() = with(LocalDensity.current) { this@toPx.toPx() }
 
 @Composable
 fun Int.asPxToDp() = with(LocalDensity.current) { this@asPxToDp.toDp() }
+
+@Composable
+fun Float.asPxToDp() = with(LocalDensity.current) { this@asPxToDp.toDp() }

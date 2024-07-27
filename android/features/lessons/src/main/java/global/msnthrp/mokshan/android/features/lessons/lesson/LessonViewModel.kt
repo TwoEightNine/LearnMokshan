@@ -94,13 +94,33 @@ class LessonViewModel(
         updateState { copy(exit = false) }
     }
 
+    fun onWordInSentenceClicked(word: String, pos: Int) {
+        val lesson = currentState.preparedLesson ?: return
+        val step = lesson.lessonSteps.getOrNull(currentState.currentStepIndex) ?: return
+        val direction = step.direction
+        val topic = lesson.topic
+
+        val wordTranslations = lessonUc.getTranslationsForWord(word, topic, direction)
+        if (wordTranslations.isNotEmpty()) {
+            val translationHint = TranslationHint(word, pos, wordTranslations)
+            updateState { copy(translationHint = translationHint) }
+        } else if (currentState.translationHint != null) {
+            onHintDismissed()
+        }
+    }
+
+    fun onHintDismissed() {
+        updateState { copy(translationHint = null) }
+    }
+
     private fun updateLessonAfterCorrectCheck() {
+        val topicInfo = currentState.topicInfo ?: return
         val nextLessonIndex = currentState.currentStepIndex.inc()
         val currentLesson = currentState.preparedLesson ?: return
         if (nextLessonIndex == currentLesson.lessonSteps.size) {
             viewModelScope.launch {
                 lessonUc.completeLesson(
-                    topicId = currentLesson.topic.id,
+                    topic = topicInfo,
                     lessonNumber = currentState.lessonNumber,
                 )
             }
