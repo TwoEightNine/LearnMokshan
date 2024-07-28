@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
+import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
@@ -69,11 +70,13 @@ internal fun TopicsListScreen(
                         topicInfo.id == progress.topicId -> progress.lessonNumber
                         else -> 0
                     }
+                    val isTopicActive = lessonsCompletedCount > 0 || progress.topicId == topicInfo.id
                     item {
                         TopicInfoCard(
                             topicInfo = topicInfo,
                             lessonsCompletedCount = lessonsCompletedCount,
                             onClicked = onTopicClicked,
+                            isActive = isTopicActive,
                         )
                     }
                 }
@@ -86,6 +89,7 @@ internal fun TopicsListScreen(
 private fun TopicInfoCard(
     topicInfo: TopicInfo,
     lessonsCompletedCount: Int,
+    isActive: Boolean,
     onClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
     val progress = lessonsCompletedCount.toFloat() / topicInfo.topicLength
@@ -129,18 +133,27 @@ private fun TopicInfoCard(
                     trackColor = MaterialTheme.colorScheme.surfaceDim,
                     strokeCap = StrokeCap.Round,
                 )
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = "$lessonsCompletedCount/${topicInfo.topicLength}",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                if (isActive) {
+                    Text(
+                        modifier = Modifier.align(Alignment.Center),
+                        text = "$lessonsCompletedCount/${topicInfo.topicLength}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                } else {
+                    Image(
+                        modifier = Modifier.align(Alignment.Center),
+                        imageVector = Icons.lock,
+                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
+                        contentDescription = null
+                    )
+                }
             }
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(end = 16.dp, start = 8.dp),
-                imageVector = global.msnthrp.mokshan.android.core.designsystem.theme.Icons.chevronRight,
+                imageVector = Icons.chevronRight,
                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
                 contentDescription = null
             )
@@ -169,6 +182,7 @@ private fun TopicInfoCardPreview() {
                 title = "Best topic ever ever ever"
             ),
             lessonsCompletedCount = 2,
+            isActive = true,
             onClicked = {_, _ -> }
         )
     }

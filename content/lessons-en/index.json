@@ -5,6 +5,11 @@
       "id": 1,
       "lessonsCount": 2,
       "title": "Greetings"
+    },
+    {
+      "id": 2,
+      "lessonsCount": 1,
+      "title": "Farewell"
     }
   ]
 }

@@ -1,0 +1,40 @@
+{
+  "id": 2,
+  "title": "Farewell",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Няемозонк!",
+          "native": ["Goodbye!"]
+        },
+        {
+          "mokshan": "Вандыс!",
+          "native": ["See you tomorrow!"]
+        },
+        {
+          "mokshan": "Илядьс!",
+          "native": ["See you tonight!"]
+        },
+        {
+          "mokshan": "Васедемозонк!",
+          "native": ["See you!"]
+        },
+        {
+          "mokshan": "Сатфкст!",
+          "native": ["Good luck!"]
+        },
+        {
+          "mokshan": "Лацкас удомс!",
+          "native": ["Good night!"]
+        }
+      ],
+      "dictionary": [
+        "Няемозонк!", "Вандыс!", "Илядьс!", "Васедемозонк!", "Сатфкст!", "Лацкас удомс!"
+      ]
+    }
+  ],
+  "translations": []
+}

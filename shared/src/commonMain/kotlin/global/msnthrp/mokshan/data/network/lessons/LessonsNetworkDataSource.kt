@@ -29,7 +29,7 @@ internal class LessonsNetworkDataSource(
     companion object {
 
         private const val TOPICS_BASE_URL = "https://raw.githubusercontent.com/TwoEightNine/" +
-                "LearnMokshan/master/content/lessons"
+                "LearnMokshan/master/content/lessons-en"
 
         private const val TOPICS_INDEX_URL = "$TOPICS_BASE_URL/index.json"
         private const val TOPIC_ID_PLACEHOLDER = "{topicId}"
