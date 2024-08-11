@@ -102,6 +102,7 @@ private fun TopicInfoCard(
             .fillMaxWidth()
             .height(96.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp),
+        isEnabled = isActive,
         onClicked = { onClicked(topicInfo, nextLessonNumber) },
     ) {
         Row(

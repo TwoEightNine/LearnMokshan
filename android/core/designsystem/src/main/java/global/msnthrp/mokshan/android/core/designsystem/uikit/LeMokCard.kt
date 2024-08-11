@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 fun LeMokCard(
     modifier: Modifier = Modifier,
     onClicked: () -> Unit,
+    isEnabled: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Card(
@@ -23,6 +24,7 @@ fun LeMokCard(
             disabledContentColor = MaterialTheme.colorScheme.tertiary,
             disabledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
         ),
+        enabled = isEnabled,
         onClick = onClicked,
         content = content,
     )
