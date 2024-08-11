@@ -114,13 +114,13 @@ class LessonViewModel(
     }
 
     private fun updateLessonAfterCorrectCheck() {
-        val topicInfo = currentState.topicInfo ?: return
+        val topic = currentState.preparedLesson?.topic ?: return
         val nextLessonIndex = currentState.currentStepIndex.inc()
         val currentLesson = currentState.preparedLesson ?: return
         if (nextLessonIndex == currentLesson.lessonSteps.size) {
             viewModelScope.launch {
                 lessonUc.completeLesson(
-                    topic = topicInfo,
+                    topic = topic,
                     lessonNumber = currentState.lessonNumber,
                 )
             }

@@ -1,7 +1,6 @@
 package global.msnthrp.mokshan.data.repository.lessons
 
 import global.msnthrp.mokshan.domain.lessons.Topic
-import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.TopicsProgress
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
 import global.msnthrp.mokshan.domain.lessons.TopicsSummaryWithProgress
@@ -24,7 +23,7 @@ class TopicsRepository(
         )
     }
 
-    override suspend fun markLessonAsCompleted(topic: TopicInfo, completedLessonNumber: Int): Result<Unit> {
+    override suspend fun markLessonAsCompleted(topic: Topic, completedLessonNumber: Int): Result<Unit> {
         val isLastLessonInTopic = completedLessonNumber == topic.topicLength
         val topicId = when {
             isLastLessonInTopic -> topic.id.inc()
