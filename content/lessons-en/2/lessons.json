@@ -29,12 +29,63 @@
         {
           "mokshan": "Лацкас удомс!",
           "native": ["Good night!"]
+        },
+        {
+          "mokshan": "Пинге тумс",
+          "native": ["I have to go"]
         }
       ],
       "dictionary": [
-        "Няемозонк!", "Вандыс!", "Илядьс!", "Васедемозонк!", "Сатфкст!", "Лацкас удомс!"
+        "Няемозонк!", "Вандыс!", "Илядьс!", "Васедемозонк!", "Сатфкст!", "Лацкас удомс!", "Пинге тумс"
       ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Няемозонк! – Няемозонк!",
+          "native": ["Goodbye! – Goodbye!"]
+        },
+        {
+          "mokshan": "Пинге тумс. Няемозонк!",
+          "native": ["I have to go. Goodbye!"]
+        },
+        {
+          "mokshan": "Пинге тумс. Вандыс!",
+          "native": ["I have to go. See you tomorrow!"]
+        },
+        {
+          "mokshan": "Пинге тумс. Илядьс!",
+          "native": ["I have to go. See you tonight!"]
+        },
+        {
+          "mokshan": "Васедемозонк! – Няемозонк!",
+          "native": ["See you! – Goodbye!"]
+        },
+        {
+          "mokshan": "Лацкас удомс! Сатфкст!",
+          "native": ["Good night! Good luck!"]
+        },
+        {
+          "mokshan": "Няемозонк! Сатфкст!",
+          "native": ["Goodbye! Good luck!"]
+        }
+      ],
+      "dictionary": []
     }
   ],
-  "translations": []
+  "translations": [
+    {
+      "mokshan": "пинге",
+      "native": "time"
+    },
+    {
+      "mokshan": "тумс",
+      "native": "to leave"
+    },
+    {
+      "mokshan": "удомс",
+      "native": "to sleep"
+    }
+  ]
 }
