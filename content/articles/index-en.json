@@ -1,0 +1,12 @@
+{
+  "categories": ["Grammar"],
+  "articles": [
+    {
+      "title": "Script and pronunciation rules",
+      "description": "Get familiar with the Mokshan language's basics that will help you study more effectively.",
+      "categories": ["Grammar"],
+      "url": "pronunciation-en.json",
+      "added": "2024-06-22"
+    }
+  ]
+}
