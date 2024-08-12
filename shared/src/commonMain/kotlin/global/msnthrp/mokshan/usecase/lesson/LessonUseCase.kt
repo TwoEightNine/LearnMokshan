@@ -116,7 +116,7 @@ class LessonUseCase(
             lessonRepository.markLessonAsCompleted(topic, lessonNumber)
 
             getExactLesson(topic, lessonNumber)
-                ?.let { topic.lessons.getOrNull(it) }
+                ?.let { topic.lessons.getOrNull(it.dec()) }
                 ?.also { lesson ->
                     val newWords = lesson.dictionary
                     val lessonPairs = topic.lessons.flatMap { it.toNative }

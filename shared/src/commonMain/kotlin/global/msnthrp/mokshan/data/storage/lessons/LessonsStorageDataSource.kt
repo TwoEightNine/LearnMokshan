@@ -19,7 +19,7 @@ class LessonsStorageDataSource(
             progressKey in preferences -> preferences[progressKey]
             else -> "1_0"
         }
-        return progress?.toProgress() ?: throw IllegalStateException("Progress $progress cannot be parsed")
+        return "1_0".toProgress() ?: throw IllegalStateException("Progress $progress cannot be parsed")
     }
 
     override suspend fun setTopicsProgress(topicId: Int, completedLessonNumber: Int) {

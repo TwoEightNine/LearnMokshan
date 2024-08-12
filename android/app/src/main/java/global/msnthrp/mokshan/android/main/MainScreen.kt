@@ -15,9 +15,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import global.msnthrp.learmokshan.android.features.dictionary.DictionaryScreenFactory
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.features.lessons.topic.TopicsListScreenFactory
-import global.msnthrp.mokshan.android.features.phrasebook.PhrasebookScreenFactory
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
 @Composable
@@ -26,7 +26,7 @@ fun MainScreen(
     onPronunciationArticleClicked: (String, String) -> Unit,
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
-    var state by rememberSaveable { mutableStateOf(BottomItem.FIRST) }
+    var state by rememberSaveable { mutableStateOf(BottomItem.LESSONS) }
     Scaffold(
         bottomBar = {
             NavBar(
@@ -40,18 +40,21 @@ fun MainScreen(
         ) {
 
             val factory = when (state) {
-                BottomItem.FIRST -> {
-                    PhrasebookScreenFactory(
-                        onInfoClicked = onInfoClicked,
-                        onPronunciationArticleClicked = onPronunciationArticleClicked,
-                    )
-                }
-                BottomItem.SECOND -> {
+                BottomItem.LESSONS -> {
                     TopicsListScreenFactory(
                         onTopicClicked = onTopicClicked,
                     )
                 }
-                BottomItem.THIRD -> {
+                BottomItem.DICTIONARY -> {
+                    DictionaryScreenFactory()
+                }
+//                BottomItem.PHRASEBOOK -> {
+//                    PhrasebookScreenFactory(
+//                        onInfoClicked = onInfoClicked,
+//                        onPronunciationArticleClicked = onPronunciationArticleClicked,
+//                    )
+//                }
+                BottomItem.ARTICLES -> {
                     TopicsListScreenFactory(
                         onTopicClicked = onTopicClicked,
                     )

@@ -73,6 +73,7 @@ dependencies {
     implementation(projects.android.features.appinfo)
     implementation(projects.android.features.articles)
     implementation(projects.android.features.lessons)
+    implementation(projects.android.features.dictionary)
 
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.core)

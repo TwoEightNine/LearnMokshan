@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "global.msnthrp.mokshan.android.core.designsystem"
+    namespace = "global.msnthrp.mokshan.android.features.dictionary"
     compileSdk = 34
     defaultConfig {
         minSdk = 26
@@ -26,11 +26,21 @@ android {
 
 dependencies {
     implementation(projects.shared)
+    implementation(projects.android.core.designsystem)
     implementation(projects.android.core.utils)
+    implementation(projects.android.core.navigation)
+    implementation(projects.android.core.arch)
+
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
-    implementation(libs.compose.material.icons)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.compose)
+    implementation(libs.androidx.lifecycle.compose.runtime)
+    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
     debugImplementation(libs.compose.ui.tooling)
 }

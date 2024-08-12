@@ -4,4 +4,5 @@
     <string name="bottom_item_phrasebook">Phrasebook</string>
     <string name="bottom_item_lessons">Lessons</string>
     <string name="bottom_item_articles">Articles</string>
+    <string name="bottom_item_dictionary">Dictionary</string>
 </resources>

@@ -10,7 +10,8 @@ enum class BottomItem(
     val label: Int,
     val icon: ImageVector,
 ) {
-    FIRST(label = R.string.bottom_item_phrasebook, icon = Icons.info),
-    SECOND(label = R.string.bottom_item_lessons, icon = Icons.study),
-    THIRD(label = R.string.bottom_item_articles, icon = Icons.article),
+    LESSONS(label = R.string.bottom_item_lessons, icon = Icons.study),
+    DICTIONARY(label = R.string.bottom_item_dictionary, icon = Icons.dictionary),
+//    PHRASEBOOK(label = R.string.bottom_item_phrasebook, icon = Icons.info),
+    ARTICLES(label = R.string.bottom_item_articles, icon = Icons.article),
 }
