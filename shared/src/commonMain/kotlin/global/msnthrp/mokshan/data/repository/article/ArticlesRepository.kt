@@ -1,14 +1,16 @@
 package global.msnthrp.mokshan.data.repository.article
 
+import global.msnthrp.mokshan.domain.articles.Articles
+
 class ArticlesRepository(
     private val networkDs: NetworkDataSource,
 ) {
 
-    suspend fun loadArticle(url: String): Result<String> {
-        return kotlin.runCatching { networkDs.loadArticle(url) }
+    suspend fun loadArticles(): Result<Articles> {
+        return kotlin.runCatching { networkDs.loadArticles() }
     }
 
     interface NetworkDataSource {
-        suspend fun loadArticle(url: String): String
+        suspend fun loadArticles(): Articles
     }
 }

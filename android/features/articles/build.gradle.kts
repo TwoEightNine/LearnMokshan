@@ -29,6 +29,7 @@ dependencies {
     implementation(projects.android.core.designsystem)
     implementation(projects.android.core.navigation)
     implementation(projects.android.core.utils)
+    implementation(projects.android.core.arch)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
@@ -38,5 +39,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.compose.runtime)
     implementation(libs.androidx.lifecycle.common)
     implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.android.compose)
     debugImplementation(libs.compose.ui.tooling)
 }

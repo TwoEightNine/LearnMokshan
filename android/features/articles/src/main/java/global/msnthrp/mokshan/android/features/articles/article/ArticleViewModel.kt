@@ -1,9 +1,7 @@
-package global.msnthrp.mokshan.android.features.articles
+package global.msnthrp.mokshan.android.features.articles.article
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import global.msnthrp.mokshan.data.network.jart.JartResponse
-import global.msnthrp.mokshan.data.repository.article.ArticlesRepository
 import global.msnthrp.mokshan.data.repository.jart.JartRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

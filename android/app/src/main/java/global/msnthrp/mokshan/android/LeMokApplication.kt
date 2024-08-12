@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.android
 import android.app.Application
 import global.msnthrp.learmokshan.android.features.dictionary.dictionaryModule
 import global.msnthrp.mokshan.android.core.utils.LeMokBuildConfig
+import global.msnthrp.mokshan.android.features.articles.articlesModule
 import global.msnthrp.mokshan.android.features.lessons.lessonsModules
 import global.msnthrp.mokshan.android.koinimpls.AndroidFileProducer
 import global.msnthrp.mokshan.android.koinimpls.AndroidNowProvider
@@ -31,6 +32,7 @@ class LeMokApplication : Application() {
                     useCaseModule,
                     androidModules,
 
+                    articlesModule,
                     lessonsModules,
                     dictionaryModule,
 

@@ -1,4 +1,4 @@
-package global.msnthrp.mokshan.android.features.articles
+package global.msnthrp.mokshan.android.features.articles.article
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

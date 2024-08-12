@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import global.msnthrp.learmokshan.android.features.dictionary.DictionaryScreenFactory
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.features.articles.list.ArticlesListFactory
 import global.msnthrp.mokshan.android.features.lessons.topic.TopicsListScreenFactory
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
@@ -55,9 +56,7 @@ fun MainScreen(
 //                    )
 //                }
                 BottomItem.ARTICLES -> {
-                    TopicsListScreenFactory(
-                        onTopicClicked = onTopicClicked,
-                    )
+                    ArticlesListFactory()
                 }
             }
             factory.Content(arguments = null)

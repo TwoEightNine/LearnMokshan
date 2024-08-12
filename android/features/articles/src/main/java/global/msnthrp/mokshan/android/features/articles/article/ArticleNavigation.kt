@@ -1,4 +1,4 @@
-package global.msnthrp.mokshan.android.features.articles
+package global.msnthrp.mokshan.android.features.articles.article
 
 import global.msnthrp.mokshan.android.core.navigation.Router
 import global.msnthrp.mokshan.android.core.navigation.ScreenFactory

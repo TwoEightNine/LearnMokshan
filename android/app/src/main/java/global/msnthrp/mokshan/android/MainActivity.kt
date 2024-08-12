@@ -16,9 +16,9 @@ import global.msnthrp.mokshan.android.core.navigation.LeMokNavHost
 import global.msnthrp.mokshan.android.core.navigation.navigateWith
 import global.msnthrp.mokshan.android.features.appinfo.AppInfoRouter
 import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreenFactory
-import global.msnthrp.mokshan.android.features.articles.ArticleDefaultRouter
-import global.msnthrp.mokshan.android.features.articles.ArticleRouter
-import global.msnthrp.mokshan.android.features.articles.ArticleScreenFactory
+import global.msnthrp.mokshan.android.features.articles.article.ArticleDefaultRouter
+import global.msnthrp.mokshan.android.features.articles.article.ArticleRouter
+import global.msnthrp.mokshan.android.features.articles.article.ArticleScreenFactory
 import global.msnthrp.mokshan.android.features.lessons.lesson.LessonRouter
 import global.msnthrp.mokshan.android.features.lessons.lesson.LessonRouterDefault
 import global.msnthrp.mokshan.android.features.lessons.lesson.LessonScreenFactory
