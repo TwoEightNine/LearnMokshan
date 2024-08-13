@@ -1,7 +1,6 @@
 package global.msnthrp.mokshan.android.features.phrasebook
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -16,22 +15,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -46,13 +39,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
-import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleItem
+import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.domain.phrasebook.Category
 import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import global.msnthrp.mokshan.domain.phrasebook.Phrase
 import global.msnthrp.mokshan.domain.phrasebook.Translation
-import kotlinx.coroutines.launch
 import java.util.Locale
 
 private const val PRONUNCIATION_ARTICLE_URL =
@@ -101,7 +93,7 @@ fun PhrasebookScreen(
             ) {
                 item {
                     val articleTitle = stringResource(id = R.string.phrasebook_pronunciation_article_title)
-                    ArticleItem(
+                    ArticleCard(
                         title = articleTitle,
                         description = stringResource(id = R.string.phrasebook_pronunciation_article_description),
                         showChevron = true,

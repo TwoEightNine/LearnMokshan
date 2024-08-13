@@ -11,13 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
-import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleItem
-import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleItemPreview
+import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCell
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.LeMokBuildConfig
 import global.msnthrp.mokshan.android.core.utils.stringResource
-import org.koin.java.KoinJavaComponent
 import org.koin.java.KoinJavaComponent.getKoin
 import java.util.Locale
 
@@ -45,7 +43,7 @@ fun AppInfoScreen(
         ) {
 
             val messageTitle = androidx.compose.ui.res.stringResource(id = R.string.app_info_message_from_developer)
-            ArticleItem(
+            ArticleCard(
                 title = messageTitle,
                 showChevron = true,
                 onClick = {

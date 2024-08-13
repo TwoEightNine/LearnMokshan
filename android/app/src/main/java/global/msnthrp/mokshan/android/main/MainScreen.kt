@@ -24,7 +24,7 @@ import global.msnthrp.mokshan.domain.lessons.TopicInfo
 @Composable
 fun MainScreen(
     onInfoClicked: () -> Unit,
-    onPronunciationArticleClicked: (String, String) -> Unit,
+    onArticleClicked: (title: String, url: String) -> Unit,
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
     var state by rememberSaveable { mutableStateOf(BottomItem.LESSONS) }
@@ -44,6 +44,7 @@ fun MainScreen(
                 BottomItem.LESSONS -> {
                     TopicsListScreenFactory(
                         onTopicClicked = onTopicClicked,
+                        onArticleClicked = onArticleClicked,
                     )
                 }
                 BottomItem.DICTIONARY -> {
@@ -56,7 +57,9 @@ fun MainScreen(
 //                    )
 //                }
                 BottomItem.ARTICLES -> {
-                    ArticlesListFactory()
+                    ArticlesListFactory(
+                        onArticleClicked = onArticleClicked,
+                    )
                 }
             }
             factory.Content(arguments = null)
@@ -87,8 +90,8 @@ private fun MainScreenPreview() {
     LeMokTheme {
         MainScreen(
             onInfoClicked = {},
-            onPronunciationArticleClicked = { _, _ -> },
-            onTopicClicked = { _, _ -> }
+            onTopicClicked = { _, _ -> },
+            onArticleClicked = { _, _ -> }
         )
     }
 }

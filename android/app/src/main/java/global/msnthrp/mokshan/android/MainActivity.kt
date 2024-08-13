@@ -50,11 +50,11 @@ private fun MainContent() {
             screens = mapOf(
                 MainRouter to MainScreenFactory(
                     onInfoClicked = { navController.navigateWith(AppInfoRouter) },
-                    onPronunciationArticleClicked = { url, title ->
-                        navController.navigateWith(ArticleRouter(url, title))
-                    },
                     onTopicClicked = { topicInfo, lessonNumber ->
                         navController.navigateWith(LessonRouter(topicInfo, lessonNumber))
+                    },
+                    onArticleClicked = { title, url ->
+                        navController.navigateWith(ArticleRouter(url, title))
                     },
                 ),
                 AppInfoRouter to AppInfoScreenFactory(

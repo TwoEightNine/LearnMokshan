@@ -28,16 +28,23 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
+import java.util.Locale
+
+private const val PRONUNCIATION_ARTICLE_URL =
+    "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
+            "master/content/articles/pronunciation-{locale}.json"
 
 @Composable
 internal fun TopicsListScreen(
     topicsListViewModel: TopicsListViewModel = viewModel(),
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
+    onArticleClicked: (title: String, url: String) -> Unit,
 ) {
     val state by topicsListViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
@@ -62,6 +69,22 @@ internal fun TopicsListScreen(
                 modifier = Modifier
                     .padding(top = padding.calculateTopPadding())
             ) {
+                item {
+                    val articleTitle =
+                        androidx.compose.ui.res.stringResource(id = R.string.pronunciation_article_title)
+                    ArticleCard(
+                        title = articleTitle,
+                        description = androidx.compose.ui.res.stringResource(id = R.string.pronunciation_article_description),
+                        showChevron = true,
+                        onClick = {
+                            onArticleClicked(
+                                articleTitle,
+                                PRONUNCIATION_ARTICLE_URL.replace("{locale}", getLocaleForUrl()),
+                            )
+                        },
+                    )
+                }
+
                 val topicsWithProgress = state.topics
                 topicsWithProgress?.summary?.topicsInfo?.forEach { topicInfo: TopicInfo ->
                     val progress = topicsWithProgress.progress
@@ -168,6 +191,7 @@ private fun TopicsListScreenPreview() {
     LeMokTheme {
         TopicsListScreen(
             onTopicClicked = {_, _ -> },
+            onArticleClicked = { _, _ -> }
         )
     }
 }
@@ -184,7 +208,13 @@ private fun TopicInfoCardPreview() {
             ),
             lessonsCompletedCount = 2,
             isActive = true,
-            onClicked = {_, _ -> }
+            onClicked = { _, _ -> }
         )
     }
+}
+
+private fun getLocaleForUrl(): String {
+    val language = Locale.getDefault().language
+    val supportedLanguages = setOf("en", "ru")
+    return language.takeIf { it in supportedLanguages } ?: "en"
 }

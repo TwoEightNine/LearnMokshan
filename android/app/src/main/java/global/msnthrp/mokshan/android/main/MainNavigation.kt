@@ -6,14 +6,14 @@ import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
 fun MainScreenFactory(
     onInfoClicked: () -> Unit,
-    onPronunciationArticleClicked: (url: String, title: String) -> Unit,
+    onArticleClicked: (title: String, url: String) -> Unit,
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ): ScreenFactory {
     return ScreenFactory {
         MainScreen(
             onInfoClicked = onInfoClicked,
-            onPronunciationArticleClicked = onPronunciationArticleClicked,
             onTopicClicked = onTopicClicked,
+            onArticleClicked = onArticleClicked,
         )
     }
 }

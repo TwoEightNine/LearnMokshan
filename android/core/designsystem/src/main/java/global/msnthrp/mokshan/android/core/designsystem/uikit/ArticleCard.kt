@@ -20,7 +20,7 @@ import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 
 @Composable
-fun ArticleItem(
+fun ArticleCard(
     title: String,
     description: String = "",
     categories: List<String> = emptyList(),
@@ -121,7 +121,7 @@ private fun ArticleTexts(
 @Preview
 fun ArticleItemPreview() {
     LeMokTheme {
-        ArticleItem(
+        ArticleCard(
             title = "Writing system and pronunciation rules",
             description = "Get familiar with h h h h h h h h h h h h h h h y y y y",
 //            categories = listOf("for beginners", "education"),

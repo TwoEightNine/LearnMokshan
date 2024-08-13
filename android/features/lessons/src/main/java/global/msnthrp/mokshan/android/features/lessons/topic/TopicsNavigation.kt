@@ -6,10 +6,12 @@ import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
 fun TopicsListScreenFactory(
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
+    onArticleClicked: (title: String, url: String) -> Unit,
 ): ScreenFactory {
     return ScreenFactory {
         TopicsListScreen(
             onTopicClicked = onTopicClicked,
+            onArticleClicked = onArticleClicked,
         )
     }
 }

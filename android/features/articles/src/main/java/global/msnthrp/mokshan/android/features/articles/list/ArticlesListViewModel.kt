@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.android.features.articles.list
 import androidx.lifecycle.viewModelScope
 import global.msnthrp.mokshan.android.core.arch.BaseViewModel
 import global.msnthrp.mokshan.data.repository.article.ArticlesRepository
+import global.msnthrp.mokshan.domain.articles.ArticleInfo
 import kotlinx.coroutines.launch
 
 class ArticlesListViewModel(
@@ -24,5 +25,16 @@ class ArticlesListViewModel(
                 )
             }
         }
+    }
+
+    fun onArticleClicked(articleInfo: ArticleInfo) {
+        updateState { copy(
+            clickedArticleTitle = articleInfo.title,
+            clickedArticleUrl = articleInfo.url
+        ) }
+    }
+
+    fun onClickHandled() {
+
     }
 }
