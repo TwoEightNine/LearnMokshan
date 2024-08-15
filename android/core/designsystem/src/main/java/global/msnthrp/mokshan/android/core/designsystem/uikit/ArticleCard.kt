@@ -31,7 +31,8 @@ fun ArticleCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp),
-        onClicked = onClick
+        onClicked = onClick,
+        isElevatedStyle = false,
     ) {
         Box(
             modifier = Modifier
@@ -54,7 +55,7 @@ fun ArticleCard(
                         .align(Alignment.CenterEnd)
                         .padding(all = 16.dp),
                     imageVector = Icons.chevronRight,
-                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
+                    colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary),
                     contentDescription = null
                 )
             }
@@ -77,7 +78,7 @@ private fun ArticleTexts(
                 .fillMaxWidth(),
             text = title,
             style = MaterialTheme.typography.titleMedium,
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onPrimary,
         )
 
         if (description.isNotBlank()) {
@@ -88,7 +89,7 @@ private fun ArticleTexts(
                     .fillMaxWidth(),
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.onPrimary,
             )
         }
 
@@ -105,7 +106,7 @@ private fun ArticleTexts(
                             modifier = Modifier
                                 .padding(end = 8.dp),
                             text = category,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             style = MaterialTheme.typography.labelMedium,
                         )
                     }

@@ -69,6 +69,7 @@ import androidx.compose.ui.unit.dp
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.theme.SpecialColors
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.BankWord
@@ -164,6 +165,7 @@ fun LessonScreen(
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth(),
                     progress = { viewState.progress },
+                    trackColor = MaterialTheme.colorScheme.surface,
                     strokeCap = StrokeCap.Round,
                 )
             }
@@ -422,6 +424,7 @@ private fun BoxScope.CorrectSheet(
         padding = padding,
         title = stringResource(id = R.string.lesson_answer_correct),
         message = message,
+        backgroundColor = SpecialColors.correctGreen,
         onButtonClicked = onContinueClicked
     )
 }
@@ -439,6 +442,7 @@ private fun BoxScope.IncorrectSheet(
             id = R.string.lesson_answer_correct_answer,
             "correctAnswer" to correctAnswer
         ),
+        backgroundColor = SpecialColors.incorrectRed,
         onButtonClicked = onContinueClicked,
     )
 }
@@ -448,12 +452,13 @@ private fun BoxScope.CommonSheet(
     padding: PaddingValues,
     title: String,
     message: String,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
     onButtonClicked: (() -> Unit)? = null,
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surfaceVariant)
+            .background(color = backgroundColor)
             .align(Alignment.BottomCenter)
     ) {
         Spacer(modifier = Modifier.height(height = 16.dp))

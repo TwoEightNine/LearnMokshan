@@ -154,7 +154,6 @@ private fun TopicInfoCard(
                         .fillMaxSize()
                         .align(Alignment.Center),
                     progress = { progress },
-                    trackColor = MaterialTheme.colorScheme.surfaceDim,
                     strokeCap = StrokeCap.Round,
                 )
                 if (isActive) {

@@ -2,7 +2,6 @@ package global.msnthrp.mokshan.android.core.designsystem.uikit
 
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -13,17 +12,22 @@ fun LeMokCard(
     modifier: Modifier = Modifier,
     onClicked: () -> Unit,
     isEnabled: Boolean = true,
+    isElevatedStyle: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val colors = when {
+        isElevatedStyle -> {
+            CardDefaults.elevatedCardColors(
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceDim,
+            )
+        }
+        else -> CardDefaults.cardColors()
+    }
     Card(
         modifier = modifier,
-        elevation = CardDefaults.elevatedCardElevation(),
-        colors = CardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            contentColor = MaterialTheme.colorScheme.primary,
-            disabledContentColor = MaterialTheme.colorScheme.tertiary,
-            disabledContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        ),
+        elevation = if (isElevatedStyle && isEnabled) CardDefaults.elevatedCardElevation() else CardDefaults.cardElevation(),
+        colors = colors,
+        shape = if (isElevatedStyle && isEnabled) CardDefaults.elevatedShape else CardDefaults.shape,
         enabled = isEnabled,
         onClick = onClicked,
         content = content,

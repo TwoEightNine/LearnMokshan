@@ -72,7 +72,7 @@ private fun NavBar(
     selectedItem: BottomItem,
     onItemSelected: (BottomItem) -> Unit,
 ) {
-    NavigationBar {
+    NavigationBar() {
         BottomItem.entries.forEach { item ->
             NavigationBarItem(
                 selected = item == selectedItem,

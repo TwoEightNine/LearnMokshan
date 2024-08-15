@@ -19,11 +19,39 @@ internal fun LeMokColorScheme(
             background = darkBackground,
             onBackground = darkPrimaryLabel,
             secondary = darkSecondaryLabel,
+            onSecondary = Color.Black,
             tertiary = darkTertiaryLabel,
+            onTertiary = Color.Black,
             surface = darkSurface,
-            surfaceVariant = darkSurface,
+            onSurface = darkPrimaryLabel,
+            surfaceVariant = darkSurfaceAccent,
+            onSurfaceVariant = darkSecondaryLabel,
+            surfaceContainer = darkSurface,
             error = darkError,
+            onError = Color.White,
             outline = darkDivider,
+            outlineVariant = darkDivider,
+
+            primaryContainer = darkSurface,
+            onPrimaryContainer = darkPrimaryLabel,
+            secondaryContainer = darkSurfaceVariant,
+            onSecondaryContainer = darkPrimaryLabel,
+            tertiaryContainer = darkSurfaceVariant,
+            onTertiaryContainer = darkPrimaryLabel,
+
+            inverseSurface = lightSurface,
+            inverseOnSurface = lightPrimaryLabel,
+            inversePrimary = lightAccent,
+
+            surfaceTint = darkSurface,
+            surfaceBright = darkSurface,
+            surfaceContainerLow = darkSurface,
+            surfaceContainerHigh = darkSurface,
+            surfaceContainerLowest = darkSurface,
+            surfaceContainerHighest = darkSurface,
+            surfaceDim = darkSurfaceDim,
+
+            scrim = Color.White,
         )
     } else {
         lightColorScheme(
@@ -32,11 +60,41 @@ internal fun LeMokColorScheme(
             background = lightBackground,
             onBackground = lightPrimaryLabel,
             secondary = lightSecondaryLabel,
+            onSecondary = Color.White,
             tertiary = lightTertiaryLabel,
+            onTertiary = Color.White,
             surface = lightSurface,
-            surfaceVariant = lightSurface,
+            onSurface = lightPrimaryLabel,
+            surfaceVariant = lightSurfaceAccent,
+            onSurfaceVariant = lightSecondaryLabel,
+            surfaceContainer = lightSurface,
             error = lightError,
+            onError = Color.White,
+            errorContainer = lightError,
+            onErrorContainer = Color.White,
             outline = lightDivider,
+            outlineVariant = lightDivider,
+
+            primaryContainer = lightSurface,
+            onPrimaryContainer = lightPrimaryLabel,
+            secondaryContainer = lightSurfaceVariant,
+            onSecondaryContainer = lightPrimaryLabel,
+            tertiaryContainer = lightSurfaceVariant,
+            onTertiaryContainer = lightPrimaryLabel,
+
+            inverseSurface = darkSurface,
+            inverseOnSurface = darkPrimaryLabel,
+            inversePrimary = darkAccent,
+
+            surfaceTint = lightSurface,
+            surfaceBright = lightSurface,
+            surfaceContainerLow = lightSurface,
+            surfaceContainerHigh = lightSurface,
+            surfaceContainerLowest = lightSurface,
+            surfaceContainerHighest = lightSurface,
+            surfaceDim = lightSurfaceDim,
+
+            scrim = Color.Black,
         )
     }
 }
@@ -52,4 +110,15 @@ fun LeMokTheme(
         typography = typography,
         content = content,
     )
+}
+
+object SpecialColors {
+
+    val correctGreen: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) darkGreen else lightGreen
+
+    val incorrectRed: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) darkRed else lightRed
 }
