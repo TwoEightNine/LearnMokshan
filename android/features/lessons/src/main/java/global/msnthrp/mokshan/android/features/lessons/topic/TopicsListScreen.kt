@@ -29,9 +29,11 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.theme.SpecialColors
 import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.utils.setVisibleElseInvisible
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
@@ -121,6 +123,8 @@ private fun TopicInfoCard(
     onClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
     val progress = lessonsCompletedCount.toFloat() / topicInfo.topicLength
+    val isCompleted = lessonsCompletedCount == topicInfo.topicLength
+
     val nextLessonNumber = when (lessonsCompletedCount) {
         topicInfo.topicLength -> lessonsCompletedCount
         else -> lessonsCompletedCount.inc()
@@ -166,26 +170,38 @@ private fun TopicInfoCard(
                     progress = { progress },
                     strokeCap = StrokeCap.Round,
                 )
-                if (isActive) {
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = "$lessonsCompletedCount/${topicInfo.topicLength}",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                } else {
-                    Image(
-                        modifier = Modifier.align(Alignment.Center),
-                        imageVector = Icons.lock,
-                        colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
-                        contentDescription = null
-                    )
+                when {
+                    isCompleted -> {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            imageVector = Icons.check,
+                            colorFilter = ColorFilter.tint(color = SpecialColors.correctGreen),
+                            contentDescription = null
+                        )
+                    }
+                    isActive -> {
+                        Text(
+                            modifier = Modifier.align(Alignment.Center),
+                            text = "$lessonsCompletedCount/${topicInfo.topicLength}",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.secondary
+                        )
+                    }
+                    else -> {
+                        Image(
+                            modifier = Modifier.align(Alignment.Center),
+                            imageVector = Icons.lock,
+                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
+                            contentDescription = null
+                        )
+                    }
                 }
             }
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
-                    .padding(end = 16.dp, start = 8.dp),
+                    .padding(end = 16.dp, start = 8.dp)
+                    .setVisibleElseInvisible(isVisible = isActive),
                 imageVector = Icons.chevronRight,
                 colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
                 contentDescription = null
@@ -207,7 +223,24 @@ private fun TopicsListScreenPreview() {
 
 @Preview
 @Composable
-private fun TopicInfoCardPreview() {
+private fun TopicInfoCardCompletedPreview() {
+    LeMokTheme {
+        TopicInfoCard(
+            topicInfo = TopicInfo(
+                id = 6,
+                lessonsCount = 2,
+                title = "Best topic ever ever ever"
+            ),
+            lessonsCompletedCount = 10,
+            isActive = true,
+            onClicked = { _, _ -> }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TopicInfoCardOngoingPreview() {
     LeMokTheme {
         TopicInfoCard(
             topicInfo = TopicInfo(
@@ -217,6 +250,23 @@ private fun TopicInfoCardPreview() {
             ),
             lessonsCompletedCount = 2,
             isActive = true,
+            onClicked = { _, _ -> }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TopicInfoCardInactivePreview() {
+    LeMokTheme {
+        TopicInfoCard(
+            topicInfo = TopicInfo(
+                id = 6,
+                lessonsCount = 2,
+                title = "Best topic ever ever ever"
+            ),
+            lessonsCompletedCount = 0,
+            isActive = false,
             onClicked = { _, _ -> }
         )
     }

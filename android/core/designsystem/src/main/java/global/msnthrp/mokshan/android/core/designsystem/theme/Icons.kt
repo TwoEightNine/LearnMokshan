@@ -10,6 +10,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.AccountBalance
+import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.FontDownload
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -28,6 +29,7 @@ object Icons {
     val close = Icons.Outlined.Close
     val lock = Icons.Outlined.Lock
     val dictionary = Icons.Rounded.FontDownload
+    val check = Icons.Rounded.CheckCircle
 //    val dictionary = Icons.Rounded.FormatColorText
 
     val study = Icons.Rounded.AccountBalance
