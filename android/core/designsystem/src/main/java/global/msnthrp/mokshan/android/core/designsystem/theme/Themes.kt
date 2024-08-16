@@ -114,9 +114,17 @@ fun LeMokTheme(
 
 object SpecialColors {
 
+    val correctGreenSurface: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) darkGreenPale else lightGreenPale
+
     val correctGreen: Color
         @Composable
         get() = if (isSystemInDarkTheme()) darkGreen else lightGreen
+
+    val incorrectRedSurface: Color
+        @Composable
+        get() = if (isSystemInDarkTheme()) darkRedPale else lightRedPale
 
     val incorrectRed: Color
         @Composable

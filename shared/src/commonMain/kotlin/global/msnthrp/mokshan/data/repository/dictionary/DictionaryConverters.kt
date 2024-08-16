@@ -21,7 +21,7 @@ private fun DictionaryEntity.toDomain(): DictionaryEntry {
     )
 }
 
-private fun DictionaryEntry.toEntity(): DictionaryEntity {
+internal fun DictionaryEntry.toEntity(): DictionaryEntity {
     return DictionaryEntity(
         mokshan = mokshan,
         native = native,

@@ -22,6 +22,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -116,7 +117,8 @@ fun LessonScreen(
     if (hint != null) {
         val topLeft = sentenceBounds.topLeft
         val sentence = currentStep.sentence
-        val wordRelativeOffset = if (sentence.isNotEmpty()) hint.pos.toFloat() / sentence.length else 0f
+        val wordRelativeOffset =
+            if (sentence.isNotEmpty()) hint.pos.toFloat() / sentence.length else 0f
         val wordOffsetX = sentenceBounds.width * wordRelativeOffset
         DropdownMenu(
             expanded = true,
@@ -382,27 +384,37 @@ private fun Input(
             modifier = Modifier
                 .fillMaxWidth()
                 .defaultMinSize(minHeight = 128.dp)
-                .focusRequester(focusRequester)
-                .background(
-                    color = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = RoundedCornerShape(size = 16.dp)
-                ),
+                .focusRequester(focusRequester),
             value = value,
             keyboardActions = KeyboardActions(
                 onDone = { onDoneEntered() },
             ),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             onValueChange = onInputUpdated,
+            shape = RoundedCornerShape(size = 16.dp),
             colors = TextFieldDefaults.colors(
-                disabledTextColor = Color.Transparent,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
+            ),
         )
     }
     LaunchedEffect(key1 = "input_focus_$uniqueStepId") {
         focusRequester.requestFocus()
+    }
+}
+
+@Composable
+@Preview
+private fun InputPreview() {
+    LeMokTheme {
+        Input(
+            value = "hello",
+            uniqueStepId = "1",
+            onInputUpdated = {},
+            onDoneEntered = {},
+        )
     }
 }
 
@@ -424,7 +436,8 @@ private fun BoxScope.CorrectSheet(
         padding = padding,
         title = stringResource(id = R.string.lesson_answer_correct),
         message = message,
-        backgroundColor = SpecialColors.correctGreen,
+        backgroundColor = SpecialColors.correctGreenSurface,
+        buttonColor = SpecialColors.correctGreen,
         onButtonClicked = onContinueClicked
     )
 }
@@ -442,7 +455,8 @@ private fun BoxScope.IncorrectSheet(
             id = R.string.lesson_answer_correct_answer,
             "correctAnswer" to correctAnswer
         ),
-        backgroundColor = SpecialColors.incorrectRed,
+        backgroundColor = SpecialColors.incorrectRedSurface,
+        buttonColor = SpecialColors.incorrectRed,
         onButtonClicked = onContinueClicked,
     )
 }
@@ -453,6 +467,7 @@ private fun BoxScope.CommonSheet(
     title: String,
     message: String,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    buttonColor: Color = MaterialTheme.colorScheme.primary,
     onButtonClicked: (() -> Unit)? = null,
 ) {
     Column(
@@ -481,6 +496,9 @@ private fun BoxScope.CommonSheet(
                 .padding(horizontal = 16.dp)
                 .padding(top = 16.dp)
                 .alpha(if (isButtonVisible) 1f else 0f),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = buttonColor
+            ),
             onClick = { onButtonClicked?.invoke() }
         ) {
             Text(

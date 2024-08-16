@@ -17,8 +17,10 @@ val lightSurfaceDim = Color(0xFFE9E5E8)
 val lightError = Color(0xFFE22653)
 val lightDivider = Color(0xFFABA9AC)
 
-val lightGreen = Color(0xFFD2F3D0)
-val lightRed = Color(0xFFEEC7C7)
+val lightGreenPale = Color(0xFFD2F3D0)
+val lightGreen = Color(0xFF3C9B39)
+val lightRedPale = Color(0xFFEEC7C7)
+val lightRed = Color(0xFF9B3939)
 
 val darkAccent = Color(0xFFD878AD)
 
@@ -35,5 +37,7 @@ val darkSurfaceDim = Color(0xFF201F20)
 val darkError = Color(0xFFE22653)
 val darkDivider = Color(0xFF4D4C4C)
 
-val darkGreen = Color(0xFF416641)
-val darkRed = Color(0xFF773B3B)
+val darkGreenPale = Color(0xFF416641)
+val darkGreen = Color(0xFF7BD878)
+val darkRedPale = Color(0xFF773B3B)
+val darkRed = Color(0xFFD87878)

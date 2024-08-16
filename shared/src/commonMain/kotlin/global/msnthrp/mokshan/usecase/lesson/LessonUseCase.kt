@@ -116,6 +116,8 @@ class LessonUseCase(
             lessonRepository.markLessonAsCompleted(topic, lessonNumber)
 
             getExactLesson(topic, lessonNumber)
+                ?.dec()
+                ?.takeIf { it < topic.lessons.size }
                 ?.let { topic.lessons.getOrNull(it.dec()) }
                 ?.also { lesson ->
                     val newWords = lesson.dictionary
@@ -207,7 +209,7 @@ class LessonUseCase(
             LessonByNumber.BANK_ONLY, LessonByNumber.BANK_SUMMARY -> LessonStepType.WordBank::class
             LessonByNumber.INPUT_ONLY, LessonByNumber.INPUT_SUMMARY, LessonByNumber.FULL_REVIEW -> LessonStepType.Input::class
             else -> if (stepRatio <= 0.5f) LessonStepType.WordBank::class else LessonStepType.Input::class
-//                        else -> LessonStepType.Input
+//                        else -> LessonStepType.Input::class
         }
     }
 
