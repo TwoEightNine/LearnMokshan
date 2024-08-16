@@ -19,6 +19,7 @@ data class TopicsSummaryWithProgress(
 )
 
 data class TopicsProgress(
-    val topicId: Int,
-    val lessonNumber: Int,
+    val completedTopicIds: List<Int>,
+    val ongoingTopicId: Int,
+    val ongoingTopicLessonNumber: Int,
 )

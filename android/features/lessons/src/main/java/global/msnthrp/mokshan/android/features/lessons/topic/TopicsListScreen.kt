@@ -19,6 +19,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.style.TextOverflow
@@ -88,12 +89,16 @@ internal fun TopicsListScreen(
                 val topicsWithProgress = state.topics
                 topicsWithProgress?.summary?.topicsInfo?.forEach { topicInfo: TopicInfo ->
                     val progress = topicsWithProgress.progress
+
+                    val isCompleted = topicInfo.id in progress.completedTopicIds
+                    val isOngoing = topicInfo.id == progress.ongoingTopicId
+                    val isTopicActive = isCompleted || isOngoing
+
                     val lessonsCompletedCount = when {
-                        topicInfo.id < progress.topicId -> topicInfo.topicLength
-                        topicInfo.id == progress.topicId -> progress.lessonNumber
+                        isCompleted -> topicInfo.topicLength
+                        isOngoing -> progress.ongoingTopicLessonNumber
                         else -> 0
                     }
-                    val isTopicActive = lessonsCompletedCount > 0 || progress.topicId == topicInfo.id
                     item {
                         TopicInfoCard(
                             topicInfo = topicInfo,
@@ -149,10 +154,15 @@ private fun TopicInfoCard(
                     .align(Alignment.CenterVertically)
                     .size(56.dp, 56.dp)
             ) {
+                val trackColor = when {
+                    isActive -> MaterialTheme.colorScheme.secondaryContainer
+                    else -> Color.Transparent
+                }
                 CircularProgressIndicator(
                     modifier = Modifier
                         .fillMaxSize()
                         .align(Alignment.Center),
+                    trackColor = trackColor,
                     progress = { progress },
                     strokeCap = StrokeCap.Round,
                 )

@@ -19,7 +19,7 @@ class LessonsStorageDataSource(
             progressKey in preferences -> preferences[progressKey]
             else -> "1_0"
         }
-        return "1_0".toProgress() ?: throw IllegalStateException("Progress $progress cannot be parsed")
+        return progress?.toProgress() ?: throw IllegalStateException("Progress $progress cannot be parsed")
     }
 
     override suspend fun setTopicsProgress(topicId: Int, completedLessonNumber: Int) {
@@ -29,9 +29,14 @@ class LessonsStorageDataSource(
 
     private fun String.toProgress(): TopicsProgress? {
         val ints = split("_").mapNotNull { it.toIntOrNull() }
+        val ongoingTopicId = ints.getOrNull(0) ?: return null
+        val ongoingTopicLessonNumber = ints.getOrNull(1) ?: return null
+
+        val completedTopicIds = IntRange(1, ongoingTopicId.dec()).toList()
         return TopicsProgress(
-            topicId = ints.getOrNull(0) ?: return null,
-            lessonNumber = ints.getOrNull(1) ?: return null,
+            completedTopicIds = completedTopicIds,
+            ongoingTopicId = ongoingTopicId,
+            ongoingTopicLessonNumber = ongoingTopicLessonNumber
         )
     }
 }
