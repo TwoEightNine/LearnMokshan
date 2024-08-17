@@ -25,6 +25,8 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.utils.stringResource
+import global.msnthrp.mokshan.android.features.dictionary.R
 import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,7 +40,7 @@ fun DictionaryScreen(
         dictionaryViewModel.load()
         onPauseOrDispose {}
     }
-    LeMokScreen(title = "Dictionary") { padding ->
+    LeMokScreen(title = stringResource(id = R.string.dictionary_title)) { padding ->
         val dictionary = state.dictionary
         if (state.isLoading && dictionary == null) {
             Box(

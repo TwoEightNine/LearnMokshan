@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Мокшанский разговорник</string>
+    <string name="app_name">Учим мокшанский</string>
     <string name="bottom_item_phrasebook">Разговорник</string>
     <string name="bottom_item_lessons">Уроки</string>
     <string name="bottom_item_articles">Статьи</string>
+    <string name="bottom_item_dictionary">Словарь</string>
 </resources>

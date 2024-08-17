@@ -26,6 +26,8 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.utils.stringResource
+import global.msnthrp.mokshan.android.features.articles.R
 import global.msnthrp.mokshan.domain.articles.ArticleInfo
 import global.msnthrp.mokshan.utils.DateFormatter
 import org.koin.androidx.compose.koinViewModel
@@ -40,7 +42,7 @@ fun ArticlesListScreen(
         articlesListViewModel.load()
         onPauseOrDispose {}
     }
-    LeMokScreen(title = "Articles") { padding ->
+    LeMokScreen(title = stringResource(id = R.string.articles_title)) { padding ->
         if (state.isLoading && state.articles == null) {
             Box(
                 modifier = Modifier
