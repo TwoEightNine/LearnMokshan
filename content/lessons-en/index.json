@@ -4,12 +4,14 @@
     {
       "id": 1,
       "lessonsCount": 2,
-      "title": "Greetings"
+      "title": "Greetings",
+      "description": "Common phrases"
     },
     {
       "id": 2,
       "lessonsCount": 2,
-      "title": "Farewell"
+      "title": "Farewell",
+      "description": "Common phrases"
     }
   ]
 }

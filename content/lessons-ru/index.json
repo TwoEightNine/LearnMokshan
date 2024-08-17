@@ -1,0 +1,17 @@
+{
+  "topicsCount": 1,
+  "topicsInfo": [
+    {
+      "id": 1,
+      "lessonsCount": 2,
+      "title": "Приветствие",
+      "description": "Общие фразы"
+    },
+    {
+      "id": 2,
+      "lessonsCount": 2,
+      "title": "Прощание",
+      "description": "Общие фразы"
+    }
+  ]
+}

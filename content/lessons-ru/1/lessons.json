@@ -1,7 +1,7 @@
 {
   "id": 1,
-  "title": "Greetings",
-  "description": "Common phrases",
+  "title": "Приветствие",
+  "description": "Общие фразы",
   "version": 1,
   "lessons": [
     {
@@ -9,47 +9,47 @@
       "toNative": [
         {
           "mokshan": "Шумбрат!",
-          "native": ["Hello!"]
+          "native": ["Здравствуй!"]
         },
         {
           "mokshan": "Шумбратада!",
-          "native": ["Hello!"]
+          "native": ["Здравствуйте!"]
         },
         {
           "mokshan": "Шумбраши!",
-          "native": ["Good day!"]
+          "native": ["Добрый день!"]
         },
         {
           "mokshan": "Кода тефне?",
-          "native": ["How are you?"]
+          "native": ["Как дела?"]
         },
         {
           "mokshan": "Кода эрят?",
-          "native": ["How do you do?"]
+          "native": ["Как поживаешь?"]
         },
         {
           "mokshan": "Кода эрятада?",
-          "native": ["How do you all do?"]
+          "native": ["Как поживаете?"]
         },
         {
           "mokshan": "Кальдявста",
-          "native": ["Bad"]
+          "native": ["Плохо"]
         },
         {
           "mokshan": "Аф кальдявста",
-          "native": ["Not bad"]
+          "native": ["Неплохо"]
         },
         {
           "mokshan": "Цебярьста",
-          "native": ["Great"]
+          "native": ["Хорошо"]
         },
         {
           "mokshan": "Лац",
-          "native": ["Fine"]
+          "native": ["Прекрасно"]
         },
         {
           "mokshan": "Аф пяк",
-          "native": ["So-so"]
+          "native": ["Не очень"]
         }
       ],
       "dictionary": [
@@ -62,51 +62,51 @@
       "toNative": [
         {
           "mokshan": "Шумбрат! Кода тефне?",
-          "native": ["Hello! How are you?"]
+          "native": ["Здравствуй! Как дела?"]
         },
         {
           "mokshan": "Шумбратада! Кода тефне?",
-          "native": ["Hello! How are you?"]
+          "native": ["Здравствуйте! Как дела?"]
         },
         {
           "mokshan": "Шумбраши! Кода тефне?",
-          "native": ["Good day! How are you?"]
+          "native": ["Добрый день! Как дела?"]
         },
         {
           "mokshan": "Шумбрат! Кода эрят?",
-          "native": ["Hello! How do you do?"]
+          "native": ["Здравствуй! Как поживаешь?"]
         },
         {
           "mokshan": "Шумбратада! Кода эрятада?",
-          "native": ["Hello! How do you all do?"]
+          "native": ["Здравствуйте! Как поживаете?"]
         },
         {
           "mokshan": "Шумбраши! Кода эрят?",
-          "native": ["Good day! How do you do?"]
+          "native": ["Добрый день! Как поживаешь?"]
         },
         {
           "mokshan": "Кода тефне? – Лац",
-          "native": ["How are you? – Fine"]
+          "native": ["Как дела? – Прекрасно"]
         },
         {
           "mokshan": "Кода тефне? – Аф пяк",
-          "native": ["How are you? – So-so"]
+          "native": ["Как дела? – Не очень"]
         },
         {
           "mokshan": "Кода тефне? – Аф кальдявста",
-          "native": ["How are you? – Not bad"]
+          "native": ["Как дела? – Неплохо"]
         },
         {
           "mokshan": "Кода эрят? – Цебярьста",
-          "native": ["How do you do? – Great"]
+          "native": ["Как поживаешь? – Хорошо"]
         },
         {
           "mokshan": "Кода эрятада? – Лац",
-          "native": ["How do you all do? – Fine"]
+          "native": ["Как поживаете? – Прекрасно"]
         },
         {
           "mokshan": "Кода эрят? – Аф пяк",
-          "native": ["How do you do? – So-so"]
+          "native": ["Как поживаешь? – Не очень"]
         }
       ],
       "dictionary": [
@@ -117,27 +117,27 @@
   "translations": [
     {
       "mokshan": "кода",
-      "native": "how"
+      "native": "как"
     },
     {
       "mokshan": "тефне",
-      "native": "deals"
+      "native": "дела"
     },
     {
       "mokshan": "эрят",
-      "native": "lives"
+      "native": "живёшь"
     },
     {
       "mokshan": "эрятада",
-      "native": "live"
+      "native": "живёте"
     },
     {
       "mokshan": "аф",
-      "native": "not"
+      "native": "не"
     },
     {
       "mokshan": "пяк",
-      "native": "very"
+      "native": "очень"
     }
   ]
 }

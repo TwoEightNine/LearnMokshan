@@ -1,7 +1,7 @@
 {
   "id": 2,
-  "title": "Farewell",
-  "description": "Common phrases",
+  "title": "Прощание",
+  "description": "Общие фразы",
   "version": 1,
   "lessons": [
     {
@@ -9,23 +9,23 @@
       "toNative": [
         {
           "mokshan": "Няемозонк!",
-          "native": ["Goodbye!"]
+          "native": ["До свидания!"]
         },
         {
           "mokshan": "Вандыс!",
-          "native": ["See you tomorrow!"]
+          "native": ["До завтра!"]
         },
         {
           "mokshan": "Илядьс!",
-          "native": ["See you tonight!"]
+          "native": ["До вечера!"]
         },
         {
           "mokshan": "Васедемозонк!",
-          "native": ["See you!"]
+          "native": ["До встречи!"]
         },
         {
           "mokshan": "Сатфкст!",
-          "native": ["Good luck!"]
+          "native": ["Удачи!"]
         },
         {
           "mokshan": "Лацкас удомс!",
@@ -33,7 +33,7 @@
         },
         {
           "mokshan": "Пинге тумс",
-          "native": ["I have to go"]
+          "native": ["Пора идти"]
         }
       ],
       "dictionary": [
@@ -46,31 +46,31 @@
       "toNative": [
         {
           "mokshan": "Няемозонк! – Няемозонк!",
-          "native": ["Goodbye! – Goodbye!"]
+          "native": ["До свидания! – До свидания!"]
         },
         {
           "mokshan": "Пинге тумс. Няемозонк!",
-          "native": ["I have to go. Goodbye!"]
+          "native": ["Пора идти. До свидания!"]
         },
         {
           "mokshan": "Пинге тумс. Вандыс!",
-          "native": ["I have to go. See you tomorrow!"]
+          "native": ["Пора идти. До завтра!"]
         },
         {
           "mokshan": "Пинге тумс. Илядьс!",
-          "native": ["I have to go. See you tonight!"]
+          "native": ["Пора идти. До вечера!"]
         },
         {
           "mokshan": "Васедемозонк! – Няемозонк!",
-          "native": ["See you! – Goodbye!"]
+          "native": ["До встречи! – До свидания!"]
         },
         {
           "mokshan": "Лацкас удомс! Сатфкст!",
-          "native": ["Good night! Good luck!"]
+          "native": ["Спокойной ночи! Удачи!"]
         },
         {
           "mokshan": "Няемозонк! Сатфкст!",
-          "native": ["Goodbye! Good luck!"]
+          "native": ["До свидания! Удачи!"]
         }
       ],
       "dictionary": []
@@ -79,15 +79,15 @@
   "translations": [
     {
       "mokshan": "пинге",
-      "native": "time"
+      "native": "время"
     },
     {
       "mokshan": "тумс",
-      "native": "to leave"
+      "native": "уходить"
     },
     {
       "mokshan": "удомс",
-      "native": "to sleep"
+      "native": "спать"
     }
   ]
 }
