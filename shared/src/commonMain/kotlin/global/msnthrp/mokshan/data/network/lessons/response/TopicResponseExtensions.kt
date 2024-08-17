@@ -10,6 +10,7 @@ internal fun TopicResponse.toDomain(): Topic? {
     return Topic(
         id = this.id ?: return null,
         title = this.title ?: return null,
+        description = this.description.orEmpty(),
         lessons = lessons,
         translations = this.translations?.mapNotNull { it.toDomain() } ?: emptyList(),
     )

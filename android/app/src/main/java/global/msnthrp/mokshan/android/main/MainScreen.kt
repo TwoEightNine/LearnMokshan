@@ -45,10 +45,13 @@ fun MainScreen(
                     TopicsListScreenFactory(
                         onTopicClicked = onTopicClicked,
                         onArticleClicked = onArticleClicked,
+                        onAppInfoClicked = onInfoClicked,
                     )
                 }
                 BottomItem.DICTIONARY -> {
-                    DictionaryScreenFactory()
+                    DictionaryScreenFactory(
+                        onAppInfoClicked = onInfoClicked,
+                    )
                 }
 //                BottomItem.PHRASEBOOK -> {
 //                    PhrasebookScreenFactory(
@@ -59,6 +62,7 @@ fun MainScreen(
                 BottomItem.ARTICLES -> {
                     ArticlesListFactory(
                         onArticleClicked = onArticleClicked,
+                        onAppInfoClicked = onInfoClicked,
                     )
                 }
             }

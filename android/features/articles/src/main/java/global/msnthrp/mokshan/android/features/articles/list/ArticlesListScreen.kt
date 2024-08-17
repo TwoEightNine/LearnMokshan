@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import asPxToDp
+import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
@@ -35,14 +38,26 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun ArticlesListScreen(
     onArticleClicked: (title: String, url: String) -> Unit,
-    articlesListViewModel: ArticlesListViewModel = koinViewModel()
+    articlesListViewModel: ArticlesListViewModel = koinViewModel(),
+    onAppInfoClicked: () -> Unit,
 ) {
     val state by articlesListViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
         articlesListViewModel.load()
         onPauseOrDispose {}
     }
-    LeMokScreen(title = stringResource(id = R.string.articles_title)) { padding ->
+    LeMokScreen(
+        title = stringResource(id = R.string.articles_title),
+        actions = {
+            IconButton(onClick = onAppInfoClicked) {
+                Icon(
+                    imageVector = Icons.info,
+                    contentDescription = "App info",
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
+    ) { padding ->
         if (state.isLoading && state.articles == null) {
             Box(
                 modifier = Modifier

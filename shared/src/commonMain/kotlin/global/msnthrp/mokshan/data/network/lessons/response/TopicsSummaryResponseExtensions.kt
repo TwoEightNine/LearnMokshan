@@ -15,5 +15,6 @@ private fun TopicInfoResponse.toDomain(): TopicInfo? {
         id = this.id ?: return null,
         lessonsCount = this.lessonsCount ?: return null,
         title = this.title ?: return null,
+        description = this.description.orEmpty(),
     )
 }

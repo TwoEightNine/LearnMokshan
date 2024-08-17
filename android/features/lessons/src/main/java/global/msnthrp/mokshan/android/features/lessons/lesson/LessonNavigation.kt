@@ -8,6 +8,7 @@ import global.msnthrp.mokshan.domain.lessons.TopicInfo
 private const val ARG_LESSON_NUMBER = "lesson_number"
 private const val ARG_TOPIC_ID = "topic_id"
 private const val ARG_TOPIC_TITLE = "topic_title"
+private const val ARG_TOPIC_DESCRIPTION = "topic_description"
 private const val ARG_TOPIC_LESSONS_COUNT = "lessons_count"
 
 fun LessonScreenFactory(
@@ -27,6 +28,7 @@ fun LessonRouterDefault() = LessonRouterInternal(
     lessonsCount = "{$ARG_TOPIC_LESSONS_COUNT}",
     lessonNumber = "{$ARG_LESSON_NUMBER}",
     topicTitle = "{$ARG_TOPIC_TITLE}",
+    topicDescription = "{$ARG_TOPIC_DESCRIPTION}"
 )
 
 fun LessonRouter(topicInfo: TopicInfo, lessonNumber: Int) = LessonRouterInternal(
@@ -34,6 +36,7 @@ fun LessonRouter(topicInfo: TopicInfo, lessonNumber: Int) = LessonRouterInternal
     lessonsCount = topicInfo.lessonsCount.toString(),
     topicTitle = topicInfo.title,
     lessonNumber = lessonNumber.toString(),
+    topicDescription = topicInfo.description,
 )
 
 private fun LessonRouterInternal(
@@ -41,12 +44,14 @@ private fun LessonRouterInternal(
     lessonsCount: String,
     lessonNumber: String,
     topicTitle: String,
+    topicDescription: String,
 ) = Router {
     "lesson?" +
             "$ARG_TOPIC_ID=$topicId&" +
             "$ARG_TOPIC_LESSONS_COUNT=$lessonsCount&" +
             "$ARG_LESSON_NUMBER=$lessonNumber&" +
-            "$ARG_TOPIC_TITLE=$topicTitle"
+            "$ARG_TOPIC_TITLE=$topicTitle&"
+            "$ARG_TOPIC_DESCRIPTION=$topicDescription"
 }
 
 private fun Bundle?.getTopicInfo(): TopicInfo? {
@@ -54,6 +59,7 @@ private fun Bundle?.getTopicInfo(): TopicInfo? {
     return TopicInfo(
         id = bundle.getString(ARG_TOPIC_ID)?.toIntOrNull() ?: return null,
         title = bundle.getString(ARG_TOPIC_TITLE) ?: return null,
-        lessonsCount = bundle.getString(ARG_TOPIC_LESSONS_COUNT)?.toIntOrNull() ?: return null
+        lessonsCount = bundle.getString(ARG_TOPIC_LESSONS_COUNT)?.toIntOrNull() ?: return null,
+        description = bundle.getString(ARG_TOPIC_DESCRIPTION).orEmpty(),
     )
 }

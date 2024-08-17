@@ -9,6 +9,7 @@ data class TopicInfo(
     val id: Int,
     val lessonsCount: Int,
     val title: String,
+    val description: String,
 ) {
     val topicLength: Int by lazy { lessonsCount * 3 + 4 }
 }

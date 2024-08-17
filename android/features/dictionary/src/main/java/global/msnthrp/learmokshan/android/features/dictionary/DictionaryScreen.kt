@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import asPxToDp
+import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
@@ -34,13 +37,25 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun DictionaryScreen(
     dictionaryViewModel: DictionaryViewModel = koinViewModel(),
+    onAppInfoClicked: () -> Unit,
 ) {
     val state by dictionaryViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
         dictionaryViewModel.load()
         onPauseOrDispose {}
     }
-    LeMokScreen(title = stringResource(id = R.string.dictionary_title)) { padding ->
+    LeMokScreen(
+        title = stringResource(id = R.string.dictionary_title),
+        actions = {
+            IconButton(onClick = onAppInfoClicked) {
+                Icon(
+                    imageVector = Icons.info,
+                    contentDescription = "App info",
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
+    ) { padding ->
         val dictionary = state.dictionary
         if (state.isLoading && dictionary == null) {
             Box(
@@ -140,6 +155,8 @@ private fun EntryItemPreview() {
 @Preview
 private fun DictionaryScreenPreview() {
     LeMokTheme {
-        DictionaryScreen()
+        DictionaryScreen(
+            onAppInfoClicked = {}
+        )
     }
 }

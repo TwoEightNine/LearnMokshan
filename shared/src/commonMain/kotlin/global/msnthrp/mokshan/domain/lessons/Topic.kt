@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.domain.lessons
 data class Topic(
     val id: Int,
     val title: String,
+    val description: String,
     val lessons: List<Lesson>,
     val translations: List<Translation>,
 ) {

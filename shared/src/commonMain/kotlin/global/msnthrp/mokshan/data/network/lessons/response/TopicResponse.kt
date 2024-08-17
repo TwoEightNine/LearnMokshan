@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 internal data class TopicResponse(
     val id: Int?,
     val title: String?,
+    val description: String?,
     val version: Int?,
     val lessons: List<LessonResponse>?,
     val translations: List<TranslationResponse>?,

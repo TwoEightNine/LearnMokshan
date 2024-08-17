@@ -2,10 +2,9 @@ package global.msnthrp.mokshan.android.core.designsystem.uikit
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
@@ -64,17 +63,19 @@ fun ArticleCard(
 }
 
 @Composable
-private fun ArticleTexts(
+private fun BoxScope.ArticleTexts(
     modifier: Modifier = Modifier,
     title: String,
     description: String = "",
     categories: List<String> = emptyList(),
 ) {
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .padding(all = 16.dp)
+            .align(Alignment.CenterStart)
+    ) {
         Text(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .padding(top = 16.dp)
                 .fillMaxWidth(),
             text = title,
             style = MaterialTheme.typography.titleMedium,
@@ -84,7 +85,6 @@ private fun ArticleTexts(
         if (description.isNotBlank()) {
             Text(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
                     .padding(top = 8.dp)
                     .fillMaxWidth(),
                 text = description,
@@ -97,8 +97,7 @@ private fun ArticleTexts(
             LazyRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp, top = 8.dp)
+                    .padding(top = 8.dp)
             ) {
                 categories.forEach { category ->
                     item {
@@ -112,8 +111,6 @@ private fun ArticleTexts(
                     }
                 }
             }
-        } else {
-            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -125,6 +122,20 @@ fun ArticleItemPreview() {
         ArticleCard(
             title = "Writing system and pronunciation rules",
             description = "Get familiar with h h h h h h h h h h h h h h h y y y y",
+//            categories = listOf("for beginners", "education"),
+            showChevron = true,
+            onClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+fun ArticleItemSimplePreview() {
+    LeMokTheme {
+        ArticleCard(
+            title = "Writing system and pronunciation rules",
+//            description = "Get familiar with h h h h h h h h h h h h h h h y y y y",
 //            categories = listOf("for beginners", "education"),
             showChevron = true,
             onClick = {}

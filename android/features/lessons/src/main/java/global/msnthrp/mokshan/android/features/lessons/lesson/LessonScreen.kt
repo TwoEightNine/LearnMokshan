@@ -629,7 +629,12 @@ private fun CommonSheetPreview() {
 fun LessonScreenPreview() {
     LeMokTheme {
         LessonScreen(
-            topicInfo = TopicInfo(id = 1, lessonsCount = 2, title = "Greetings"),
+            topicInfo = TopicInfo(
+                id = 1,
+                lessonsCount = 2,
+                title = "Greetings",
+                description = "Common phrases and genitive case"
+            ),
             lessonNumber = 2,
             onBackPressed = {},
         )

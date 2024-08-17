@@ -2,7 +2,9 @@ package global.msnthrp.mokshan.android.features.lessons.topic
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,13 +52,25 @@ internal fun TopicsListScreen(
     topicsListViewModel: TopicsListViewModel = viewModel(),
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
     onArticleClicked: (title: String, url: String) -> Unit,
+    onAppInfoClicked: () -> Unit,
 ) {
     val state by topicsListViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
         topicsListViewModel.load()
         onPauseOrDispose {}
     }
-    LeMokScreen(title = stringResource(id = R.string.lessons_title)) { padding ->
+    LeMokScreen(
+        title = stringResource(id = R.string.lessons_title),
+        actions = {
+            IconButton(onClick = onAppInfoClicked) {
+                Icon(
+                    imageVector = Icons.info,
+                    contentDescription = "App info",
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
+    ) { padding ->
         if (state.isLoading && state.topics == null) {
             Box(
                 modifier = Modifier
@@ -141,17 +157,28 @@ private fun TopicInfoCard(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            Text(
+            Column(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(bottom = 5.dp, start = 16.dp, end = 16.dp)
-                    .weight(1f),
-                text = topicInfo.title,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+                    .weight(1f)
+            ) {
+                Text(
+                    text = topicInfo.title,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = topicInfo.description,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                )
+            }
 
             Box(
                 modifier = Modifier
@@ -216,7 +243,8 @@ private fun TopicsListScreenPreview() {
     LeMokTheme {
         TopicsListScreen(
             onTopicClicked = {_, _ -> },
-            onArticleClicked = { _, _ -> }
+            onArticleClicked = { _, _ -> },
+            onAppInfoClicked = {},
         )
     }
 }
@@ -229,7 +257,8 @@ private fun TopicInfoCardCompletedPreview() {
             topicInfo = TopicInfo(
                 id = 6,
                 lessonsCount = 2,
-                title = "Best topic ever ever ever"
+                title = "Best topic ever ever ever",
+                description = "Common phrases and genitive case",
             ),
             lessonsCompletedCount = 10,
             isActive = true,
@@ -246,7 +275,8 @@ private fun TopicInfoCardOngoingPreview() {
             topicInfo = TopicInfo(
                 id = 6,
                 lessonsCount = 2,
-                title = "Best topic ever ever ever"
+                title = "Best topic ever ever ever",
+                description = "Common phrases and genitive case",
             ),
             lessonsCompletedCount = 2,
             isActive = true,
@@ -263,7 +293,8 @@ private fun TopicInfoCardInactivePreview() {
             topicInfo = TopicInfo(
                 id = 6,
                 lessonsCount = 2,
-                title = "Best topic ever ever ever"
+                title = "Best topic ever ever ever",
+                description = "Common phrases and genitive case",
             ),
             lessonsCompletedCount = 0,
             isActive = false,
