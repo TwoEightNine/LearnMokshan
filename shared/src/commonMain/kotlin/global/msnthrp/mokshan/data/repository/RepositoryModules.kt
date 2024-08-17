@@ -28,7 +28,8 @@ val repositoryModule = module {
     }
     single {
         ArticlesRepository(
-            networkDs = get()
+            networkDs = get(),
+            deviceLocaleProvider = get(),
         )
     }
     single {
@@ -40,6 +41,7 @@ val repositoryModule = module {
         TopicsRepository(
             networkDs = get(),
             storageDs = get(),
+            deviceLocaleProvider = get(),
         )
     } bind LessonRepository::class
 

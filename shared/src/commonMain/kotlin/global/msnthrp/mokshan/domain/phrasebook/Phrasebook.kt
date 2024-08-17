@@ -24,7 +24,7 @@ data class Category(
     val translations: List<Translation>,
 )
 
-enum class ForeignLanguage {
-    ENGLISH,
-    RUSSIAN,
+enum class ForeignLanguage(val code: String) {
+    ENGLISH("en"),
+    RUSSIAN("ru"),
 }

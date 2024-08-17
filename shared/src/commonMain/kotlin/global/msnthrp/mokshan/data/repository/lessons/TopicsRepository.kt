@@ -4,13 +4,19 @@ import global.msnthrp.mokshan.domain.lessons.Topic
 import global.msnthrp.mokshan.domain.lessons.TopicsProgress
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
 import global.msnthrp.mokshan.domain.lessons.TopicsSummaryWithProgress
+import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
+import global.msnthrp.mokshan.usecase.DeviceLocaleProvider
 import global.msnthrp.mokshan.usecase.lesson.LessonRepository
 import global.msnthrp.mokshan.utils.failureOf
 
 class TopicsRepository(
     private val networkDs: NetworkDataSource,
-    private val storageDs: StorageDataSource
+    private val storageDs: StorageDataSource,
+    private val deviceLocaleProvider: DeviceLocaleProvider,
 ) : LessonRepository {
+
+    private val language: ForeignLanguage
+        get() = deviceLocaleProvider.getDeviceLocale()
 
     suspend fun getTopicsSummaryWithProgress(): Result<TopicsSummaryWithProgress> {
         val summaryResult = getTopicsSummary()
@@ -39,7 +45,7 @@ class TopicsRepository(
     }
 
     private suspend fun getTopicsSummary(): Result<TopicsSummary> {
-        return kotlin.runCatching { networkDs.getTopicsSummary() }
+        return kotlin.runCatching { networkDs.getTopicsSummary(language) }
     }
 
     private suspend fun getTopicsProgress(): Result<TopicsProgress> {
@@ -47,12 +53,12 @@ class TopicsRepository(
     }
 
     override suspend fun getTopic(topicId: Int): Result<Topic> {
-        return kotlin.runCatching { networkDs.getTopic(topicId) }
+        return kotlin.runCatching { networkDs.getTopic(topicId, language) }
     }
 
     interface NetworkDataSource {
-        suspend fun getTopicsSummary(): TopicsSummary
-        suspend fun getTopic(topicId: Int): Topic
+        suspend fun getTopicsSummary(language: ForeignLanguage): TopicsSummary
+        suspend fun getTopic(topicId: Int, language: ForeignLanguage): Topic
     }
 
     interface StorageDataSource {
