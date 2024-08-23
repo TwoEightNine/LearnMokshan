@@ -2,19 +2,19 @@ package global.msnthrp.mokshan.data.network.jart
 
 import global.msnthrp.mokshan.domain.jart.Jart
 import global.msnthrp.mokshan.domain.jart.JartEntry
-import global.msnthrp.mokshan.domain.jart.JartEntryType
 import global.msnthrp.mokshan.domain.jart.JartMeta
 
-fun JartResponse.toDomain(): Jart? {
+fun JartResponse.toDomain(articleUrl: String): Jart? {
     return Jart(
-        meta = this.meta?.toDomain() ?: return null,
+        meta = this.meta?.toDomain(articleUrl) ?: return null,
         content = this.content?.mapNotNull { it.toDomain() } ?: emptyList(),
     )
 }
 
-private fun JartMetaResponse.toDomain(): JartMeta? {
+private fun JartMetaResponse.toDomain(articleUrl: String): JartMeta? {
     return JartMeta(
-        version = this.version ?: return null
+        version = this.version ?: return null,
+        url = articleUrl,
     )
 }
 
@@ -30,6 +30,10 @@ private fun JartEntryResponse.toDomain(): JartEntry? {
         "hint" -> JartEntry.Hint(value = value.takeIf { it.isNotBlank() } ?: return null)
         "list" -> JartEntry.ListItem(value = value.takeIf { it.isNotBlank() } ?: return null)
         "sublist" -> JartEntry.SubListItem(value = value.takeIf { it.isNotBlank() } ?: return null)
+        "image" -> JartEntry.Image(
+            link = value.takeIf { it.isNotBlank() } ?: return null,
+            footer = this.footer.orEmpty(),
+        )
         "table" -> JartEntry.Table(
             cells = this.cells ?: return null,
             size = this.size?.run { first() to last() } ?: return null,

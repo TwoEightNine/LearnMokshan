@@ -27,6 +27,7 @@ android {
 dependencies {
     implementation(projects.shared)
     implementation(projects.android.core.utils)
+    implementation(libs.coil)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)

@@ -10,6 +10,6 @@ class JartNetworkDataSource(
 
     override suspend fun loadJart(url: String): Jart {
         val response = client.get<JartResponse>(url)
-        return response.toDomain() ?: throw IllegalStateException("Malformed jart")
+        return response.toDomain(url) ?: throw IllegalStateException("Malformed jart")
     }
 }

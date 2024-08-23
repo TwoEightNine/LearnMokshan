@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.ParagraphStyle
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import asPxToDp
+import coil.compose.AsyncImage
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.domain.jart.Jart
 import global.msnthrp.mokshan.domain.jart.JartEntry
@@ -54,6 +54,10 @@ fun JartView(
                     JartTable(table = entry)
                 }
 
+                is JartEntry.Image -> item {
+                    JartImage(image = entry, meta = jart.meta)
+                }
+
                 else -> item {
                     JartEntry(entry, onClicked)
                 }
@@ -68,7 +72,7 @@ fun JartView(
 }
 
 @Composable
-fun JartEntry(
+private fun JartEntry(
     entry: JartEntry,
     onClicked: ((JartEntry) -> Unit)? = null,
 ) {
@@ -121,7 +125,7 @@ fun JartEntry(
 }
 
 @Composable
-fun JartTable(table: JartEntry.Table) {
+private fun JartTable(table: JartEntry.Table) {
     val cells = table.cells.chunked(table.size.first)
     val columnsCount = cells.first().size
     val itemWeight = 1f / columnsCount
@@ -179,6 +183,25 @@ fun JartTable(table: JartEntry.Table) {
     }
 }
 
+@Composable
+private fun JartImage(image: JartEntry.Image, meta: JartMeta) {
+    val imageUrl = meta.url
+        .split('/')
+        .dropLast(1)
+        .plus(image.link)
+        .joinToString(separator = "/")
+    AsyncImage(
+        modifier = Modifier.fillMaxWidth(),
+        model = imageUrl,
+        contentDescription = null,
+    )
+    Text(
+        text = image.footer,
+        color = MaterialTheme.colorScheme.tertiary,
+        style = MaterialTheme.typography.labelMedium,
+    )
+}
+
 private fun formatText(value: String): AnnotatedString {
     var inBold = false
     var escaped = false
@@ -204,7 +227,7 @@ private fun formatText(value: String): AnnotatedString {
 
 @Composable
 @Preview
-fun JartPreview() {
+private fun JartPreview() {
     LeMokTheme {
         Column(
             modifier = Modifier
@@ -213,7 +236,7 @@ fun JartPreview() {
         ) {
             JartView(
                 jart = Jart(
-                    meta = JartMeta(version = 1),
+                    meta = JartMeta(version = 1, url = ""),
                     content = listOf(
                         JartEntry.Title(
                             value = "Long long long long title"
@@ -238,6 +261,13 @@ fun JartPreview() {
                                     ).split(' '),
                             size = 4 to 20,
                             header = true,
+                        ),
+                        JartEntry.Body(
+                            value = "Some body once told me this world is gonna roll me, i aint the sh*arp*est to\\*ol of the sheeeed. But you looking kinda dumb with this"
+                        ),
+                        JartEntry.Image(
+                            link = "pic.png",
+                            footer = "Hint to the image below",
                         ),
                         JartEntry.Body(
                             value = "Some body once told me this world is gonna roll me, i aint the sh*arp*est to\\*ol of the sheeeed. But you looking kinda dumb with this"

@@ -7,21 +7,10 @@ data class Jart(
 
 data class JartMeta(
     val version: Int,
+    val url: String,
 )
 
 typealias JartContent = List<JartEntry>
-
-enum class JartEntryType {
-    H1,
-    H2,
-    H3,
-    BODY,
-    HINT,
-    TITLE,
-    TABLE,
-    LIST,
-    UNKNOWN
-}
 
 sealed interface JartEntry {
     val value: String
@@ -34,6 +23,12 @@ sealed interface JartEntry {
     data class Title(override val value: String) : JartEntry
     data class ListItem(override val value: String) : JartEntry
     data class SubListItem(override val value: String) : JartEntry
+    data class Image(
+        val link: String,
+        val footer: String,
+    ) : JartEntry {
+        override val value: String by lazy { "$link\n$footer" }
+    }
 
     data class Table(
         val cells: List<String>,

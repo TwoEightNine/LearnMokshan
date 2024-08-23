@@ -22,4 +22,5 @@ data class JartEntryResponse(
     val size: List<Int>?,
     val header: Boolean?,
     val cells: List<String>?,
+    val footer: String?,
 )
