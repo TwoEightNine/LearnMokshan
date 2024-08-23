@@ -30,7 +30,7 @@
     {
       "type": "image",
       "value": "moksherzyan_distrib.png",
-      "footer": "Distribution of Mokshan and Erzyan languages. By Rantanen, T., Tolvanen, H., Roose, M., Ylikoski, J. & Vesakoski, O. (2022) “Best practices for spatial language data harmonization, sharing and map creation – A case study of Uralic” PLoS ONE 17(6): e0269648. https://doi.org/10.1371/journal.pone.0269648.Rantanen, Timo, Vesakoski, Outi, Ylikoski, Jussi, & Tolvanen, Harri. (2021). Geographical database of the Uralic languages (v1.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.4784188 - https://sites.utu.fi/urhia/language-maps/, CC BY 4.0, https://commons.wikimedia.org/w/index.php?curid=144644557"
+      "footer": "Distribution of Mokshan and Erzyan languages. [1]"
     },
     {
       "type": "h2",
@@ -99,6 +99,14 @@
     {
       "type": "body",
       "value": "The Mokshan language is a vital part of the cultural heritage of the Moksha people. Despite its endangered status, Mokshan remains a living language with a rich history and a complex linguistic structure. Preserving and revitalizing Mokshan is essential not only for the Moksha people but also for the diversity of the world's languages. As efforts continue to support the language, it is hoped that Mokshan will endure for future generations."
+    },
+    {
+      "type": "h2",
+      "value": "Credits"
+    },
+    {
+      "type": "list",
+      "value": "[1] By Rantanen, T., Tolvanen, H., Roose, M., Ylikoski, J. & Vesakoski, O. (2022) “Best practices for spatial language data harmonization, sharing and map creation – A case study of Uralic” PLoS ONE 17(6): e0269648. Rantanen, Timo, Vesakoski, Outi, Ylikoski, Jussi, & Tolvanen, Harri. (2021). Geographical database of the Uralic languages (v1.0) [Data set]. Zenodo."
     }
   ]
 }
