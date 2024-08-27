@@ -12,6 +12,18 @@
       "lessonsCount": 2,
       "title": "Прощание",
       "description": "Общие фразы"
+    },
+    {
+      "id": 3,
+      "lessonsCount": 2,
+      "title": "Благодарность",
+      "description": "Общие фразы"
+    },
+    {
+      "id": 4,
+      "lessonsCount": 3,
+      "title": "Кто это?",
+      "description": "Утверждения и люди"
     }
   ]
 }
