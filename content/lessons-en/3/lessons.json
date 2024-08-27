@@ -1,0 +1,117 @@
+{
+  "id": 3,
+  "title": "Thanksgiving",
+  "description": "Common phrases",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Оцю сюкпря!",
+          "native": ["Thank you very much!"]
+        },
+        {
+          "mokshan": "Аш мезенкса",
+          "native": ["Don't mention it"]
+        },
+        {
+          "mokshan": "Сюкпря!",
+          "native": ["Thank you!"]
+        },
+        {
+          "mokshan": "Шумбрашис",
+          "native": ["You're welcome"]
+        },
+        {
+          "mokshan": "Пара мяльса",
+          "native": ["My pleasure"]
+        },
+        {
+          "mokshan": "Азан сюкпря!",
+          "native": ["Thank you!"]
+        },
+        {
+          "mokshan": "Астама сюкпря!",
+          "native": ["Thank you!"]
+        }
+      ],
+      "dictionary": [
+        "Оцю сюкпря!", "Аш мезенкса!", "Шумбрашис!", "Пара мяльса!", "Азан сюкпря!", "Астама сюкпря!",
+        "оцю", "аш", "мезе", "пара", "азомс"
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Оцю сюкпря! – Аш мезенкса",
+          "native": ["Thank you very much! – Don't mention it"]
+        },
+        {
+          "mokshan": "Сюкпря! – Шумбрашис",
+          "native": ["Thank you! – You're welcome"]
+        },
+        {
+          "mokshan": "Оцю сюкпря! – Пара мяльса",
+          "native": ["Thank you very much! – My pleasure"]
+        },
+        {
+          "mokshan": "Сюкпря! – Аш мезенкса",
+          "native": ["Thank you! – Don't mention it"]
+        },
+        {
+          "mokshan": "Азан сюкпря! – Пара мяльса",
+          "native": ["Thank you! – My pleasure"]
+        },
+        {
+          "mokshan": "Астама сюкпря! – Шумбрашис!",
+          "native": ["Thank you! – You're welcome"]
+        },
+        {
+          "mokshan": "Оцю сюкпря! Вандыс!",
+          "native": ["Thank you very much! See you tomorrow!"]
+        },
+        {
+          "mokshan": "Аш мезенкса! Няемозонк!",
+          "native": ["Don't mention it! See you later!"]
+        }
+      ],
+      "dictionary": []
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "оцю",
+      "native": "big"
+    },
+    {
+      "mokshan": "мезенкса",
+      "native": "what for"
+    },
+    {
+      "mokshan": "аш",
+      "native": "no"
+    },
+    {
+      "mokshan": "мезе",
+      "native": "what"
+    },
+    {
+      "mokshan": "пара",
+      "native": "nice"
+    },
+    {
+      "mokshan": "азомс",
+      "native": "to say"
+    },
+    {
+      "mokshan": "азан",
+      "native": "(I) say"
+    },
+    {
+      "mokshan": "астама",
+      "native": "(we) say"
+    }
+  ]
+}

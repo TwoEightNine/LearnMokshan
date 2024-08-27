@@ -24,6 +24,10 @@
           "native": ["How are you?"]
         },
         {
+          "mokshan": "Кода тевонте?",
+          "native": ["How are you all?"]
+        },
+        {
           "mokshan": "Кода эрят?",
           "native": ["How do you do?"]
         },
@@ -41,7 +45,7 @@
         },
         {
           "mokshan": "Цебярьста",
-          "native": ["Great"]
+          "native": ["Good"]
         },
         {
           "mokshan": "Лац",
@@ -53,8 +57,9 @@
         }
       ],
       "dictionary": [
-        "Шумбрат!", "Шумбратада!", "Шумбраши!", "Кода тефне?", "Кода эрят?",
-        "Кода эрятада?", "Кальдявста", "Аф кальдявста", "Цебярьста", "Аф пяк", "Лац"
+        "Шумбрат!", "Шумбратада!", "Шумбраши!", "Кода тефне?", "Кода тевонте?", "Кода эрят?",
+        "Кода эрятада?", "Кальдявста", "Аф кальдявста", "Цебярьста", "Аф пяк", "Лац",
+        "эрямс", "тев", "кода", "аф", "пяк", "цебярь", "кальдяв"
       ]
     },
     {
@@ -65,8 +70,8 @@
           "native": ["Hello! How are you?"]
         },
         {
-          "mokshan": "Шумбратада! Кода тефне?",
-          "native": ["Hello! How are you?"]
+          "mokshan": "Шумбратада! Кода тевонте?",
+          "native": ["Hello! How are you all?"]
         },
         {
           "mokshan": "Шумбраши! Кода тефне?",
@@ -89,8 +94,8 @@
           "native": ["How are you? – Fine"]
         },
         {
-          "mokshan": "Кода тефне? – Аф пяк",
-          "native": ["How are you? – So-so"]
+          "mokshan": "Кода тевонте? – Аф пяк",
+          "native": ["How are you all? – So-so"]
         },
         {
           "mokshan": "Кода тефне? – Аф кальдявста",
@@ -98,7 +103,7 @@
         },
         {
           "mokshan": "Кода эрят? – Цебярьста",
-          "native": ["How do you do? – Great"]
+          "native": ["How do you do? – Good"]
         },
         {
           "mokshan": "Кода эрятада? – Лац",
@@ -109,9 +114,7 @@
           "native": ["How do you do? – So-so"]
         }
       ],
-      "dictionary": [
-        "кода", "тефне", "аф", "пяк"
-      ]
+      "dictionary": []
     }
   ],
   "translations": [
@@ -120,8 +123,16 @@
       "native": "how"
     },
     {
+      "mokshan": "тев",
+      "native": "deal"
+    },
+    {
       "mokshan": "тефне",
-      "native": "deals"
+      "native": "your deal"
+    },
+    {
+      "mokshan": "тевонте",
+      "native": "your deal"
     },
     {
       "mokshan": "эрят",
@@ -138,6 +149,14 @@
     {
       "mokshan": "пяк",
       "native": "very"
+    },
+    {
+      "mokshan": "цебярь",
+      "native": "good"
+    },
+    {
+      "mokshan": "кальдяв",
+      "native": "bad"
     }
   ]
 }

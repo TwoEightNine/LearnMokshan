@@ -1,5 +1,5 @@
 {
-  "topicsCount": 1,
+  "topicsCount": 4,
   "topicsInfo": [
     {
       "id": 1,
@@ -12,6 +12,18 @@
       "lessonsCount": 2,
       "title": "Farewell",
       "description": "Common phrases"
+    },
+    {
+      "id": 3,
+      "lessonsCount": 2,
+      "title": "Thanksgiving",
+      "description": "Common phrases"
+    },
+    {
+      "id": 4,
+      "lessonsCount": 3,
+      "title": "Who is it?",
+      "description": "Statements and people"
     }
   ]
 }

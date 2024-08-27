@@ -1,0 +1,183 @@
+{
+  "id": 4,
+  "title": "Who is it?",
+  "description": "Statements and people",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Ломань",
+          "native": ["Person"]
+        },
+        {
+          "mokshan": "Цёра",
+          "native": ["Guy"]
+        },
+        {
+          "mokshan": "Стирь",
+          "native": ["Girl"]
+        },
+        {
+          "mokshan": "Аля",
+          "native": ["Man"]
+        },
+        {
+          "mokshan": "Ава",
+          "native": ["Woman"]
+        },
+        {
+          "mokshan": "Ялга",
+          "native": ["Friend"]
+        },
+        {
+          "mokshan": "Шаба",
+          "native": ["Child"]
+        },
+        {
+          "mokshan": "Стирь и цёра",
+          "native": ["Girl and guy"]
+        },
+        {
+          "mokshan": "Аля и ава",
+          "native": ["Man and woman"]
+        },
+        {
+          "mokshan": "Ава, аля и шаба",
+          "native": ["Woman, man and child"]
+        }
+      ],
+      "dictionary": [
+        "ломань", "ава", "аля", "стирь", "цёра", "ялга", "шаба",
+        "и"
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Тя шаба",
+          "native": ["This is a child"]
+        },
+        {
+          "mokshan": "Тя кие?",
+          "native": ["Who is this?"]
+        },
+        {
+          "mokshan": "Кие тя?",
+          "native": ["Who is this?"]
+        },
+        {
+          "mokshan": "Тя стирь",
+          "native": ["This is a girl"]
+        },
+        {
+          "mokshan": "Тя цёра",
+          "native": ["This is a guy"]
+        },
+        {
+          "mokshan": "Тя ава",
+          "native": ["This is a woman"]
+        },
+        {
+          "mokshan": "Тя аля?",
+          "native": ["Is this a man?"]
+        },
+        {
+          "mokshan": "Тя ломань",
+          "native": ["This is a person"]
+        }
+      ],
+      "dictionary": [
+        "кие", "тя"
+      ]
+    },
+    {
+      "order": 3,
+      "toNative": [
+        {
+          "mokshan": "Тя кие? – Тя ломань",
+          "native": ["Who is this? – This is a person"]
+        },
+        {
+          "mokshan": "Тя кие? – Тя цёраня",
+          "native": ["Who is this? – This is a boy"]
+        },
+        {
+          "mokshan": "Кие тя? – Тя стирьня",
+          "native": ["Who is this? – This is a little girl"]
+        },
+        {
+          "mokshan": "Тя аф цёраня, а цёра",
+          "native": ["This is not a boy, but a guy"]
+        },
+        {
+          "mokshan": "Тя аф стирьня, а стирь",
+          "native": ["This is not a little gitl, but a girl"]
+        },
+        {
+          "mokshan": "Тя ава? – Да",
+          "native": ["Is this a woman? – Yes"]
+        },
+        {
+          "mokshan": "Тя аля? – Да",
+          "native": ["Is this a man? – Yes"]
+        },
+        {
+          "mokshan": "Тя ялга? – Да",
+          "native": ["Is this a friend? – Yes"]
+        },
+        {
+          "mokshan": "Тя стирь? – Аф, тя цёра",
+          "native": ["Is this a girl? – No, this is a guy"]
+        },
+        {
+          "mokshan": "Тя цёраня? – Аф, тя стирьня",
+          "native": ["Is this a boy? – No, this is a little girl"]
+        },
+        {
+          "mokshan": "Тя ава? – Аф, тя аля",
+          "native": ["Is this a woman? – No, this is a man"]
+        }
+      ],
+      "dictionary": [
+        "аф", "да", "а", "цёраня", "стирьня"
+      ]
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "и",
+      "native": "and"
+    },
+    {
+      "mokshan": "кие",
+      "native": "who"
+    },
+    {
+      "mokshan": "тя",
+      "native": "this"
+    },
+    {
+      "mokshan": "аф",
+      "native": "not"
+    },
+    {
+      "mokshan": "да",
+      "native": "yes"
+    },
+    {
+      "mokshan": "а",
+      "native": "but"
+    },
+    {
+      "mokshan": "цёраня",
+      "native": "boy"
+    },
+    {
+      "mokshan": "стирьня",
+      "native": "little girl"
+    }
+  ]
+}
