@@ -1,0 +1,200 @@
+{
+  "id": 5,
+  "title": "What is it?",
+  "description": "Statements and animals",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Пине",
+          "native": ["Dog"]
+        },
+        {
+          "mokshan": "Ката",
+          "native": ["Cat"]
+        },
+        {
+          "mokshan": "Нармонь",
+          "native": ["Bird"]
+        },
+        {
+          "mokshan": "Тракс",
+          "native": ["Cow"]
+        },
+        {
+          "mokshan": "Тува",
+          "native": ["Pig"]
+        },
+        {
+          "mokshan": "Шеер",
+          "native": ["Mouse"]
+        },
+        {
+          "mokshan": "Алаша",
+          "native": ["Horse"]
+        },
+        {
+          "mokshan": "Пине и ката",
+          "native": ["Dog and cat"]
+        },
+        {
+          "mokshan": "Ката и шеер",
+          "native": ["Cat and mouse"]
+        },
+        {
+          "mokshan": "Алаша, тракс и тува",
+          "native": ["Horse, cow and pig"]
+        }
+      ],
+      "dictionary": [
+        "пине", "ката", "нармонь", "тракс", "тува", "шеер", "алаша"
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Тя кал",
+          "native": ["This is a fish"]
+        },
+        {
+          "mokshan": "Тя мезе?",
+          "native": ["What is this?"]
+        },
+        {
+          "mokshan": "Мезе тя?",
+          "native": ["What is this?"]
+        },
+        {
+          "mokshan": "Ся мезе?",
+          "native": ["What is that?"]
+        },
+        {
+          "mokshan": "Мезе ся?",
+          "native": ["What is that?"]
+        },
+        {
+          "mokshan": "Ся жувата",
+          "native": ["That is an animal"]
+        },
+        {
+          "mokshan": "Тя сярда",
+          "native": ["This is a moose"]
+        },
+        {
+          "mokshan": "Ся нумол",
+          "native": ["That is a hare"]
+        },
+        {
+          "mokshan": "Ся офта?",
+          "native": ["Is that a bear?"]
+        },
+        {
+          "mokshan": "Тя офта",
+          "native": ["This is a bear"]
+        }
+      ],
+      "dictionary": [
+        "мезе", "кал", "жувата", "сярда", "нумол", "офта", "ся"
+      ]
+    },
+    {
+      "order": 3,
+      "toNative": [
+        {
+          "mokshan": "Ся мезе? – Ся нармонь",
+          "native": ["What is that? – That is a bird"]
+        },
+        {
+          "mokshan": "Тя мезе? – Тя офта",
+          "native": ["What is this? – This is a bear"]
+        },
+        {
+          "mokshan": "Мезе тя? – Тя кал",
+          "native": ["What is this? – This is a fish"]
+        },
+        {
+          "mokshan": "Ся аф ката, а пине",
+          "native": ["That is not a cat, but a dog"]
+        },
+        {
+          "mokshan": "Тя аф алаша, а сярда",
+          "native": ["This is not a horse, but a moose"]
+        },
+        {
+          "mokshan": "Тя пине, а ся ката",
+          "native": ["This is a dog, but that is a cat"]
+        },
+        {
+          "mokshan": "Тя сярда, а ся алаша",
+          "native": ["This is a moose, but that is a horse"]
+        },
+        {
+          "mokshan": "Тя нумол, а ся ката",
+          "native": ["This is a hare, but that is a cat"]
+        },
+        {
+          "mokshan": "Ся тракс, а тя алаша",
+          "native": ["That is a cow, but this is a horse"]
+        },
+        {
+          "mokshan": "Тя тува? – Аф, тя тракс",
+          "native": ["Is this pig? – No, this is a cow"]
+        },
+        {
+          "mokshan": "Тя нумол? – Аф, тя ката",
+          "native": ["Is this a hare? – No, this is a cat"]
+        }
+      ],
+      "dictionary": []
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "и",
+      "native": "and"
+    },
+    {
+      "mokshan": "мезе",
+      "native": "what"
+    },
+    {
+      "mokshan": "тя",
+      "native": "this"
+    },
+    {
+      "mokshan": "аф",
+      "native": "not"
+    },
+    {
+      "mokshan": "ся",
+      "native": "that"
+    },
+    {
+      "mokshan": "а",
+      "native": "but"
+    },
+    {
+      "mokshan": "кал",
+      "native": "fish"
+    },
+    {
+      "mokshan": "жувата",
+      "native": "animal"
+    },
+    {
+      "mokshan": "сярда",
+      "native": "moose"
+    },
+    {
+      "mokshan": "нумол",
+      "native": "hare"
+    },
+    {
+      "mokshan": "офта",
+      "native": "bear"
+    }
+  ]
+}

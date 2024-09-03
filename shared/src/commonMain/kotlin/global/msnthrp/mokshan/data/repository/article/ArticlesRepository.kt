@@ -13,7 +13,14 @@ class ArticlesRepository(
         get() = deviceLocaleProvider.getDeviceLocale()
 
     suspend fun loadArticles(): Result<Articles> {
-        return kotlin.runCatching { networkDs.loadArticles(language) }
+        return kotlin.runCatching {
+            val articles = networkDs.loadArticles(language)
+
+            Articles(
+                articles = articles.articles.sortedByDescending { it.added },
+                categories = articles.categories.sorted(),
+            )
+        }
     }
 
     interface NetworkDataSource {

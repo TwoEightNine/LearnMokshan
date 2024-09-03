@@ -24,6 +24,12 @@
       "lessonsCount": 3,
       "title": "Кто это?",
       "description": "Утверждения и люди"
+    },
+    {
+      "id": 5,
+      "lessonsCount": 3,
+      "title": "Что это?",
+      "description": "Утверждения и животные"
     }
   ]
 }

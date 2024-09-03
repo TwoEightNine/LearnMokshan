@@ -24,6 +24,12 @@
       "lessonsCount": 3,
       "title": "Who is it?",
       "description": "Statements and people"
+    },
+    {
+      "id": 5,
+      "lessonsCount": 3,
+      "title": "What is it?",
+      "description": "Statements and animals"
     }
   ]
 }
