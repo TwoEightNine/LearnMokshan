@@ -30,6 +30,12 @@
       "lessonsCount": 3,
       "title": "Что это?",
       "description": "Утверждения и животные"
+    },
+    {
+      "id": 6,
+      "lessonsCount": 3,
+      "title": "Напитки",
+      "description": "Существительные и настоящее время"
     }
   ]
 }

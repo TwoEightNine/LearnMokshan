@@ -30,6 +30,12 @@
       "lessonsCount": 3,
       "title": "What is it?",
       "description": "Statements and animals"
+    },
+    {
+      "id": 6,
+      "lessonsCount": 3,
+      "title": "Drinks",
+      "description": "Nouns and present tense"
     }
   ]
 }

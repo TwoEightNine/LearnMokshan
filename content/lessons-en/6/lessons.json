@@ -1,0 +1,174 @@
+{
+  "id": 6,
+  "title": "Drinks",
+  "description": "Nouns and present tense",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Кофия",
+          "native": ["Coffee"]
+        },
+        {
+          "mokshan": "Чай",
+          "native": ["Tea"]
+        },
+        {
+          "mokshan": "Вина",
+          "native": ["Wine"]
+        },
+        {
+          "mokshan": "Ведь",
+          "native": ["Water"]
+        },
+        {
+          "mokshan": "Лофца",
+          "native": ["Milk"]
+        },
+        {
+          "mokshan": "Симомбяль",
+          "native": ["Drink"]
+        },
+        {
+          "mokshan": "Пива",
+          "native": ["Beer"]
+        }
+      ],
+      "dictionary": [
+        "кофия", "чай", "вина", "ведь", "лофца", "пива", "симомбяль"
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Мон симан кофияда",
+          "native": ["I drink coffee"]
+        },
+        {
+          "mokshan": "Тон симат чайда",
+          "native": ["You drink tea"]
+        },
+        {
+          "mokshan": "Сон сими ведьта",
+          "native": ["He drinks water", "She drinks water"]
+        },
+        {
+          "mokshan": "Симан пивада",
+          "native": ["I drink beer"]
+        },
+        {
+          "mokshan": "Сими лофцта",
+          "native": ["He drinks milk", "She drinks milk"]
+        },
+        {
+          "mokshan": "Симат винада",
+          "native": ["You drink wine"]
+        },
+        {
+          "mokshan": "Симан пивада и винада",
+          "native": ["I drink beer and wine"]
+        },
+        {
+          "mokshan": "Сими ведьта и лофцта",
+          "native": ["He drinks water and milk", "She drinks water and milk"]
+        },
+        {
+          "mokshan": "Симат чайда и кофияда",
+          "native": ["You drink tea and coffee"]
+        }
+      ],
+      "dictionary": [
+        "симомс", "мон", "тон", "сон"
+      ]
+    },
+    {
+      "order": 3,
+      "toNative": [
+        {
+          "mokshan": "Минь сиптама ведьта",
+          "native": ["We drink water"]
+        },
+        {
+          "mokshan": "Тинь сиптада лофцта и ведьта",
+          "native": ["You all drink milk and water"]
+        },
+        {
+          "mokshan": "Синь симихть кофияда и чайда",
+          "native": ["They drink coffee and tea"]
+        },
+        {
+          "mokshan": "Сиптама винада",
+          "native": ["We drink wine"]
+        },
+        {
+          "mokshan": "Сиптада пивада",
+          "native": ["You all drink beer"]
+        },
+        {
+          "mokshan": "Симихть лофцта",
+          "native": ["They drink milk"]
+        }
+      ],
+      "dictionary": [
+        "минь", "тинь", "синь"
+      ]
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "мон",
+      "native": "I"
+    },
+    {
+      "mokshan": "тон",
+      "native": "you"
+    },
+    {
+      "mokshan": "сон",
+      "native": "he/she"
+    },
+    {
+      "mokshan": "минь",
+      "native": "we"
+    },
+    {
+      "mokshan": "тинь",
+      "native": "you all"
+    },
+    {
+      "mokshan": "синь",
+      "native": "they"
+    },
+    {
+      "mokshan": "симомс",
+      "native": "to drink"
+    },
+    {
+      "mokshan": "симан",
+      "native": "I drink"
+    },
+    {
+      "mokshan": "симат",
+      "native": "you drink"
+    },
+    {
+      "mokshan": "сими",
+      "native": "he/she drinks"
+    },
+    {
+      "mokshan": "сиптама",
+      "native": "we drink"
+    },
+    {
+      "mokshan": "сиптада",
+      "native": "you all drink"
+    },
+    {
+      "mokshan": "симихть",
+      "native": "they drink"
+    }
+  ]
+}
