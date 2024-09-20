@@ -50,7 +50,7 @@ private fun LessonRouterInternal(
             "$ARG_TOPIC_ID=$topicId&" +
             "$ARG_TOPIC_LESSONS_COUNT=$lessonsCount&" +
             "$ARG_LESSON_NUMBER=$lessonNumber&" +
-            "$ARG_TOPIC_TITLE=$topicTitle&"
+            "$ARG_TOPIC_TITLE=$topicTitle&" +
             "$ARG_TOPIC_DESCRIPTION=$topicDescription"
 }
 
