@@ -61,5 +61,8 @@ private fun Bundle?.getTopicInfo(): TopicInfo? {
         title = bundle.getString(ARG_TOPIC_TITLE) ?: return null,
         lessonsCount = bundle.getString(ARG_TOPIC_LESSONS_COUNT)?.toIntOrNull() ?: return null,
         description = bundle.getString(ARG_TOPIC_DESCRIPTION).orEmpty(),
+        // no need in the lesson screen
+        emoji = null,
+        grammarLanguages = emptyList(),
     )
 }

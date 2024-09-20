@@ -1,31 +1,30 @@
 package global.msnthrp.mokshan.android.features.lessons.topic
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,14 +32,13 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
-import global.msnthrp.mokshan.android.core.designsystem.theme.SpecialColors
 import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
-import global.msnthrp.mokshan.android.core.utils.setVisibleElseInvisible
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
+import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import java.util.Locale
 
 private const val PRONUNCIATION_ARTICLE_URL =
@@ -121,8 +119,9 @@ internal fun TopicsListScreen(
                         TopicInfoCard(
                             topicInfo = topicInfo,
                             lessonsCompletedCount = lessonsCompletedCount,
-                            onClicked = onTopicClicked,
                             isActive = isTopicActive,
+                            onGrammarClicked = {},
+                            onStartLessonClicked = onTopicClicked,
                         )
                     }
                 }
@@ -136,9 +135,9 @@ private fun TopicInfoCard(
     topicInfo: TopicInfo,
     lessonsCompletedCount: Int,
     isActive: Boolean,
-    onClicked: (TopicInfo, lessonNumber: Int) -> Unit,
+    onGrammarClicked: (TopicInfo) -> Unit,
+    onStartLessonClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
-    val progress = lessonsCompletedCount.toFloat() / topicInfo.topicLength
     val isCompleted = lessonsCompletedCount == topicInfo.topicLength
 
     val nextLessonNumber = when (lessonsCompletedCount) {
@@ -148,20 +147,38 @@ private fun TopicInfoCard(
     LeMokCard(
         modifier = Modifier
             .fillMaxWidth()
-            .height(96.dp)
             .padding(horizontal = 16.dp, vertical = 8.dp),
         isEnabled = isActive,
-        onClicked = { onClicked(topicInfo, nextLessonNumber) },
+        onClicked = { onStartLessonClicked(topicInfo, nextLessonNumber) },
     ) {
         Row(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
         ) {
+
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.4f),
+                        shape = CircleShape
+                    ),
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center),
+                    text = topicInfo.emoji ?: topicInfo.title.first().toString().uppercase(),
+                    color = MaterialTheme.colorScheme.primary,
+                    fontWeight = FontWeight.Black,
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            }
+
             Column(
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(bottom = 5.dp, start = 16.dp, end = 16.dp)
-                    .weight(1f)
+                    .padding(start = 8.dp)
+                    .align(Alignment.Top)
             ) {
                 Text(
                     text = topicInfo.title,
@@ -179,60 +196,52 @@ private fun TopicInfoCard(
                     color = MaterialTheme.colorScheme.secondary,
                 )
             }
+        }
 
+        if (isCompleted || isActive) {
+            val hasGrammar = topicInfo.grammarLanguages.isNotEmpty()
             Box(
                 modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .size(56.dp, 56.dp)
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .padding(start = 16.dp, end = 12.dp)
             ) {
-                val trackColor = when {
-                    isActive -> MaterialTheme.colorScheme.secondaryContainer
-                    else -> Color.Transparent
+                if (hasGrammar) {
+                    TextButton(
+                        modifier = Modifier
+                            .align(Alignment.CenterStart),
+                        onClick = { onGrammarClicked(topicInfo) }
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(20.dp),
+                            imageVector = Icons.study,
+                            contentDescription = ""
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(text = "Grammar")
+
+                    }
                 }
-                CircularProgressIndicator(
+                TextButton(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center),
-                    trackColor = trackColor,
-                    progress = { progress },
-                    strokeCap = StrokeCap.Round,
-                )
-                when {
-                    isCompleted -> {
-                        Image(
-                            modifier = Modifier.align(Alignment.Center),
-                            imageVector = Icons.check,
-                            colorFilter = ColorFilter.tint(color = SpecialColors.correctGreen),
-                            contentDescription = null
-                        )
+                        .align(Alignment.CenterEnd),
+                    onClick = { onStartLessonClicked(topicInfo, nextLessonNumber) }
+                ) {
+                    val text = when {
+                        isCompleted -> "Review"
+                        else -> "Start ${lessonsCompletedCount.inc()}/${topicInfo.topicLength}"
                     }
-                    isActive -> {
-                        Text(
-                            modifier = Modifier.align(Alignment.Center),
-                            text = "$lessonsCompletedCount/${topicInfo.topicLength}",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.secondary
-                        )
-                    }
-                    else -> {
-                        Image(
-                            modifier = Modifier.align(Alignment.Center),
-                            imageVector = Icons.lock,
-                            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
-                            contentDescription = null
-                        )
-                    }
+                    Text(text = text)
+                    Spacer(modifier = Modifier.width(2.dp))
+                    Icon(
+                        modifier = Modifier.size(20.dp),
+                        imageVector = Icons.chevronRight,
+                        contentDescription = ""
+                    )
                 }
             }
-            Image(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically)
-                    .padding(end = 16.dp, start = 8.dp)
-                    .setVisibleElseInvisible(isVisible = isActive),
-                imageVector = Icons.chevronRight,
-                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.tertiary),
-                contentDescription = null
-            )
+        } else {
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -242,7 +251,7 @@ private fun TopicInfoCard(
 private fun TopicsListScreenPreview() {
     LeMokTheme {
         TopicsListScreen(
-            onTopicClicked = {_, _ -> },
+            onTopicClicked = { _, _ -> },
             onArticleClicked = { _, _ -> },
             onAppInfoClicked = {},
         )
@@ -259,10 +268,13 @@ private fun TopicInfoCardCompletedPreview() {
                 lessonsCount = 2,
                 title = "Best topic ever ever ever",
                 description = "Common phrases and genitive case",
+                emoji = "✋",
+                grammarLanguages = listOf(),
             ),
             lessonsCompletedCount = 10,
             isActive = true,
-            onClicked = { _, _ -> }
+            onStartLessonClicked = { _, _ -> },
+            onGrammarClicked = {},
         )
     }
 }
@@ -277,10 +289,13 @@ private fun TopicInfoCardOngoingPreview() {
                 lessonsCount = 2,
                 title = "Best topic ever ever ever",
                 description = "Common phrases and genitive case",
+                emoji = null,
+                grammarLanguages = listOf(ForeignLanguage.ENGLISH),
             ),
             lessonsCompletedCount = 2,
             isActive = true,
-            onClicked = { _, _ -> }
+            onStartLessonClicked = { _, _ -> },
+            onGrammarClicked = {},
         )
     }
 }
@@ -295,10 +310,13 @@ private fun TopicInfoCardInactivePreview() {
                 lessonsCount = 2,
                 title = "Best topic ever ever ever",
                 description = "Common phrases and genitive case",
+                emoji = "✋",
+                grammarLanguages = listOf(ForeignLanguage.ENGLISH),
             ),
             lessonsCompletedCount = 0,
             isActive = false,
-            onClicked = { _, _ -> }
+            onStartLessonClicked = { _, _ -> },
+            onGrammarClicked = {},
         )
     }
 }

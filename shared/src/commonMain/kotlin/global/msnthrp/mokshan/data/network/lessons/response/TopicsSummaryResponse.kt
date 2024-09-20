@@ -14,4 +14,6 @@ internal data class TopicInfoResponse(
     val lessonsCount: Int?,
     val title: String?,
     val description: String?,
+    val emoji: String?,
+    val grammar: List<String>?,
 )

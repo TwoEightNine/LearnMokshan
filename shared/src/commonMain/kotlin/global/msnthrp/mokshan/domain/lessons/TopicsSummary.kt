@@ -1,5 +1,7 @@
 package global.msnthrp.mokshan.domain.lessons
 
+import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
+
 data class TopicsSummary(
     val topicsCount: Int,
     val topicsInfo: List<TopicInfo>,
@@ -10,6 +12,8 @@ data class TopicInfo(
     val lessonsCount: Int,
     val title: String,
     val description: String,
+    val emoji: String?,
+    val grammarLanguages: List<ForeignLanguage>,
 ) {
     val topicLength: Int by lazy { lessonsCount * 3 + 4 }
 }

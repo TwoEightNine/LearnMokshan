@@ -2,6 +2,7 @@ package global.msnthrp.mokshan.data.network.lessons.response
 
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
+import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 
 internal fun TopicsSummaryResponse.toDomain(): TopicsSummary? {
     return TopicsSummary(
@@ -16,5 +17,9 @@ private fun TopicInfoResponse.toDomain(): TopicInfo? {
         lessonsCount = this.lessonsCount ?: return null,
         title = this.title ?: return null,
         description = this.description.orEmpty(),
+        emoji = this.emoji,
+        grammarLanguages = this.grammar
+            ?.mapNotNull { runCatching { ForeignLanguage.valueOf(it) }.getOrNull() }
+            ?: emptyList(),
     )
 }
