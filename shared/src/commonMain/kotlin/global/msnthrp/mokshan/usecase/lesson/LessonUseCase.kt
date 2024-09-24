@@ -118,7 +118,7 @@ class LessonUseCase(
             getExactLesson(topic, lessonNumber)
                 ?.dec()
                 ?.takeIf { it < topic.lessons.size }
-                ?.let { topic.lessons.getOrNull(it.dec()) }
+                ?.let { topic.lessons.getOrNull(it) }
                 ?.also { lesson ->
                     val newWords = lesson.dictionary
                     val lessonPairs = topic.lessons.flatMap { it.toNative }
