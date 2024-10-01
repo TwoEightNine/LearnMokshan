@@ -5,6 +5,7 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
 import androidx.compose.material.icons.automirrored.rounded.Article
+import androidx.compose.material.icons.automirrored.rounded.HelpOutline
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.AccountBalance
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.FontDownload
+import androidx.compose.material.icons.rounded.Handshake
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,6 +32,8 @@ object Icons {
     val lock = Icons.Outlined.Lock
     val dictionary = Icons.Rounded.FontDownload
     val check = Icons.Rounded.CheckCircle
+    val contribute = Icons.Rounded.Handshake
+    val question = Icons.AutoMirrored.Rounded.HelpOutline
 //    val dictionary = Icons.Rounded.FormatColorText
 
     val study = Icons.Rounded.AccountBalance

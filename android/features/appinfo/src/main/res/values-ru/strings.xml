@@ -3,6 +3,11 @@
     <string name="app_info_title">О приложении</string>
     <string name="app_info_privacy_policy">Политика конфиденциальности</string>
     <string name="app_info_tos">Условия использования</string>
+    <string name="app_info_contrib">Я говорю по-мокшански и хочу помочь!</string>
+    <string name="app_info_mail_subject">Учим мокшанский</string>
+    <string name="app_info_contrib_message">Добрый день. Я говорю по-мокшански и хочу помочь проекту.</string>
+    <string name="app_info_get_help">Задать вопрос</string>
+    <string name="app_info_get_help_message">Добрый день. У меня есть вопрос о приложении.</string>
     <string name="app_info_app_version">Версия приложения: {version}</string>
     <string name="app_info_content_version">Версия данных:</string>
     <string name="app_info_message_from_developer">Сообщение от разработчика</string>

@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -32,6 +33,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.theme.SpecialColors
 import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
@@ -158,6 +160,7 @@ private fun TopicInfoCard(
                 .padding(top = 16.dp)
         ) {
 
+            // circle, emoji
             Box(
                 modifier = Modifier
                     .size(56.dp)
@@ -175,18 +178,44 @@ private fun TopicInfoCard(
                 )
             }
 
+            // title, description
             Column(
                 modifier = Modifier
                     .padding(start = 8.dp)
                     .align(Alignment.Top)
             ) {
-                Text(
-                    text = topicInfo.title,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = topicInfo.title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleLarge,
+                        color = MaterialTheme.colorScheme.onBackground,
+                    )
+                    val imageVector = when {
+                        isCompleted -> Icons.check
+                        !isActive -> Icons.lock
+                        else -> null
+                    }
+                    val tint = when (imageVector) {
+                        Icons.check -> SpecialColors.correctGreen
+                        else -> LocalContentColor.current
+                    }
+                    if (imageVector != null) {
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Icon(
+                            modifier = Modifier
+                                .size(20.dp)
+                                .padding(top = 4.dp)
+                                .align(Alignment.CenterVertically),
+                            imageVector = imageVector,
+                            tint = tint,
+                            contentDescription = ""
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = topicInfo.description,

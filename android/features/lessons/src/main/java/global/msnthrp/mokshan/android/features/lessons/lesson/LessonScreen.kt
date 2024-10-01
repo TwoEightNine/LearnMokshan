@@ -554,6 +554,7 @@ private fun CompletedSurface(
 private fun HintedText(
     modifier: Modifier = Modifier,
     style: TextStyle = TextStyle.Default,
+    color: Color = MaterialTheme.colorScheme.onBackground,
     text: String,
     onClicked: (word: String, pos: Int) -> Unit,
 ) {
@@ -568,7 +569,7 @@ private fun HintedText(
     }
     ClickableText(
         modifier = modifier,
-        style = style,
+        style = style.plus(TextStyle(color = color)),
         text = string,
         onClick = { offset ->
             var startIndex = 0

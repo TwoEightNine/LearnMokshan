@@ -3,6 +3,12 @@
     <string name="app_info_title">About app</string>
     <string name="app_info_privacy_policy">Privacy policy</string>
     <string name="app_info_tos">Terms of service</string>
+    <string name="app_info_contrib">I speak Mokshan and want to contribute!</string>
+    <string name="app_info_mail_subject">Learn Mokshan</string>
+    <string name="app_info_contrib_message">Hello. I speak Mokshan and want to contribute.</string>
+    <string name="app_info_get_help">Ask a question</string>
+    <string name="app_info_get_help_message">Hello. I have a question about the app.</string>
+    <string name="app_info_contrib_mail" translatable="false">learn.mokshan.app@gmail.com</string>
     <string name="app_info_app_version">App version: {version}</string>
     <string name="app_info_content_version">Content version: </string>
     <string name="app_info_message_from_developer">A message from developer</string>

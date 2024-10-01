@@ -30,6 +30,7 @@ private const val DEV_URL = "https://raw.githubusercontent.com/TwoEightNine/Lear
 fun AppInfoScreen(
     onBackClicked: () -> Unit,
     onArticleClicked: (url: String, title: String) -> Unit,
+    onMailClicked: (mailTo: String, subject: String, message: String) -> Unit,
     buildConfig: LeMokBuildConfig = getKoin().get(),
 ) {
     LeMokScreen(
@@ -76,6 +77,34 @@ fun AppInfoScreen(
                 },
             )
 
+            val contribMessage = stringResource(id = R.string.app_info_contrib_message)
+            val contribMail = stringResource(id = R.string.app_info_contrib_mail)
+            val mailSubject = stringResource(id = R.string.app_info_mail_subject)
+            LeMokCell(
+                text = stringResource(id = R.string.app_info_contrib),
+                icon = Icons.contribute,
+                onClicked = {
+                    onMailClicked(
+                        contribMail,
+                        mailSubject,
+                        contribMessage
+                    )
+                },
+            )
+
+            val getHelpMessage = stringResource(id = R.string.app_info_contrib_message)
+            LeMokCell(
+                text = stringResource(id = R.string.app_info_get_help),
+                icon = Icons.question,
+                onClicked = {
+                    onMailClicked(
+                        contribMail,
+                        mailSubject,
+                        getHelpMessage
+                    )
+                },
+            )
+
             Text(
                 modifier = Modifier
                     .padding(start = 56.dp, end = 16.dp, top = 16.dp, bottom = 12.dp),
@@ -96,6 +125,7 @@ fun AppInfoPreview() {
         AppInfoScreen(
             onBackClicked = {},
             onArticleClicked = { _, _ -> },
+            onMailClicked = { _, _, _ -> }
         )
     }
 }
