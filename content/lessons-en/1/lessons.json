@@ -16,8 +16,16 @@
           "native": ["Hello!"]
         },
         {
-          "mokshan": "Шумбраши!",
-          "native": ["Good day!"]
+          "mokshan": "Пара шобдава!",
+          "native": ["Good morning!"]
+        },
+        {
+          "mokshan": "Пара ши!",
+          "native": ["Good afternoon!"]
+        },
+        {
+          "mokshan": "Пара илядь!",
+          "native": ["Good evening!"]
         },
         {
           "mokshan": "Кода тефне?",
@@ -57,9 +65,10 @@
         }
       ],
       "dictionary": [
-        "Шумбрат!", "Шумбратада!", "Шумбраши!", "Кода тефне?", "Кода тевонте?", "Кода эрят?",
-        "Кода эрятада?", "Кальдявста", "Аф кальдявста", "Цебярьста", "Аф пяк", "Лац",
-        "эрямс", "тев", "кода", "аф", "пяк", "цебярь", "кальдяв"
+        "Шумбрат!", "Шумбратада!", "Пара шобдава!", "Пара ши!", "Пара илядь!",
+        "Кода тефне?", "Кода тевонте?", "Кода эрят?", "Кода эрятада?",
+        "Кальдявста", "Аф кальдявста", "Цебярьста", "Аф пяк", "Лац",
+        "эрямс", "тев", "кода", "аф", "пяк", "цебярь", "кальдяв", "шобдава", "ши", "илядь", "пара"
       ]
     },
     {
@@ -74,20 +83,20 @@
           "native": ["Hello! How are you all?"]
         },
         {
-          "mokshan": "Шумбраши! Кода тефне?",
-          "native": ["Good day! How are you?"]
+          "mokshan": "Пара шобдава! Кода тефне?",
+          "native": ["Good morning! How are you?"]
         },
         {
-          "mokshan": "Шумбрат! Кода эрят?",
-          "native": ["Hello! How do you do?"]
+          "mokshan": "Пара ши! Кода эрят?",
+          "native": ["Good afternoon! How do you do?"]
         },
         {
           "mokshan": "Шумбратада! Кода эрятада?",
           "native": ["Hello! How do you all do?"]
         },
         {
-          "mokshan": "Шумбраши! Кода эрят?",
-          "native": ["Good day! How do you do?"]
+          "mokshan": "Пара илядь! Кода эрят?",
+          "native": ["Good evening! How do you do?"]
         },
         {
           "mokshan": "Кода тефне? – Лац",
@@ -135,6 +144,10 @@
       "native": "your deal"
     },
     {
+      "mokshan": "эрямс",
+      "native": "to live"
+    },
+    {
       "mokshan": "эрят",
       "native": "lives"
     },
@@ -155,8 +168,24 @@
       "native": "good"
     },
     {
+      "mokshan": "пара",
+      "native": "good"
+    },
+    {
       "mokshan": "кальдяв",
       "native": "bad"
+    },
+    {
+      "mokshan": "шобдава",
+      "native": "morning"
+    },
+    {
+      "mokshan": "ши",
+      "native": "day"
+    },
+    {
+      "mokshan": "илядь",
+      "native": "evening"
     }
   ]
 }
