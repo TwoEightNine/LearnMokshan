@@ -40,12 +40,12 @@ import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
-import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import java.util.Locale
 
-private const val PRONUNCIATION_ARTICLE_URL =
+private const val ARTICLES_URL =
     "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-            "master/content/articles/pronunciation-{locale}.json"
+            "master/content/articles/"
+private const val PRONUNCIATION_ARTICLE_URL = "${ARTICLES_URL}pronunciation-{locale}.json"
 
 @Composable
 internal fun TopicsListScreen(
@@ -122,7 +122,7 @@ internal fun TopicsListScreen(
                             topicInfo = topicInfo,
                             lessonsCompletedCount = lessonsCompletedCount,
                             isActive = isTopicActive,
-                            onGrammarClicked = {},
+                            onGrammarClicked = { onArticleClicked("r", ARTICLES_URL + it.grammar) },
                             onStartLessonClicked = onTopicClicked,
                         )
                     }
@@ -228,7 +228,7 @@ private fun TopicInfoCard(
         }
 
         if (isCompleted || isActive) {
-            val hasGrammar = topicInfo.grammarLanguages.isNotEmpty()
+            val hasGrammar = topicInfo.grammar.isNullOrBlank().not()
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -298,7 +298,7 @@ private fun TopicInfoCardCompletedPreview() {
                 title = "Best topic ever ever ever",
                 description = "Common phrases and genitive case",
                 emoji = "✋",
-                grammarLanguages = listOf(),
+                grammar = null,
             ),
             lessonsCompletedCount = 10,
             isActive = true,
@@ -319,7 +319,7 @@ private fun TopicInfoCardOngoingPreview() {
                 title = "Best topic ever ever ever",
                 description = "Common phrases and genitive case",
                 emoji = null,
-                grammarLanguages = listOf(ForeignLanguage.ENGLISH),
+                grammar = "something",
             ),
             lessonsCompletedCount = 2,
             isActive = true,
@@ -340,7 +340,7 @@ private fun TopicInfoCardInactivePreview() {
                 title = "Best topic ever ever ever",
                 description = "Common phrases and genitive case",
                 emoji = "✋",
-                grammarLanguages = listOf(ForeignLanguage.ENGLISH),
+                grammar = "somthing",
             ),
             lessonsCompletedCount = 0,
             isActive = false,

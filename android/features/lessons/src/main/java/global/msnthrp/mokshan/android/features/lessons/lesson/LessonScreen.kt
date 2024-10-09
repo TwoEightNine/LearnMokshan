@@ -77,7 +77,6 @@ import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.UserInput
-import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -637,7 +636,7 @@ fun LessonScreenPreview() {
                 title = "Greetings",
                 description = "Common phrases and genitive case",
                 emoji = "✋",
-                grammarLanguages = listOf(ForeignLanguage.ENGLISH),
+                grammar = "something",
             ),
             lessonNumber = 2,
             onBackPressed = {},

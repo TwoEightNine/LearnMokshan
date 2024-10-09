@@ -63,6 +63,6 @@ private fun Bundle?.getTopicInfo(): TopicInfo? {
         description = bundle.getString(ARG_TOPIC_DESCRIPTION).orEmpty(),
         // no need in the lesson screen
         emoji = null,
-        grammarLanguages = emptyList(),
+        grammar = null,
     )
 }
