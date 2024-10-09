@@ -122,7 +122,7 @@ internal fun TopicsListScreen(
                             topicInfo = topicInfo,
                             lessonsCompletedCount = lessonsCompletedCount,
                             isActive = isTopicActive,
-                            onGrammarClicked = { onArticleClicked("r", ARTICLES_URL + it.grammar) },
+                            onGrammarClicked = { onArticleClicked("", ARTICLES_URL + it.grammar) },
                             onStartLessonClicked = onTopicClicked,
                         )
                     }

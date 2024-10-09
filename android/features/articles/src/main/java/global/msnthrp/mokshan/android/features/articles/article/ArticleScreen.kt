@@ -15,6 +15,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.uikit.JartView
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.domain.jart.JartEntry
 
 @Composable
 fun ArticleScreen(
@@ -29,9 +30,13 @@ fun ArticleScreen(
         articleViewModel.load(articleUrl)
         onPauseOrDispose {}
     }
+    val actualTitle = when {
+        title.isNotBlank() -> title
+        else -> state.jart?.content?.find { it is JartEntry.Title }?.value.orEmpty()
+    }
 
     LeMokScreen(
-        title = title,
+        title = actualTitle,
         onNavigationClick = onBackClicked,
     ) { padding ->
         Column(
@@ -45,7 +50,7 @@ fun ArticleScreen(
             state.jart?.also { jart ->
                 JartView(
                     jart = jart,
-                    showJartTitle = title.isBlank(),
+                    showJartTitle = false,
                     bottomPadding = padding.calculateBottomPadding(),
                 )
             }
