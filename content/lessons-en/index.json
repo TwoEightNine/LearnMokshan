@@ -45,6 +45,13 @@
       "title": "Drinks",
       "description": "Nouns and present tense",
       "emoji": "☕"
+    },
+    {
+      "id": 7,
+      "lessonsCount": 3,
+      "title": "Food",
+      "description": "Nouns and present tense",
+      "emoji": "\uD83E\uDD56"
     }
   ]
 }
