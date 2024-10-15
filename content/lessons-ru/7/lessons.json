@@ -1,7 +1,7 @@
 {
   "id": 7,
-  "title": "Food",
-  "description": "Nouns and present tense",
+  "title": "Еда",
+  "description": "Существительные и настоящее время",
   "version": 1,
   "lessons": [
     {
@@ -9,43 +9,43 @@
       "toNative": [
         {
           "mokshan": "Сыр",
-          "native": ["Cheese"]
+          "native": ["Сыр"]
         },
         {
           "mokshan": "Кши",
-          "native": ["Bread"]
+          "native": ["Хлеб"]
         },
         {
           "mokshan": "Сиволь",
-          "native": ["Meat"]
+          "native": ["Мясо"]
         },
         {
           "mokshan": "Вай",
-          "native": ["Butter"]
+          "native": ["Масло"]
         },
         {
           "mokshan": "Сахар",
-          "native": ["Sugar"]
+          "native": ["Сахар"]
         },
         {
           "mokshan": "Сал",
-          "native": ["Salt"]
+          "native": ["Соль"]
         },
         {
           "mokshan": "Ярхцамбяль",
-          "native": ["Food"]
+          "native": ["Еда"]
         },
         {
           "mokshan": "Кши салфтома",
-          "native": ["Bread without salt"]
+          "native": ["Хлеб без соли"]
         },
         {
           "mokshan": "Кши сыр мархта",
-          "native": ["Bread with cheese"]
+          "native": ["Хлеб с сыром"]
         },
         {
           "mokshan": "Кши вай мархта",
-          "native": ["Bread with butter"]
+          "native": ["Хлеб с маслом"]
         }
       ],
       "dictionary": [
@@ -56,40 +56,40 @@
       "order": 2,
       "toNative": [
         {
-          "mokshan": "Мон ярхцам кшида",
-          "native": ["I eat porridge"]
+          "mokshan": "Мон ярхцан кшида",
+          "native": ["Я ем хлеб"]
         },
         {
           "mokshan": "Тон ярхцат сырда",
-          "native": ["You eat cheese"]
+          "native": ["Ты ешь сыр"]
         },
         {
           "mokshan": "Сон ярхцай сивольда",
-          "native": ["He eats meat", "She eats meat"]
+          "native": ["Он ест мясо", "Она ест мясо"]
         },
         {
           "mokshan": "Ярхцан сахарда",
-          "native": ["I eat sugar"]
+          "native": ["Я ем сахар"]
         },
         {
           "mokshan": "Ярхцай салда",
-          "native": ["He eats salt", "She eats salt"]
+          "native": ["Он ест соль", "Она ест соль"]
         },
         {
           "mokshan": "Ярхцат вайда",
-          "native": ["You eat butter"]
+          "native": ["Ты ешь масло"]
         },
         {
           "mokshan": "Ярхцан сал мархта кшида",
-          "native": ["I eat bread with salt"]
+          "native": ["Я ем хлеб с солью"]
         },
         {
           "mokshan": "Ярхцай кшида вай мархта",
-          "native": ["He eats bread with butter", "She eats bread with butter"]
+          "native": ["Он ест хлеб с маслом", "Она ест хлеб с маслом"]
         },
         {
           "mokshan": "Ярхцат кшида сахарфтома",
-          "native": ["You eat bread without sugar"]
+          "native": ["Ты ешь хлеб без сахара"]
         }
       ],
       "dictionary": [
@@ -101,35 +101,35 @@
       "toNative": [
         {
           "mokshan": "Модамарь",
-          "native": ["Potato"]
+          "native": ["Картофель"]
         },
         {
           "mokshan": "Марь",
-          "native": ["Apple"]
+          "native": ["Яблоко"]
         },
         {
           "mokshan": "Шонгарям",
-          "native": ["Soup"]
+          "native": ["Суп"]
         },
         {
           "mokshan": "Пяряка",
-          "native": ["Cake"]
+          "native": ["Пирог"]
         },
         {
           "mokshan": "Ям",
-          "native": ["Porridge"]
+          "native": ["Каша"]
         },
         {
           "mokshan": "Капста",
-          "native": ["Cabbage"]
+          "native": ["Капуста"]
         },
         {
           "mokshan": "Лям",
-          "native": ["Shchi"]
+          "native": ["Щи"]
         },
         {
           "mokshan": "Медь",
-          "native": ["Honey"]
+          "native": ["Мёд"]
         }
       ],
       "dictionary": [
@@ -141,31 +141,31 @@
       "toNative": [
         {
           "mokshan": "Минь ярхцатама лямда",
-          "native": ["We eat shchi"]
+          "native": ["Мы едим щи"]
         },
         {
           "mokshan": "Тинь ярхцатада ямда",
-          "native": ["You all eat porridge"]
+          "native": ["Вы едите кашу"]
         },
         {
           "mokshan": "Синь ярхцайхть капстада и модамарьда",
-          "native": ["They eat cabbage and potato"]
+          "native": ["Они едят капусту и картофель"]
         },
         {
           "mokshan": "Ярхцатама модамарьда сиволь мархта",
-          "native": ["We eat potato with meat"]
+          "native": ["Мы едим картофель с мясом"]
         },
         {
           "mokshan": "Ярхцатада медьта",
-          "native": ["You all eat honey"]
+          "native": ["Вы едите мёд"]
         },
         {
           "mokshan": "Ярхцайхть шонгарямда кшифтома",
-          "native": ["They eat soup without bread"]
+          "native": ["Они едят суп без хлеба"]
         },
         {
           "mokshan": "Ярхцайхть пярякада",
-          "native": ["They eat cake"]
+          "native": ["Они едят пирог"]
         }
       ],
       "dictionary": [
@@ -175,91 +175,91 @@
   "translations": [
     {
       "mokshan": "мархта",
-      "native": "with"
+      "native": "с"
     },
     {
       "mokshan": "ярхцамс",
-      "native": "to eat"
+      "native": "есть"
     },
     {
       "mokshan": "ярхцан",
-      "native": "I eat"
+      "native": "ем"
     },
     {
       "mokshan": "ярхцат",
-      "native": "you eat"
+      "native": "ешь"
     },
     {
       "mokshan": "ярхцай",
-      "native": "he/she eats"
+      "native": "ест"
     },
     {
       "mokshan": "ярхцатама",
-      "native": "we eat"
+      "native": "едим"
     },
     {
       "mokshan": "ярхцатада",
-      "native": "you all eat"
+      "native": "едите"
     },
     {
       "mokshan": "ярхцайхть",
-      "native": "they eat"
+      "native": "едят"
     },
     {
       "mokshan": "кшида",
-      "native": "bread"
+      "native": "хлеб"
     },
     {
       "mokshan": "сырда",
-      "native": "cheese"
+      "native": "сыр"
     },
     {
       "mokshan": "сивольда",
-      "native": "meat"
+      "native": "мясо"
     },
     {
       "mokshan": "сахарда",
-      "native": "sugar"
+      "native": "сахар"
     },
     {
       "mokshan": "салда",
-      "native": "salt"
+      "native": "соль"
     },
     {
       "mokshan": "вайда",
-      "native": "butter"
+      "native": "масло"
     },
     {
       "mokshan": "сахарфтома",
-      "native": "without sugar"
+      "native": "без сахара"
     },
     {
       "mokshan": "лямда",
-      "native": "shchi"
+      "native": "щи"
     },
     {
       "mokshan": "ямда",
-      "native": "porridge"
+      "native": "каша"
     },
     {
       "mokshan": "капстада",
-      "native": "cabbage"
+      "native": "капуста"
     },
     {
       "mokshan": "модамарьда",
-      "native": "potato"
+      "native": "картофель"
     },
     {
       "mokshan": "медьта",
-      "native": "honey"
+      "native": "мёд"
     },
     {
       "mokshan": "шонгарямда",
-      "native": "soup"
+      "native": "суп"
     },
     {
       "mokshan": "пярякада",
-      "native": "cake"
+      "native": "пирог"
     }
   ]
 }
