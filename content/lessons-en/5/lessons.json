@@ -92,12 +92,12 @@
           "native": ["Is that a bear?"]
         },
         {
-          "mokshan": "Тя офта",
-          "native": ["This is a bear"]
+          "mokshan": "Тя сараз",
+          "native": ["This is a hen"]
         }
       ],
       "dictionary": [
-        "мезе", "кал", "жувата", "сярда", "нумол", "офта", "ся"
+        "мезе", "кал", "жувата", "сярда", "нумол", "офта", "сараз", "ся"
       ]
     },
     {
@@ -122,6 +122,10 @@
         {
           "mokshan": "Тя аф алаша, а сярда",
           "native": ["This is not a horse, but a moose"]
+        },
+        {
+          "mokshan": "Тя нармонь? – Да, тя сараз",
+          "native": ["This is a bird? – Yes, this is a hen"]
         },
         {
           "mokshan": "Тя пине, а ся ката",
@@ -195,6 +199,10 @@
     {
       "mokshan": "офта",
       "native": "bear"
+    },
+    {
+      "mokshan": "сараз",
+      "native": "hen"
     }
   ]
 }
