@@ -30,14 +30,16 @@
       "lessonsCount": 3,
       "title": "Who is it?",
       "description": "Statements and people",
-      "emoji": "\uD83D\uDC68"
+      "emoji": "\uD83D\uDC68",
+      "grammar": "grammar-4-5-en.prelinar"
     },
     {
       "id": 5,
       "lessonsCount": 3,
       "title": "What is it?",
       "description": "Statements and animals",
-      "emoji": "\uD83D\uDC08"
+      "emoji": "\uD83D\uDC08",
+      "grammar": "grammar-4-5-en.prelinar"
     },
     {
       "id": 6,
