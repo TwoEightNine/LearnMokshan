@@ -77,6 +77,7 @@ import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.UserInput
+import global.msnthrp.mokshan.usecase.lesson.LessonUseCase
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -135,6 +136,11 @@ fun LessonScreen(
         }
     }
 
+    val screenTitle = when (lessonNumber) {
+        LessonUseCase.LESSON_NUMBER_REPEAT -> "${topicInfo.title}. ${stringResource(R.string.lesson_refresh_title)}"
+        else -> "${topicInfo.title} #$lessonNumber"
+    }
+
     Scaffold(
         topBar = {
             Column {
@@ -142,7 +148,7 @@ fun LessonScreen(
                 (CenterAlignedTopAppBar(
                     title = {
                         Text(
-                            text = "${topicInfo.title} #$lessonNumber",
+                            text = screenTitle,
                             color = MaterialTheme.colorScheme.onBackground,
                             style = MaterialTheme.typography.headlineSmall,
                         )

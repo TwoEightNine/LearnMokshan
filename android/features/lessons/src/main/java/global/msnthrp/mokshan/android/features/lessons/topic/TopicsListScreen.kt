@@ -40,6 +40,7 @@ import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
+import global.msnthrp.mokshan.usecase.lesson.LessonUseCase
 import java.util.Locale
 
 private const val ARTICLES_URL =
@@ -141,11 +142,11 @@ private fun TopicInfoCard(
     onStartLessonClicked: (TopicInfo, lessonNumber: Int) -> Unit,
 ) {
     val isCompleted = lessonsCompletedCount == topicInfo.topicLength
-
-    val nextLessonNumber = when (lessonsCompletedCount) {
-        topicInfo.topicLength -> lessonsCompletedCount
+    val nextLessonNumber = when {
+        isCompleted -> LessonUseCase.LESSON_NUMBER_REPEAT
         else -> lessonsCompletedCount.inc()
     }
+
     LeMokCard(
         modifier = Modifier
             .fillMaxWidth()

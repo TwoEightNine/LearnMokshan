@@ -1,5 +1,7 @@
 package global.msnthrp.mokshan.domain.lessons
 
+import global.msnthrp.mokshan.usecase.lesson.TopicsUtils
+
 data class TopicsSummary(
     val topicsCount: Int,
     val topicsInfo: List<TopicInfo>,
@@ -13,7 +15,7 @@ data class TopicInfo(
     val emoji: String?,
     val grammar: String?,
 ) {
-    val topicLength: Int by lazy { lessonsCount * 3 + 4 }
+    val topicLength: Int by lazy { TopicsUtils.getTopicLength(lessonsCount) }
 }
 
 data class TopicsSummaryWithProgress(

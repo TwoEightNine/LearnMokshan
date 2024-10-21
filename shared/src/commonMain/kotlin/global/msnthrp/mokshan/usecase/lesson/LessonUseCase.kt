@@ -22,7 +22,7 @@ class LessonUseCase(
         println("prepareLesson(topicId=$topicId, lessonNumber=$lessonNumber)")
         val topicResult = lessonRepository.getTopic(topicId)
         val topic = topicResult.getOrNull() ?: return Result.failureOf(topicResult)
-        if (lessonNumber > topic.topicLength) {
+        if (lessonNumber !in 0..topic.topicLength && lessonNumber != LESSON_NUMBER_REPEAT) {
             return Result.failure(
                 IllegalArgumentException(
                     "Lesson number $lessonNumber received while topic ${topic.id} offers " +
@@ -86,7 +86,7 @@ class LessonUseCase(
                 val suggestedWords = getListExtendedFrom(correctWords, extendFrom, desiredSize = 10)
                     .mapIndexed { i, word -> BankWord(word, i) }
 
-                val type = when (getTypeByLessonNumber(stepRatio, lessonByNumber)) {
+                val type = when (getTypeByLessonNumber(lessonByNumber)) {
                     LessonStepType.WordBank::class -> LessonStepType.WordBank(suggestedWords)
                     LessonStepType.Input::class -> LessonStepType.Input
                     else -> throw NotImplementedError("what else do you want?")
@@ -192,7 +192,8 @@ class LessonUseCase(
         lessonByNumber: LessonByNumber
     ): LessonStepDirection {
         return when (lessonByNumber) {
-            LessonByNumber.BANK_ONLY, LessonByNumber.BANK_SUMMARY -> LessonStepDirection.FROM_MOKSHAN
+            LessonByNumber.BANK_ONLY,
+            LessonByNumber.BANK_SUMMARY -> LessonStepDirection.FROM_MOKSHAN
             else -> if (stepRatio in 0f..0.25f || stepRatio in 0.501f..0.75f) {
                 LessonStepDirection.FROM_MOKSHAN
             } else {
@@ -202,26 +203,30 @@ class LessonUseCase(
     }
 
     private fun getTypeByLessonNumber(
-        stepRatio: Float,
         lessonByNumber: LessonByNumber
     ): KClass<out LessonStepType> {
         return when (lessonByNumber) {
-            LessonByNumber.BANK_ONLY, LessonByNumber.BANK_SUMMARY -> LessonStepType.WordBank::class
-            LessonByNumber.INPUT_ONLY, LessonByNumber.INPUT_SUMMARY, LessonByNumber.FULL_REVIEW -> LessonStepType.Input::class
-            else -> if (stepRatio <= 0.5f) LessonStepType.WordBank::class else LessonStepType.Input::class
-//                        else -> LessonStepType.Input::class
+            LessonByNumber.BANK_ONLY,
+            LessonByNumber.BANK_SUMMARY -> LessonStepType.WordBank::class
+            LessonByNumber.INPUT_ONLY,
+            LessonByNumber.INPUT_SUMMARY,
+            LessonByNumber.FULL_REVIEW,
+            LessonByNumber.REPEAT -> LessonStepType.Input::class
         }
     }
 
     private fun getLessonByNumber(lessonsCount: Int, lessonNumber: Int): LessonByNumber {
+        val bankSummary = lessonsCount + 1
+        val inputSummary = 2 * lessonsCount + 2
+        val fullReview = TopicsUtils.getTopicLength(lessonsCount)
         return when {
-            lessonNumber <= lessonsCount -> LessonByNumber.BANK_ONLY
-            lessonNumber == lessonsCount + 1 -> LessonByNumber.BANK_SUMMARY
-            lessonNumber <= 2 * lessonsCount + 1 -> LessonByNumber.HALF_BANK_HALF_INPUT
-            lessonNumber == 2 * lessonsCount + 2 -> LessonByNumber.HALF_SUMMARY
-            lessonNumber <= 3 * lessonsCount + 2 -> LessonByNumber.INPUT_ONLY
-            lessonNumber == 3 * lessonsCount + 3 -> LessonByNumber.INPUT_SUMMARY
-            else -> LessonByNumber.FULL_REVIEW
+            lessonNumber == LESSON_NUMBER_REPEAT -> LessonByNumber.REPEAT
+            lessonNumber < bankSummary -> LessonByNumber.BANK_ONLY
+            lessonNumber == bankSummary -> LessonByNumber.BANK_SUMMARY
+            lessonNumber < inputSummary -> LessonByNumber.INPUT_ONLY
+            lessonNumber == inputSummary -> LessonByNumber.INPUT_SUMMARY
+            lessonNumber == fullReview -> LessonByNumber.FULL_REVIEW
+            else -> LessonByNumber.REPEAT
         }
     }
 
@@ -250,10 +255,13 @@ class LessonUseCase(
     internal enum class LessonByNumber {
         BANK_ONLY,
         BANK_SUMMARY,
-        HALF_BANK_HALF_INPUT,
-        HALF_SUMMARY,
         INPUT_ONLY,
         INPUT_SUMMARY,
         FULL_REVIEW,
+        REPEAT,
+    }
+
+    companion object {
+        const val LESSON_NUMBER_REPEAT = -3
     }
 }

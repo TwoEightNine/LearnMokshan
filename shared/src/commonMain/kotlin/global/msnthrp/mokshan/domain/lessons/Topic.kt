@@ -1,5 +1,7 @@
 package global.msnthrp.mokshan.domain.lessons
 
+import global.msnthrp.mokshan.usecase.lesson.TopicsUtils
+
 data class Topic(
     val id: Int,
     val title: String,
@@ -8,7 +10,7 @@ data class Topic(
     val translations: List<Translation>,
 ) {
 
-    val topicLength: Int by lazy { lessons.size * 3 + 4 }
+    val topicLength: Int by lazy { TopicsUtils.getTopicLength(lessons.size) }
 }
 
 data class Lesson(
