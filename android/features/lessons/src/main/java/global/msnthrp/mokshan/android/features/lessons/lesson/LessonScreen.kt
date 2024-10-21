@@ -1,5 +1,6 @@
 package global.msnthrp.mokshan.android.features.lessons.lesson
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -135,6 +136,7 @@ fun LessonScreen(
             }
         }
     }
+    BackHandler { lessonViewModel.onCloseClicked() }
 
     val screenTitle = when (lessonNumber) {
         LessonUseCase.LESSON_NUMBER_REPEAT -> "${topicInfo.title}. ${stringResource(R.string.lesson_refresh_title)}"
