@@ -10,10 +10,10 @@ plugins {
 }
 
 android {
-    namespace = "global.msnthrp.mokshan.android"
+    namespace = "global.msnthrp.learnmokshan"
     compileSdk = 34
     defaultConfig {
-        applicationId = "global.msnthrp.mokshan.android"
+        applicationId = "global.msnthrp.learnmokshan"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
