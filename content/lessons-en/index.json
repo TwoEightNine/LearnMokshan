@@ -46,14 +46,16 @@
       "lessonsCount": 3,
       "title": "Drinks",
       "description": "Nouns and present tense",
-      "emoji": "☕"
+      "emoji": "☕",
+      "grammar": "grammar-6-7-en.prelinar"
     },
     {
       "id": 7,
       "lessonsCount": 3,
       "title": "Food",
       "description": "Nouns and present tense",
-      "emoji": "\uD83E\uDD56"
+      "emoji": "\uD83E\uDD56",
+      "grammar": "grammar-6-7-en.prelinar"
     }
   ]
 }

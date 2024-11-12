@@ -46,14 +46,16 @@
       "lessonsCount": 3,
       "title": "Напитки",
       "description": "Существительные и настоящее время",
-      "emoji": "☕"
+      "emoji": "☕",
+      "grammar": "grammar-6-7-ru.prelinar"
     },
     {
       "id": 7,
       "lessonsCount": 4,
       "title": "Еда",
       "description": "Существительные и настоящее время",
-      "emoji": "\uD83E\uDD56"
+      "emoji": "\uD83E\uDD56",
+      "grammar": "grammar-6-7-ru.prelinar"
     }
   ]
 }
