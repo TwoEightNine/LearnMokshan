@@ -9,7 +9,9 @@ fun String.asPrelinarToJart(url: String): Jart {
     val meta = mutableMapOf<String, String>()
     val content = mutableListOf<JartEntry>()
 
+    val table = mutableListOf<List<String>>()
     var isContentStarted = false
+    var isInTable = false
     lines.forEach { line ->
         if (!isContentStarted && line == "CONTENT") {
             isContentStarted = true
@@ -30,23 +32,45 @@ fun String.asPrelinarToJart(url: String): Jart {
                     lineValueStart = end + 2
                 }
             }
-            val value = line.substring(lineValueStart)
-            val jartEntry = when (prefix) {
-                null -> JartEntry.Body(value)
-                "h1" -> JartEntry.Header1(value)
-                "h2" -> JartEntry.Header2(value)
-                "h3" -> JartEntry.Header3(value)
-                "title" -> JartEntry.Title(value)
-                "hint" -> JartEntry.Hint(value)
-                "list" -> JartEntry.ListItem(value)
-                "sublist" -> JartEntry.SubListItem(value)
-                "image" -> {
-                    val values = value.split("|").map { it.trim() }
-                    JartEntry.Image(link = values[0], footer = values[1])
-                }
-                else -> JartEntry.Unknown(value)
+            val value = when {
+                lineValueStart in line.indices -> line.substring(lineValueStart)
+                else -> ""
             }
-            content.add(jartEntry)
+            if (prefix == "table") {
+                isInTable = true
+            } else if (isInTable && prefix == "row") {
+                table.add(value.split("|").map { it.trim() })
+            } else if (isInTable && prefix == "endtable") {
+                isInTable = false
+                val width = table.maxOf { it.size }
+                val height = table.size
+                content.add(
+                    JartEntry.Table(
+                        cells = table.flatten(),
+                        size = width to height,
+                        header = false,
+                    )
+                )
+                table.clear()
+            } else {
+                val jartEntry = when (prefix) {
+                    null -> JartEntry.Body(value)
+                    "h1" -> JartEntry.Header1(value)
+                    "h2" -> JartEntry.Header2(value)
+                    "h3" -> JartEntry.Header3(value)
+                    "title" -> JartEntry.Title(value)
+                    "hint" -> JartEntry.Hint(value)
+                    "list" -> JartEntry.ListItem(value)
+                    "sublist" -> JartEntry.SubListItem(value)
+                    "image" -> {
+                        val values = value.split("|").map { it.trim() }
+                        JartEntry.Image(link = values[0], footer = values[1])
+                    }
+
+                    else -> JartEntry.Unknown(value)
+                }
+                content.add(jartEntry)
+            }
         }
     }
 
