@@ -13,7 +13,7 @@ import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalSerializationApi::class)
@@ -59,7 +59,7 @@ class NetworkClient(
 
     interface CacheStorage {
         suspend fun saveResponse(url: String, response: String)
-        suspend fun getResponse(url: String, ttlMs: Long = 1.days.inWholeMilliseconds): CachedResponse?
+        suspend fun getResponse(url: String, ttlMs: Long = 1.hours.inWholeMilliseconds): CachedResponse?
 
         data class CachedResponse(
             val response: String,
