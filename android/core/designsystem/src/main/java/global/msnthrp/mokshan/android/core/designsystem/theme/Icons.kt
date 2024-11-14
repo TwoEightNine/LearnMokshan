@@ -6,6 +6,7 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ExitToApp
 import androidx.compose.material.icons.automirrored.rounded.Article
 import androidx.compose.material.icons.automirrored.rounded.HelpOutline
+import androidx.compose.material.icons.outlined.Autorenew
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
@@ -26,6 +27,7 @@ object Icons {
     val chevronDown = Icons.Outlined.KeyboardArrowDown
     val chevronRight = Icons.AutoMirrored.Filled.KeyboardArrowRight
     val info = Icons.Outlined.Info
+    val retry = Icons.Outlined.Autorenew
     val externalLink = Icons.AutoMirrored.Outlined.ExitToApp
     val arrowBack = Icons.AutoMirrored.Outlined.ArrowBack
     val close = Icons.Outlined.Close
