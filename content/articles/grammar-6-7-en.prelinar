@@ -1,32 +1,32 @@
 version: 1
 CONTENT
-<title> Настоящее время и падежи: Уроки 6-7
-<h2> Настоящее время
-Глаголы занимают важное место в системе частей речи мокшанского языка, играя ключевую роль в грамматическом, семантическом и коммуникативном аспектах. В мокшанском языке глаголы изменяются по лицам, числам, временам и наклонениям.
-Для образования формы настоящего (или настояще-будущего) времени в мокшанском языке к основе глагола добавляются личные окончания. Эта форма глагола передает действие, которое происходит в момент речи, либо запланировано и ограничено во времени. Спряжение глаголов зависит от окончания инфинитива, исходной формы глагола, и выражается через определенные окончания:
+<title> Present Tense and Cases: Lessons 6-7
+<h2> Present Tense
+Verbs occupy an important place in the system of parts of speech of the Mokshan language, playing a key role in grammatical, semantic and communicative aspects. In the Mokshan language, verbs change according to person, number, tense and mood.
+To form the present (or present-future) tense in the Mokshan language, personal endings are added to the verb stem. This verb form conveys an action that occurs at the moment of speech, or is planned and limited in time. Verb conjugation depends on the ending of the infinitive, the initial form of the verb, and is expressed through certain endings:
 <table>
-<row> | -ямс | (твёрдая основа) | (мягкая основа)
-<row> инфинитив | эр*ямс* | канд*омс* | мол*емс*
-<row> основа | эря- | канд- | моль-
+<row> | -ямс | (hard stem) | (soft stem)
+<row> infinitive | эр*ямс* | канд*омс* | мол*емс*
+<row> stem | эря- | канд- | моль-
 <row> мон | эря*н* | канд*ан* | мол*ян*
-<row> Тон | эря*т* | канд*ат** |* мол*ят*
+<row> тон | эря*т* | канд*ат** |* мол*ят*
 <row> сон | эря*й* | канд*ы* | мол*и*
 <row> минь | эря*тама* | кант*тама* | мольх*тяма*
 <row> тинь | эря*тада* | кант*тада* | мольх*тяда*
 <row> синь | эря*йхть* | канд*ыхть* | мол*ихть*
 <endtable>
-Окончания очень похожи, поэтому запомнить их не составит труда, если обратить внимание на следующие правила:
-<list> Глагол на -ямс сохраняет -я- перед окончанием;
-<list> Глагол на твёрдую основу принимает -а-, -ы, глагол на мягкую – -я-, -и;
-<list> Последний согласный основы оглушается для минь и тинь (кан*д*омс – кан*т*тама, мо*л*емс – мо*льх*тяма).
-Важно иметь в виду, что в третьем лице обоих чисел окончание выбирается не в зависимости от окончания инфинитива, а от последнего согласного звука основы и его способности смягчаться. Например, звук *м* в мокшанском не может быть мягким, поэтому графическое разделение -мы/-ми невозможно, а значит в этом случае окончания в третьем лице будут -и, -ихть, несмотря на их твёрдость.
-Рассмотрим глагол симомс. Основа твёрдая (сим-), поэтому используются окончания с -а-: сим*ан*, сим*ат*, сип*тама*, сип*тада*. Но в третьем лице будет сим*и*/сим*ихть*, потому что *м* не может быть мягким в мокшанском.
-Почему в симомс появилась *п* – си*п*тама?
-<h2> Оглушение
-Оглушение — это процесс, при котором звонкие согласные звуки произносятся как глухие. В мокшанском языке этот процесс встречается довольно часто, особенно на стыках корней, суффиксов и окончаний слов, поэтому понимание оглушения важно для правильного образования слов.
-Чтобы лучше понять этот процесс, рассмотрим пары согласных звуков, различающихся по звонкости и глухости в мокшанском языке:
+The endings are very similar, so remembering them will not be difficult if you pay attention to the following rules:
+<list> Verbs ending in -ямс retains -я- before the ending;
+<list> Verbs on a hard stem takes -а-, -ы, verbs on a soft stem takes -я-, -и;
+<list> The last consonant of the stem is devoiced for минь and тинь (кан*д*омс – кан*т*тама, мо*л*емс – мо*льх*тяма).
+It is important to keep in mind that in the third person of both numbers the ending is chosen not depending on the ending of the infinitive, but on the last consonant sound of the base and its ability to soften. For example, the sound *m* in Mokshan cannot be soft, therefore the graphic division -мы/-ми is impossible, which means that in this case the endings in the third person will be -и, -ихть, despite their hardness.
+Let's consider the verb симомс. The stem is hard (сим-), so the endings with -а- are used: сим*ан*, сим*ат*, сип*тама*, сип*тада*. But in the third person it will be сим*и*/сим*ихть*, because *м* cannot be soft in Mokshan.
+Why is there *п* in си*п*тама?
+<h2> Devoicing
+Devoicing is the process by which voiced consonants are pronounced as voiceless. In Mokshan, this process occurs quite often, especially at the junctions of roots, suffixes, and word endings, so understanding devoicing is important for the correct formation of words.
+To better understand this process, let us consider pairs of consonant sounds that differ in voicedness and voicelessness in the Moksha language:
 <table>
-<row> Звонкие | Глухие
+<row> Voiced | Voiceless
 <row> Б /b/ | П /p/
 <row> В /v/ | Ф /f/
 <row> Г /g/ | К /k/
@@ -39,21 +39,21 @@ CONTENT
 <row> Н /n/ | Т /t/
 <row> Р /r/ | Рх /r̥/
 <endtable>
-Рассмотрим пример. Основа глагола симомс (сим-) дополняется окончанием -тама. Здесь звук т является глухим, а м — звонким, поэтому в данной ситуации м оглушается под влиянием т и становится п, то есть образуется глухая пара.
-<h2> Отложительный падеж
-Отложительный падеж (также называемый аблативом или исходным падежом) обозначает начальную точку движения объекта и отвечает на вопросы «откуда?», «от кого?», «от чего?». В мокшанском языке для образования отложительного падежа существительные принимают окончания -да или -та по следующему правилу:
-<list> После звонких согласных, за исключением б, г, д, а также после гласных используется окончание -да.
-<list> В остальных случаях применяется окончание -та.
-Рассмотрим примеры:
+Let's look at an example. The verb stem симомс (сим-) is supplemented by the ending -тама. Here the sound т is voiceless, and м is voiced, therefore in this situation м is voiced under the influence of т and becomes п, that is, a voiceless pair is formed.
+<h2> Ablative case
+The ablative case denotes the starting point of an object's movement and answers the questions "from where?", "from whom?", "from what?". In the Mokshan language, to form the ablative case, nouns take the endings -да or -та according to the following rule:
+<list> After voiced consonants, with the exception of б, г, д, and also after vowels, the ending -да is used.
+<list> In other cases, the ending -та is used.
+Examples:
 <list> Кие – кида;
 <list> Мезе – мезьда;
 <list> Ям – ямда;
-<list> Ведь – ведьта (д – исключение);
+<list> Ведь – ведьта (д is en exception, as were mentioned);
 <list> Ряпс – ряпста.
-Окончание добавляется к основе слова, что иногда приводит к его изменению: например, лофца становится лофцта. При описании действий, связанных с употреблением пищи или напитков, в мокшанском языке также используется отложительный падеж.
-<h2> Изъятельный падеж
-Изъятельный падеж (абессив, лишительный падеж) указывает на отсутствие или исключение объекта и отвечает на вопросы «без кого?» или «без чего?». В мокшанском языке для формирования изъятельного падежа используется окончание -фтома. При его добавлении оглушение согласных не происходит.
-Примеры:
+The ending is added to the word stem, which sometimes changes it: for example, лофца becomes лофцта. When describing actions related to the consumption of food or drinks, the Mokshan language also uses the ablative case.
+<h2> Abessive case
+The abessive case indicates the absence or exclusion of an object and answers the questions "without whom?" or "without what?". In the Moksha language, the ending -фтома is used to form the indicative case. When it is added, the devoicing of consonants does not occur.
+Examples:
 <list> Кие – кифтома;
 <list> Мезе – мезьфтома;
 <list> Сахар – сахарфтома;
