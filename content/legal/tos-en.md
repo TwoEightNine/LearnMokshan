@@ -1,6 +1,6 @@
 # Terms of Service
 ## Introduction
-Welcome to 'Mokshan Phrasebook' (the \"App\"). These Terms of Service (\"Terms\") govern your use of the App. By using the App, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, please do not use the App.
+Welcome to 'Learn Mokshan' (the \"App\"). These Terms of Service (\"Terms\") govern your use of the App. By using the App, you agree to comply with and be bound by these Terms. If you do not agree with these Terms, please do not use the App.
 ## Use of the App
 ### Purpose
 The App is designed to provide users with educational content.
@@ -21,6 +21,6 @@ In no event shall TwoEightNine be liable for any indirect, incidental, special, 
 ## Modifications to the Terms
 I reserve the right to modify these Terms at any time. Any changes will be posted on this page, and the revised version will be effective immediately upon posting. Your continued use of the App following the posting of changes constitutes your acceptance of such changes.
 ## Contact Me
-If you have any questions or concerns about these Terms, please contact me at twoeightnine@list.ru.
+If you have any questions or concerns about these Terms, please contact me at *learn.mokshan.app@gmail.com*.
 Thank you for learning Mokshan!
 ##### Effective Date: 22 May 2024

@@ -1,7 +1,7 @@
 # Privacy Policy
 ## Introduction
 
-Welcome to 'Mokshan Phrasebook' (the "App"). At 'Learn Mokshan', your privacy is my top priority. This Privacy Policy outlines how I handle your information when you use my App. I am committed to protecting your privacy and ensuring a secure experience.
+Welcome to 'Learn Mokshan' (the "App"). At 'Learn Mokshan', your privacy is my top priority. This Privacy Policy outlines how I handle your information when you use my App. I am committed to protecting your privacy and ensuring a secure experience.
 
 ## Information I Collect
 ### Personal Data
@@ -30,7 +30,7 @@ I may update our Privacy Policy from time to time. Any changes will be posted on
 
 ### Contact me
 
-If you have any questions or concerns about this Privacy Policy or my practices, please contact me at twoeightnine@list.ru.
+If you have any questions or concerns about this Privacy Policy or my practices, please contact me at *learn.mokshan.app@gmail.com*.
 Thank you for choosing 'Learn Mokshan'. I value your trust and am committed to ensuring your privacy and security.
 
 ##### Effective Date: 22 May 2024
