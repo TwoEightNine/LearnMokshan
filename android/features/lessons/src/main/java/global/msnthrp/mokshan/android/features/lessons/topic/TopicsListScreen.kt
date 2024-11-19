@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -39,6 +37,7 @@ import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.FailedView
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.designsystem.uikit.Loader
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
@@ -93,22 +92,8 @@ private fun TopicsList(
     onRetryClicked: () -> Unit,
 ) {
     when (state) {
-        TopicsListState.Loading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(40.dp),
-                )
-            }
-        }
-        TopicsListState.Failed -> {
-            FailedView(onRetryClicked = onRetryClicked)
-        }
+        TopicsListState.Loading -> Loader()
+        TopicsListState.Failed -> FailedView(onRetryClicked = onRetryClicked)
         is TopicsListState.Loaded -> {
             LazyColumn(
                 modifier = Modifier

@@ -3,38 +3,30 @@ package global.msnthrp.mokshan.android.features.articles.list
 import androidx.lifecycle.viewModelScope
 import global.msnthrp.mokshan.android.core.arch.BaseViewModel
 import global.msnthrp.mokshan.data.repository.article.ArticlesRepository
-import global.msnthrp.mokshan.domain.articles.ArticleInfo
 import kotlinx.coroutines.launch
 
 class ArticlesListViewModel(
     private val articlesRepository: ArticlesRepository,
 ) : BaseViewModel<ArticlesListState>() {
 
-    override fun getInitialState() = ArticlesListState()
+    override fun getInitialState(): ArticlesListState = ArticlesListState.Loading
 
     fun load() {
-        updateState { copy(isLoading = true) }
+        if (currentState !is ArticlesListState.Loaded) {
+            updateState { ArticlesListState.Loading }
+        }
         viewModelScope.launch {
             val result = articlesRepository.loadArticles()
-            result.getOrNull()?.also { println(it) }
+            val articles = result.getOrNull()
+
+            articles?.also { println(it) }
             result.exceptionOrNull()?.printStackTrace()
-            updateState {
-                copy(
-                    isLoading = false,
-                    articles = result.getOrNull(),
-                )
+
+            if (articles == null) {
+                updateState { ArticlesListState.Failed }
+            } else {
+                updateState { ArticlesListState.Loaded(articles) }
             }
         }
-    }
-
-    fun onArticleClicked(articleInfo: ArticleInfo) {
-        updateState { copy(
-            clickedArticleTitle = articleInfo.title,
-            clickedArticleUrl = articleInfo.url
-        ) }
-    }
-
-    fun onClickHandled() {
-
     }
 }

@@ -3,15 +3,13 @@ package global.msnthrp.mokshan.android.features.articles.list
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -28,7 +26,9 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.uikit.FailedView
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
+import global.msnthrp.mokshan.android.core.designsystem.uikit.Loader
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.articles.R
 import global.msnthrp.mokshan.domain.articles.ArticleInfo
@@ -41,7 +41,6 @@ fun ArticlesListScreen(
     articlesListViewModel: ArticlesListViewModel = koinViewModel(),
     onAppInfoClicked: () -> Unit,
 ) {
-    val state by articlesListViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
         articlesListViewModel.load()
         onPauseOrDispose {}
@@ -58,25 +57,33 @@ fun ArticlesListScreen(
             }
         }
     ) { padding ->
-        if (state.isLoading && state.articles == null) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .width(40.dp),
-                )
-            }
-        } else {
+        val state by articlesListViewModel.state.collectAsState()
+        ArticlesList(
+            state = state,
+            padding = padding,
+            onRetryClicked = { articlesListViewModel.load() },
+            onArticleClicked = onArticleClicked,
+        )
+    }
+}
+
+@Composable
+private fun ArticlesList(
+    state: ArticlesListState,
+    padding: PaddingValues,
+    onRetryClicked: () -> Unit,
+    onArticleClicked: (title: String, url: String) -> Unit,
+) {
+    when (state) {
+        ArticlesListState.Loading -> Loader()
+        ArticlesListState.Failed -> FailedView(onRetryClicked = onRetryClicked)
+        is ArticlesListState.Loaded -> {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = padding.calculateTopPadding())
             ) {
-                state.articles?.articles?.forEach { article ->
+                state.articles.articles.forEach { article ->
                     item {
                         ArticleItem(
                             articleInfo = article,
