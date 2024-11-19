@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="failed_retry">Retry</string>
+    <string name="failed_error_message">Failed to load data.\nPlease check you internet connection and try again.</string>
+</resources>

@@ -10,19 +10,27 @@ internal class TopicsListViewModel : BaseViewModel<TopicsListState>() {
 
     private val topicsRepository by inject<TopicsRepository>(TopicsRepository::class.java)
 
-    override fun getInitialState(): TopicsListState = TopicsListState()
+    override fun getInitialState(): TopicsListState = TopicsListState.Loading
 
     fun load() {
-        updateState { copy(isLoading = true) }
+        // no need to make loader blink when content is present
+        if (currentState !is TopicsListState.Loaded) {
+            updateState { TopicsListState.Loading }
+        }
         viewModelScope.launch {
             val summaryResult = topicsRepository.getTopicsSummaryWithProgress()
+            val summary = summaryResult.getOrNull()
             summaryResult.getOrNull()?.also {
                 println(it)
             }
             summaryResult.exceptionOrNull()?.also {
                 it.printStackTrace()
             }
-            updateState { copy(isLoading = false, topics = summaryResult.getOrNull()) }
+            if (summary == null) {
+                updateState { TopicsListState.Failed }
+            } else {
+                updateState { TopicsListState.Loaded(summary) }
+            }
         }
     }
 }

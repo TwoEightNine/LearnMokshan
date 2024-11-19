@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.android.features.lessons.topic
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -35,6 +36,7 @@ import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.theme.SpecialColors
 import global.msnthrp.mokshan.android.core.designsystem.uikit.ArticleCard
+import global.msnthrp.mokshan.android.core.designsystem.uikit.FailedView
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokCard
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
@@ -55,7 +57,6 @@ internal fun TopicsListScreen(
     onArticleClicked: (title: String, url: String) -> Unit,
     onAppInfoClicked: () -> Unit,
 ) {
-    val state by topicsListViewModel.state.collectAsState()
     LifecycleResumeEffect(key1 = "load") {
         topicsListViewModel.load()
         onPauseOrDispose {}
@@ -72,7 +73,27 @@ internal fun TopicsListScreen(
             }
         }
     ) { padding ->
-        if (state.isLoading && state.topics == null) {
+        val state by topicsListViewModel.state.collectAsState()
+        TopicsList(
+            state = state,
+            padding = padding,
+            onArticleClicked = onArticleClicked,
+            onTopicClicked = onTopicClicked,
+            onRetryClicked = { topicsListViewModel.load() },
+        )
+    }
+}
+
+@Composable
+private fun TopicsList(
+    state: TopicsListState,
+    padding: PaddingValues,
+    onArticleClicked: (title: String, url: String) -> Unit,
+    onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
+    onRetryClicked: () -> Unit,
+) {
+    when (state) {
+        TopicsListState.Loading -> {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -84,17 +105,20 @@ internal fun TopicsListScreen(
                         .width(40.dp),
                 )
             }
-        } else {
+        }
+        TopicsListState.Failed -> {
+            FailedView(onRetryClicked = onRetryClicked)
+        }
+        is TopicsListState.Loaded -> {
             LazyColumn(
                 modifier = Modifier
                     .padding(top = padding.calculateTopPadding())
             ) {
                 item {
-                    val articleTitle =
-                        androidx.compose.ui.res.stringResource(id = R.string.pronunciation_article_title)
+                    val articleTitle = stringResource(id = R.string.pronunciation_article_title)
                     ArticleCard(
                         title = articleTitle,
-                        description = androidx.compose.ui.res.stringResource(id = R.string.pronunciation_article_description),
+                        description = stringResource(id = R.string.pronunciation_article_description),
                         showChevron = true,
                         onClick = {
                             onArticleClicked(
@@ -106,7 +130,7 @@ internal fun TopicsListScreen(
                 }
 
                 val topicsWithProgress = state.topics
-                topicsWithProgress?.summary?.topicsInfo?.forEach { topicInfo: TopicInfo ->
+                topicsWithProgress.summary.topicsInfo.forEach { topicInfo: TopicInfo ->
                     val progress = topicsWithProgress.progress
 
                     val isCompleted = topicInfo.id in progress.completedTopicIds
