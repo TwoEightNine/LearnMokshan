@@ -5,4 +5,6 @@
     <string name="bottom_item_lessons">Lessons</string>
     <string name="bottom_item_articles">Articles</string>
     <string name="bottom_item_dictionary">Dictionary</string>
+
+    <string name="send_mail_chooser_title">Choose mail app</string>
 </resources>

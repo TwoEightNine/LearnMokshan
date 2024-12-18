@@ -14,9 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
+import global.msnthrp.learnmokshan.R
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.navigation.LeMokNavHost
 import global.msnthrp.mokshan.android.core.navigation.navigateWith
+import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.appinfo.AppInfoRouter
 import global.msnthrp.mokshan.android.features.appinfo.AppInfoScreenFactory
 import global.msnthrp.mokshan.android.features.articles.article.ArticleDefaultRouter
@@ -49,6 +51,7 @@ private fun MainContent() {
     ) {
         val navController = rememberNavController()
         val context = LocalContext.current
+        val mailChooserTitle = stringResource(R.string.send_mail_chooser_title)
         LeMokNavHost(
             navController = navController,
             startDestinationRouter = MainRouter,
@@ -76,7 +79,7 @@ private fun MainContent() {
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         }
                         if (intent.resolveActivity(context.packageManager) != null) {
-                            context.startActivity(intent)
+                            context.startActivity(Intent.createChooser(intent, mailChooserTitle))
                         }
                     }
                 ),

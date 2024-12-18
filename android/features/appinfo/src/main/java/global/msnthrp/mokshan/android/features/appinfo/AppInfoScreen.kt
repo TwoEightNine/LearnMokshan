@@ -92,7 +92,7 @@ fun AppInfoScreen(
                 },
             )
 
-            val getHelpMessage = stringResource(id = R.string.app_info_contrib_message)
+            val getHelpMessage = stringResource(id = R.string.app_info_get_help_message)
             LeMokCell(
                 text = stringResource(id = R.string.app_info_get_help),
                 icon = Icons.question,

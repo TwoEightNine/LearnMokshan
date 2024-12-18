@@ -5,4 +5,6 @@
     <string name="bottom_item_lessons">Уроки</string>
     <string name="bottom_item_articles">Статьи</string>
     <string name="bottom_item_dictionary">Словарь</string>
+
+    <string name="send_mail_chooser_title">Выберите приложение почты</string>
 </resources>
