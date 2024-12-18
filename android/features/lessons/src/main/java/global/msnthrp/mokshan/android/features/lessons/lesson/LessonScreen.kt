@@ -49,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Rect
@@ -500,6 +501,7 @@ private fun BoxScope.CommonSheet(
             .offset { offset }
             .onPlaced { started = true }
             .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
             .background(color = backgroundColor)
             .align(Alignment.BottomCenter)
     ) {
