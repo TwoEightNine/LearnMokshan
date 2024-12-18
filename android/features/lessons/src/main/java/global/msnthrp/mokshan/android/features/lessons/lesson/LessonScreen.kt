@@ -1,6 +1,7 @@
 package global.msnthrp.mokshan.android.features.lessons.lesson
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,7 +55,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -177,11 +177,16 @@ fun LessonScreen(
                         actionIconContentColor = MaterialTheme.colorScheme.primary,
                     ),
                 ))
+
+                val progressAnimation by animateFloatAsState(
+                    targetValue = viewState.progress,
+                    label = "progress",
+                )
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth(),
-                    progress = { viewState.progress },
+                    progress = { progressAnimation },
                     trackColor = MaterialTheme.colorScheme.surface,
-                    strokeCap = StrokeCap.Round,
+                    drawStopIndicator = {},
                 )
             }
         },
