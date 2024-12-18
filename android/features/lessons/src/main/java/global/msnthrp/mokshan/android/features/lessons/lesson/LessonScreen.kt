@@ -1,6 +1,7 @@
 package global.msnthrp.mokshan.android.features.lessons.lesson
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
@@ -55,6 +57,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.boundsInWindow
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onPlaced
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.SpanStyle
@@ -65,6 +68,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpOffset
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
@@ -185,6 +189,7 @@ fun LessonScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             val focusManager = LocalFocusManager.current
+            val hapticFeedback = LocalHapticFeedback.current
             val onInputDone: () -> Unit = {
                 focusManager.clearFocus()
                 lessonViewModel.onCheckClicked()
@@ -225,8 +230,14 @@ fun LessonScreen(
                             selectedWords = userInput.words,
                             allWords = (currentStep.type as? LessonStepType.WordBank)?.availableWords
                                 ?: emptyList(),
-                            onWordAdded = lessonViewModel::onWordAdded,
-                            onWordRemoved = lessonViewModel::onWordRemoved,
+                            onWordAdded = {
+                                lessonViewModel.onWordAdded(it)
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            },
+                            onWordRemoved = {
+                                lessonViewModel.onWordRemoved(it)
+                                hapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            },
                         )
                     }
 
@@ -267,7 +278,7 @@ fun LessonScreen(
                     otherPossibleVariant = otherPossibleVariant,
                     onContinueClicked = lessonViewModel::onCheckSheetClosed,
                 )
-                LocalHapticFeedback.current.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             }
             if (viewState.showIncorrectCheck) {
                 IncorrectSheet(
@@ -275,7 +286,7 @@ fun LessonScreen(
                     correctAnswer = currentStep.answers.first(),
                     onContinueClicked = lessonViewModel::onCheckSheetClosed,
                 )
-                LocalHapticFeedback.current.performHapticFeedback(HapticFeedbackType.LongPress)
+                hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
             }
         }
     }
@@ -471,6 +482,7 @@ private fun BoxScope.IncorrectSheet(
 
 @Composable
 private fun BoxScope.CommonSheet(
+    modifier: Modifier = Modifier,
     padding: PaddingValues,
     title: String,
     message: String,
@@ -478,8 +490,15 @@ private fun BoxScope.CommonSheet(
     buttonColor: Color = MaterialTheme.colorScheme.primary,
     onButtonClicked: (() -> Unit)? = null,
 ) {
+    var started by remember { mutableStateOf(false) }
+    val offset by animateIntOffsetAsState(
+        targetValue = if (started) IntOffset.Zero else IntOffset(x = 0, y = 500),
+        label = "offset",
+    )
     Column(
-        modifier = Modifier
+        modifier = modifier
+            .offset { offset }
+            .onPlaced { started = true }
             .fillMaxWidth()
             .background(color = backgroundColor)
             .align(Alignment.BottomCenter)
@@ -493,7 +512,8 @@ private fun BoxScope.CommonSheet(
         )
         Text(
             modifier = Modifier
-                .padding(start = 16.dp, top = 8.dp),
+                .padding(top = 8.dp)
+                .padding(horizontal = 16.dp),
             text = message,
             style = MaterialTheme.typography.titleMedium,
         )

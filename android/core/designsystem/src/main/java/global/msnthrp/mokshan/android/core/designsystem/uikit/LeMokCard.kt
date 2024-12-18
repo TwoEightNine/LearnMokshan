@@ -21,7 +21,9 @@ fun LeMokCard(
                 disabledContainerColor = MaterialTheme.colorScheme.surfaceDim,
             )
         }
-        else -> CardDefaults.cardColors()
+        else -> CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        )
     }
     Card(
         modifier = modifier,
