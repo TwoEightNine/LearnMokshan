@@ -29,6 +29,12 @@ class TopicsRepository(
         )
     }
 
+    suspend fun isLessonCompleted(topic: Topic): Result<Boolean> {
+        val progressResult = getTopicsProgress()
+        val isCompleted = progressResult.getOrNull()?.run { topic.id in completedTopicIds }
+        return isCompleted?.let { Result.success(it) } ?: Result.failureOf(progressResult)
+    }
+
     override suspend fun markLessonAsCompleted(topic: Topic, completedLessonNumber: Int): Result<Unit> {
         val isLastLessonInTopic = completedLessonNumber == topic.topicLength
         val topicId = when {

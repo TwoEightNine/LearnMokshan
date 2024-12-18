@@ -1,6 +1,7 @@
 package global.msnthrp.mokshan.usecase.lesson
 
 import global.msnthrp.mokshan.data.repository.dictionary.DictionaryRepository
+import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
 import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
 import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonPair
@@ -16,6 +17,7 @@ import kotlin.reflect.KClass
 class LessonUseCase(
     private val lessonRepository: LessonRepository,
     private val dictionaryRepository: DictionaryRepository,
+    private val topicsRepository: TopicsRepository,
 ) {
 
     suspend fun prepareLesson(topicId: Int, lessonNumber: Int): Result<PreparedLesson> {
@@ -112,6 +114,14 @@ class LessonUseCase(
     }
 
     suspend fun completeLesson(topic: Topic, lessonNumber: Int): Result<Unit> {
+        if (lessonNumber == LESSON_NUMBER_REPEAT) {
+            return Result.success(Unit)
+        }
+        val isAlreadyCompleted = topicsRepository.isLessonCompleted(topic).getOrDefault(false)
+        if (isAlreadyCompleted) {
+            return Result.success(Unit)
+        }
+
         return kotlin.runCatching {
             lessonRepository.markLessonAsCompleted(topic, lessonNumber)
 
