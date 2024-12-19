@@ -1,0 +1,232 @@
+{
+  "id": 8,
+  "title": "Count",
+  "description": "Numbers to 10 and plural nouns",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Ноль",
+          "native": ["Zero"]
+        },
+        {
+          "mokshan": "Фкя",
+          "native": ["One"]
+        },
+        {
+          "mokshan": "Кафта",
+          "native": ["Two"]
+        },
+        {
+          "mokshan": "Колма",
+          "native": ["Three"]
+        },
+        {
+          "mokshan": "Ниле",
+          "native": ["Four"]
+        },
+        {
+          "mokshan": "Вете",
+          "native": ["Five"]
+        },
+        {
+          "mokshan": "Кота",
+          "native": ["Six"]
+        },
+        {
+          "mokshan": "Сисем",
+          "native": ["Seven"]
+        },
+        {
+          "mokshan": "Кафкса",
+          "native": ["Eight"]
+        },
+        {
+          "mokshan": "Вейхкса",
+          "native": ["Nine"]
+        },
+        {
+          "mokshan": "Кемонь",
+          "native": ["Ten"]
+        }
+      ],
+      "dictionary": [
+        "Ноль", "Фкя", "Кафта", "Колма", "Ниле", "Вете", "Кота", "Сисем", "Кафкса", "Вейхкса", "Кемонь"
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Фкя нармонь – кафта нармотть",
+          "native": ["One bird – two birds"]
+        },
+        {
+          "mokshan": "Фкя ката – колма катот",
+          "native": ["One cat – three cats"]
+        },
+        {
+          "mokshan": "Фкя кал – ниле калхт",
+          "native": ["One fish – four fish"]
+        },
+        {
+          "mokshan": "Фкя марь – вете марьхть",
+          "native": ["One apple – five apples"]
+        },
+        {
+          "mokshan": "Фкя ши – кота шит",
+          "native": ["One day – six days"]
+        },
+        {
+          "mokshan": "Фкя нармонь – сисем нармотть",
+          "native": ["One bird – seven birds"]
+        },
+        {
+          "mokshan": "Фкя ката – кафкса катот",
+          "native": ["One cat – eight cats"]
+        },
+        {
+          "mokshan": "Фкя кал – вейхкса калхт",
+          "native": ["One fish – nine fish"]
+        },
+        {
+          "mokshan": "Фкя марь – кемонь марьхть",
+          "native": ["One apple – ten apples"]
+        }
+      ],
+      "dictionary": [
+      ]
+    },
+    {
+      "order": 3,
+      "toNative": [
+        {
+          "mokshan": "Тя фкя марь, а нят кафта марьхть",
+          "native": ["This is one apple and these are two apples"]
+        },
+        {
+          "mokshan": "Нят месть? Нят кафкса калхт",
+          "native": ["What are these? These are eight fish"]
+        },
+        {
+          "mokshan": "Тя фкя нармонь, а нят вейхкса нармотть",
+          "native": ["This is one bird and these are nine birds"]
+        },
+        {
+          "mokshan": "Нят месть? Нят кемонь катот",
+          "native": ["What are these? These are ten cats"]
+        },
+        {
+          "mokshan": "Ся фкя марь, а сят сисем марьхть",
+          "native": ["That is one apple and those are seven apples"]
+        },
+        {
+          "mokshan": "Сят месть? Сят кота калхт",
+          "native": ["What are those? Those are six fish"]
+        },
+        {
+          "mokshan": "Ся фкя нармонь, а сят вете нармотть",
+          "native": ["That is one bird and those are five birds"]
+        },
+        {
+          "mokshan": "Сят месть? Сят колма катот",
+          "native": ["What are those? Those are three cats"]
+        }
+      ],
+      "dictionary": [
+        "сят", "нят", "месть"
+      ]
+    },
+    {
+      "order": 4,
+      "toNative": [
+        {
+          "mokshan": "Минь ярхцатама лямда",
+          "native": ["We eat shchi"]
+        },
+        {
+          "mokshan": "Тинь ярхцатада ямда",
+          "native": ["You all eat porridge"]
+        },
+        {
+          "mokshan": "Синь ярхцайхть капстада и модамарьда",
+          "native": ["They eat cabbage and potato"]
+        },
+        {
+          "mokshan": "Ярхцатама модамарьда сиволь мархта",
+          "native": ["We eat potato with meat"]
+        },
+        {
+          "mokshan": "Ярхцатада медьта",
+          "native": ["You all eat honey"]
+        },
+        {
+          "mokshan": "Ярхцайхть шонгарямда кшифтома",
+          "native": ["They eat soup without bread"]
+        },
+        {
+          "mokshan": "Ярхцайхть пярякада",
+          "native": ["They eat cake"]
+        }
+      ],
+      "dictionary": [
+      ]
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "марь",
+      "native": "apple"
+    },
+    {
+      "mokshan": "марьхть",
+      "native": "apples"
+    },
+    {
+      "mokshan": "нармонь",
+      "native": "bird"
+    },
+    {
+      "mokshan": "нармотть",
+      "native": "birds"
+    },
+    {
+      "mokshan": "кал",
+      "native": "fish"
+    },
+    {
+      "mokshan": "калхт",
+      "native": "fish (plural)"
+    },
+    {
+      "mokshan": "ката",
+      "native": "cat"
+    },
+    {
+      "mokshan": "катот",
+      "native": "cats"
+    },
+    {
+      "mokshan": "ши",
+      "native": "day"
+    },
+    {
+      "mokshan": "шит",
+      "native": "days"
+    },
+    {
+      "mokshan": "нят",
+      "native": "these"
+    },
+    {
+      "mokshan": "сят",
+      "native": "those"
+    },
+    {
+      "mokshan": "месть",
+      "native": "what (plural)"
+    }
+  ]
+}
