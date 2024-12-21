@@ -16,6 +16,10 @@
     <string name="lesson_continue">Продолжить</string>
     <string name="lesson_refresh_title">Повторение</string>
 
+    <string name="topics_list_start">Начать {currentLessonNo}/{totalLessonsNo}</string>
+    <string name="topics_list_review">Освежить</string>
+    <string name="topics_list_grammar">Грамматика</string>
+
     <string name="pronunciation_article_title">Алфавит и правила чтения</string>
     <string name="pronunciation_article_description">Познакомьтесь с алфавитом и правилами чтения в мокшанском языке. Статья поможет обучаться наиболее эффективно.</string>
 </resources>

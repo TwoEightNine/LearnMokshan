@@ -16,6 +16,10 @@
     <string name="lesson_continue">Continue</string>
     <string name="lesson_refresh_title">Refresh</string>
 
+    <string name="topics_list_start">Start {currentLessonNo}/{totalLessonsNo}</string>
+    <string name="topics_list_review">Review</string>
+    <string name="topics_list_grammar">Grammar</string>
+
     <string name="pronunciation_article_title">Script and pronunciation</string>
     <string name="pronunciation_article_description">Get familiar with the Mokshan language\'s basics that will help you study more effectively.</string>
 </resources>

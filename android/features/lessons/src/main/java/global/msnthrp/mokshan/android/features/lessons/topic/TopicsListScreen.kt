@@ -257,7 +257,7 @@ private fun TopicInfoCard(
                             contentDescription = ""
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text(text = "Grammar")
+                        Text(text = stringResource(R.string.topics_list_grammar))
 
                     }
                 }
@@ -267,8 +267,14 @@ private fun TopicInfoCard(
                     onClick = { onStartLessonClicked(topicInfo, nextLessonNumber) }
                 ) {
                     val text = when {
-                        isCompleted -> "Review"
-                        else -> "Start ${lessonsCompletedCount.inc()}/${topicInfo.topicLength}"
+                        isCompleted -> stringResource(R.string.topics_list_review)
+                        else -> {
+                            stringResource(
+                                R.string.topics_list_start,
+                                "currentLessonNo" to lessonsCompletedCount.inc().toString(),
+                                "totalLessonsNo" to topicInfo.topicLength.toString(),
+                            )
+                        }
                     }
                     Text(text = text)
                     Spacer(modifier = Modifier.width(2.dp))
