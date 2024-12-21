@@ -1,10 +1,12 @@
 package global.msnthrp.mokshan.android.features.lessons.lesson
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntOffsetAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -320,6 +322,7 @@ private fun WordBank(
                 .align(Alignment.TopStart)
         ) {
             selectedWords.forEach { word ->
+                val interactionSource = remember { MutableInteractionSource() }
                 Text(
                     text = word.word,
                     modifier = Modifier
@@ -328,7 +331,11 @@ private fun WordBank(
                             shape = RoundedCornerShape(size = 16.dp)
                         )
                         .padding(vertical = 8.dp, horizontal = 16.dp)
-                        .clickable { onWordRemoved(word) }
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = { onWordRemoved(word) },
+                        )
                 )
             }
         }
@@ -343,10 +350,13 @@ private fun WordBank(
             val selectedIndices = selectedWords.map { it.index }
             allWords.forEachIndexed { index, word ->
                 val isSelected = index in selectedIndices
-                val textColor = when {
-                    isSelected -> MaterialTheme.colorScheme.surfaceContainer
-                    else -> MaterialTheme.colorScheme.onBackground
-                }
+                val textColor by animateColorAsState(
+                    targetValue = when {
+                        isSelected -> MaterialTheme.colorScheme.surfaceContainer
+                        else -> MaterialTheme.colorScheme.onBackground
+                    },
+                    label = "color"
+                )
                 Text(
                     text = word.word,
                     color = textColor,
@@ -404,11 +414,11 @@ private fun Input(
 ) {
     val focusRequester = remember { FocusRequester() }
     Column {
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(48.dp))
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
-                .defaultMinSize(minHeight = 128.dp)
+                .defaultMinSize(minHeight = 192.dp)
                 .focusRequester(focusRequester),
             value = value,
             keyboardActions = KeyboardActions(
@@ -492,13 +502,14 @@ private fun BoxScope.CommonSheet(
     padding: PaddingValues,
     title: String,
     message: String,
+    initialOffsetY: Int = 500,
     backgroundColor: Color = MaterialTheme.colorScheme.surface,
     buttonColor: Color = MaterialTheme.colorScheme.primary,
     onButtonClicked: (() -> Unit)? = null,
 ) {
     var started by remember { mutableStateOf(false) }
     val offset by animateIntOffsetAsState(
-        targetValue = if (started) IntOffset.Zero else IntOffset(x = 0, y = 500),
+        targetValue = if (started) IntOffset.Zero else IntOffset(x = 0, y = initialOffsetY),
         label = "offset",
     )
     Column(
@@ -655,6 +666,27 @@ private fun CommonSheetPreview() {
                 title = "Title",
                 message = "Message message message",
                 onButtonClicked = {},
+                initialOffsetY = 0,
+            )
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun WordBankPreview() {
+    LeMokTheme {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White)
+        ) {
+            WordBank(
+                selectedWords = listOf(BankWord("gamma", 2), BankWord("huy", 5)),
+                allWords = listOf("alpha", "beta", "gamma", "delta", "epsilon", "huy", "pizda")
+                    .mapIndexed { index, s -> BankWord(s, index) },
+                onWordAdded = {},
+                onWordRemoved = {},
             )
         }
     }
