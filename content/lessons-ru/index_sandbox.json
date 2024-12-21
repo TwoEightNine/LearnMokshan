@@ -1,0 +1,69 @@
+{
+  "topicsCount": 1,
+  "topicsInfo": [
+    {
+      "id": 1,
+      "lessonsCount": 2,
+      "title": "Приветствие",
+      "description": "Общие фразы",
+      "emoji": "\uD83D\uDC4B",
+      "grammar": "grammar-1-3-ru.prelinar"
+    },
+    {
+      "id": 2,
+      "lessonsCount": 2,
+      "title": "Прощание",
+      "description": "Общие фразы",
+      "emoji": "\uD83D\uDE4B\u200D♀\uFE0F",
+      "grammar": "grammar-1-3-ru.prelinar"
+    },
+    {
+      "id": 3,
+      "lessonsCount": 2,
+      "title": "Благодарность",
+      "description": "Общие фразы",
+      "emoji": "\uD83D\uDE4F",
+      "grammar": "grammar-1-3-ru.prelinar"
+    },
+    {
+      "id": 4,
+      "lessonsCount": 3,
+      "title": "Кто это?",
+      "description": "Утверждения и люди",
+      "emoji": "\uD83D\uDC68",
+      "grammar": "grammar-4-5-ru.prelinar"
+    },
+    {
+      "id": 5,
+      "lessonsCount": 3,
+      "title": "Что это?",
+      "description": "Утверждения и животные",
+      "emoji": "\uD83D\uDC08",
+      "grammar": "grammar-4-5-ru.prelinar"
+    },
+    {
+      "id": 6,
+      "lessonsCount": 3,
+      "title": "Напитки",
+      "description": "Существительные и настоящее время",
+      "emoji": "☕",
+      "grammar": "grammar-6-7-ru.prelinar"
+    },
+    {
+      "id": 7,
+      "lessonsCount": 4,
+      "title": "Еда",
+      "description": "Существительные и настоящее время",
+      "emoji": "\uD83E\uDD56",
+      "grammar": "grammar-6-7-ru.prelinar"
+    },
+    {
+      "id": 8,
+      "title": "Счёт",
+      "description": "Числа до 10 и множественное число",
+      "lessonsCount": 3,
+      "emoji": "7\uFE0F⃣",
+      "grammar": "grammar-8-ru.prelinar"
+    }
+  ]
+}

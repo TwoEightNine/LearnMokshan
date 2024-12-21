@@ -1,7 +1,7 @@
 {
   "id": 8,
-  "title": "Count",
-  "description": "Numbers to 10 and plural nouns",
+  "title": "Счёт",
+  "description": "Числа до 10 и множественное число",
   "version": 1,
   "lessons": [
     {
@@ -9,47 +9,47 @@
       "toNative": [
         {
           "mokshan": "Ноль",
-          "native": ["Zero"]
+          "native": ["Ноль"]
         },
         {
           "mokshan": "Фкя",
-          "native": ["One"]
+          "native": ["Один"]
         },
         {
           "mokshan": "Кафта",
-          "native": ["Two"]
+          "native": ["Два"]
         },
         {
           "mokshan": "Колма",
-          "native": ["Three"]
+          "native": ["Три"]
         },
         {
           "mokshan": "Ниле",
-          "native": ["Four"]
+          "native": ["Четыре"]
         },
         {
           "mokshan": "Вете",
-          "native": ["Five"]
+          "native": ["Пять"]
         },
         {
           "mokshan": "Кота",
-          "native": ["Six"]
+          "native": ["Шесть"]
         },
         {
           "mokshan": "Сисем",
-          "native": ["Seven"]
+          "native": ["Семь"]
         },
         {
           "mokshan": "Кафкса",
-          "native": ["Eight"]
+          "native": ["Восемь"]
         },
         {
           "mokshan": "Вейхкса",
-          "native": ["Nine"]
+          "native": ["Девять"]
         },
         {
           "mokshan": "Кемонь",
-          "native": ["Ten"]
+          "native": ["Десять"]
         }
       ],
       "dictionary": [
@@ -61,39 +61,39 @@
       "toNative": [
         {
           "mokshan": "Фкя нармонь – кафта нармотть",
-          "native": ["One bird – two birds"]
+          "native": ["Одна птица – две птицы"]
         },
         {
           "mokshan": "Фкя ката – колма катт",
-          "native": ["One cat – three cats"]
+          "native": ["Один кот – три кота"]
         },
         {
           "mokshan": "Фкя кал – ниле калхт",
-          "native": ["One fish – four fish"]
+          "native": ["Одна рыба – четыре рыбы"]
         },
         {
           "mokshan": "Фкя марь – вете марьхть",
-          "native": ["One apple – five apples"]
+          "native": ["Одно яблоко – пять яблок"]
         },
         {
           "mokshan": "Фкя ши – кота шит",
-          "native": ["One day – six days"]
+          "native": ["Один день – шесть дней"]
         },
         {
           "mokshan": "Фкя нармонь – сисем нармотть",
-          "native": ["One bird – seven birds"]
+          "native": ["Одна птица – семь птиц"]
         },
         {
           "mokshan": "Фкя ката – кафкса катт",
-          "native": ["One cat – eight cats"]
+          "native": ["Один кот – восемь котов"]
         },
         {
           "mokshan": "Фкя кал – вейхкса калхт",
-          "native": ["One fish – nine fish"]
+          "native": ["Одна рыба – девять рыб"]
         },
         {
           "mokshan": "Фкя марь – кемонь марьхть",
-          "native": ["One apple – ten apples"]
+          "native": ["Одно яблоко – десять яблок"]
         }
       ],
       "dictionary": [
@@ -104,35 +104,35 @@
       "toNative": [
         {
           "mokshan": "Тя фкя марь, а нят кафта марьхть",
-          "native": ["This is one apple and these are two apples"]
+          "native": ["Это одно яблоко, а это два яблока"]
         },
         {
           "mokshan": "Нят месть? Нят кафкса калхт",
-          "native": ["What are these? These are eight fish"]
+          "native": ["Что это? Это восемь рыб"]
         },
         {
           "mokshan": "Тя фкя нармонь, а нят вейхкса нармотть",
-          "native": ["This is one bird and these are nine birds"]
+          "native": ["Это одна птица, а это девять птиц"]
         },
         {
           "mokshan": "Нят месть? Нят кемонь катт",
-          "native": ["What are these? These are ten cats"]
+          "native": ["Что это? Это десять котов"]
         },
         {
           "mokshan": "Ся фкя марь, а сят сисем марьхть",
-          "native": ["That is one apple and those are seven apples"]
+          "native": ["То одно яблоко, а то семь яблок"]
         },
         {
           "mokshan": "Сят месть? Сят кота калхт",
-          "native": ["What are those? Those are six fish"]
+          "native": ["Что то? То шесть рыб"]
         },
         {
           "mokshan": "Ся фкя нармонь, а сят вете нармотть",
-          "native": ["That is one bird and those are five birds"]
+          "native": ["То одна птица, а то пять птиц"]
         },
         {
           "mokshan": "Сят месть? Сят колма катт",
-          "native": ["What are those? Those are three cats"]
+          "native": ["Что то? То три кота"]
         }
       ],
       "dictionary": [
@@ -144,35 +144,35 @@
       "toNative": [
         {
           "mokshan": "Мъзяра нармоньда? Кафта нармотть",
-          "native": ["How many birds? Two birds"]
+          "native": ["Сколько птиц? Две птицы"]
         },
         {
           "mokshan": "Лама катта – кържа катта",
-          "native": ["Many cats – few cats"]
+          "native": ["Много котов – мало котов"]
         },
         {
           "mokshan": "Лама калда? Пяк лама калда",
-          "native": ["Many fish? Very many fish"]
+          "native": ["Много рыб? Очень много рыб"]
         },
         {
           "mokshan": "Фкя марь – лама марьда",
-          "native": ["One apple – many apples"]
+          "native": ["Одно яблоко – много яблок"]
         },
         {
           "mokshan": "Фкя нармонь – лама нармоньда",
-          "native": ["One bird – many birds"]
+          "native": ["Одна птица – много птиц"]
         },
         {
           "mokshan": "Лама катта? Кафкса катт",
-          "native": ["Many cats? Eight cats"]
+          "native": ["Много котов? Восемь котов"]
         },
         {
           "mokshan": "Мъзяра калда? Вейхкса калхт",
-          "native": ["How many fish? Nine fish"]
+          "native": ["Сколько рыб? Девять рыб"]
         },
         {
           "mokshan": "Мъзяра марьда? Кемонь марьхть",
-          "native": ["How many apples? Ten apples"]
+          "native": ["Сколько яблок? Десять яблок"]
         }
       ],
       "dictionary": [
@@ -183,67 +183,67 @@
   "translations": [
     {
       "mokshan": "марь",
-      "native": "apple"
+      "native": "яблоко"
     },
     {
       "mokshan": "марьхть",
-      "native": "apples"
+      "native": "яблоки"
     },
     {
       "mokshan": "нармонь",
-      "native": "bird"
+      "native": "птица"
     },
     {
       "mokshan": "нармотть",
-      "native": "birds"
+      "native": "птицы"
     },
     {
       "mokshan": "кал",
-      "native": "fish"
+      "native": "рыба"
     },
     {
       "mokshan": "калхт",
-      "native": "fish (plural)"
+      "native": "рыбы"
     },
     {
       "mokshan": "ката",
-      "native": "cat"
+      "native": "кот"
     },
     {
       "mokshan": "катт",
-      "native": "cats"
+      "native": "коты"
     },
     {
       "mokshan": "ши",
-      "native": "day"
+      "native": "день"
     },
     {
       "mokshan": "шит",
-      "native": "days"
+      "native": "дни"
     },
     {
       "mokshan": "нят",
-      "native": "these"
+      "native": "эти"
     },
     {
       "mokshan": "сят",
-      "native": "those"
+      "native": "те"
     },
     {
       "mokshan": "месть",
-      "native": "what (plural)"
+      "native": "что (множ.)"
     },
     {
       "mokshan": "лама",
-      "native": "many"
+      "native": "много"
     },
     {
       "mokshan": "кържа",
-      "native": "few"
+      "native": "мало"
     },
     {
       "mokshan": "мъзяра",
-      "native": "how many"
+      "native": "сколько"
     }
   ]
 }

@@ -1,0 +1,69 @@
+{
+  "topicsCount": 4,
+  "topicsInfo": [
+    {
+      "id": 1,
+      "lessonsCount": 2,
+      "title": "Greetings",
+      "description": "Common phrases",
+      "emoji": "\uD83D\uDC4B",
+      "grammar": "grammar-1-3-en.prelinar"
+    },
+    {
+      "id": 2,
+      "lessonsCount": 2,
+      "title": "Farewell",
+      "description": "Common phrases",
+      "emoji": "\uD83D\uDE4B\u200D♀\uFE0F",
+      "grammar": "grammar-1-3-en.prelinar"
+    },
+    {
+      "id": 3,
+      "lessonsCount": 2,
+      "title": "Thanksgiving",
+      "description": "Common phrases",
+      "emoji": "\uD83D\uDE4F",
+      "grammar": "grammar-1-3-en.prelinar"
+    },
+    {
+      "id": 4,
+      "lessonsCount": 3,
+      "title": "Who is it?",
+      "description": "Statements and people",
+      "emoji": "\uD83D\uDC68",
+      "grammar": "grammar-4-5-en.prelinar"
+    },
+    {
+      "id": 5,
+      "lessonsCount": 3,
+      "title": "What is it?",
+      "description": "Statements and animals",
+      "emoji": "\uD83D\uDC08",
+      "grammar": "grammar-4-5-en.prelinar"
+    },
+    {
+      "id": 6,
+      "lessonsCount": 3,
+      "title": "Drinks",
+      "description": "Nouns and present tense",
+      "emoji": "☕",
+      "grammar": "grammar-6-7-en.prelinar"
+    },
+    {
+      "id": 7,
+      "lessonsCount": 3,
+      "title": "Food",
+      "description": "Nouns and present tense",
+      "emoji": "\uD83E\uDD56",
+      "grammar": "grammar-6-7-en.prelinar"
+    },
+    {
+      "id": 8,
+      "title": "Count",
+      "description": "Numbers to 10 and plural nouns",
+      "lessonsCount": 3,
+      "emoji": "7\uFE0F⃣",
+      "grammar": "grammar-8-en.prelinar"
+    }
+  ]
+}
