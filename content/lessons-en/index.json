@@ -56,6 +56,14 @@
       "description": "Nouns and present tense",
       "emoji": "\uD83E\uDD56",
       "grammar": "grammar-6-7-en.prelinar"
+    },
+    {
+      "id": 8,
+      "title": "Count",
+      "description": "Numbers to 10 and plural nouns",
+      "lessonsCount": 3,
+      "emoji": "7\uFE0F⃣",
+      "grammar": "grammar-8-en.prelinar"
     }
   ]
 }
