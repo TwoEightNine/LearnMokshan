@@ -1,0 +1,19 @@
+{
+  "categories": ["Grammar", "Language"],
+  "articles": [
+    {
+      "title": "Script and pronunciation",
+      "description": "Get familiar with the Mokshan language's basics that will help you study more effectively.",
+      "categories": ["Grammar"],
+      "url": "pronunciation-en.json",
+      "added": "2024-06-22"
+    },
+    {
+      "title": "About the Mokshan",
+      "description": "The Mokshan language is one of two major Finno-Ugric languages, common among the peoples of the right bank of the middle Volga.",
+      "categories": ["Language"],
+      "url": "mokshan-2-en.prelinar",
+      "added": "2024-10-09"
+    }
+  ]
+}
