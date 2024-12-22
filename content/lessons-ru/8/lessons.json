@@ -190,12 +190,20 @@
       "native": "яблоки"
     },
     {
+      "mokshan": "марьда",
+      "native": "яблок"
+    },
+    {
       "mokshan": "нармонь",
       "native": "птица"
     },
     {
       "mokshan": "нармотть",
       "native": "птицы"
+    },
+    {
+      "mokshan": "нармоньда",
+      "native": "птиц"
     },
     {
       "mokshan": "кал",
@@ -206,12 +214,20 @@
       "native": "рыбы"
     },
     {
+      "mokshan": "калда",
+      "native": "рыб"
+    },
+    {
       "mokshan": "ката",
       "native": "кот"
     },
     {
       "mokshan": "катт",
       "native": "коты"
+    },
+    {
+      "mokshan": "катта",
+      "native": "котов"
     },
     {
       "mokshan": "ши",
@@ -244,6 +260,22 @@
     {
       "mokshan": "мъзяра",
       "native": "сколько"
+    },
+    {
+      "mokshan": "тя",
+      "native": "это"
+    },
+    {
+      "mokshan": "а",
+      "native": "а"
+    },
+    {
+      "mokshan": "ся",
+      "native": "то"
+    },
+    {
+      "mokshan": "пяк",
+      "native": "очень"
     }
   ]
 }

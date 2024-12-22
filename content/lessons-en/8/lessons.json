@@ -190,12 +190,20 @@
       "native": "apples"
     },
     {
+      "mokshan": "марьда",
+      "native": "apple"
+    },
+    {
       "mokshan": "нармонь",
       "native": "bird"
     },
     {
       "mokshan": "нармотть",
       "native": "birds"
+    },
+    {
+      "mokshan": "нармоньда",
+      "native": "bird"
     },
     {
       "mokshan": "кал",
@@ -206,12 +214,20 @@
       "native": "fish (plural)"
     },
     {
+      "mokshan": "калда",
+      "native": "fish"
+    },
+    {
       "mokshan": "ката",
       "native": "cat"
     },
     {
       "mokshan": "катт",
       "native": "cats"
+    },
+    {
+      "mokshan": "катта",
+      "native": "cat"
     },
     {
       "mokshan": "ши",
@@ -244,6 +260,22 @@
     {
       "mokshan": "мъзяра",
       "native": "how many"
+    },
+    {
+      "mokshan": "тя",
+      "native": "this"
+    },
+    {
+      "mokshan": "а",
+      "native": "but"
+    },
+    {
+      "mokshan": "ся",
+      "native": "that"
+    },
+    {
+      "mokshan": "пяк",
+      "native": "very"
     }
   ]
 }

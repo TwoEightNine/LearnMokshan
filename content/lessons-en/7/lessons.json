@@ -56,7 +56,7 @@
       "order": 2,
       "toNative": [
         {
-          "mokshan": "Мон ярхцам кшида",
+          "mokshan": "Мон ярхцан кшида",
           "native": ["I eat porridge"]
         },
         {
@@ -232,6 +232,42 @@
     {
       "mokshan": "сахарфтома",
       "native": "without sugar"
+    },
+    {
+      "mokshan": "салфтома",
+      "native": "without salt"
+    },
+    {
+      "mokshan": "кшифтома",
+      "native": "without bread"
+    },
+    {
+      "mokshan": "мон",
+      "native": "I"
+    },
+    {
+      "mokshan": "тон",
+      "native": "you"
+    },
+    {
+      "mokshan": "сон",
+      "native": "he/she"
+    },
+    {
+      "mokshan": "минь",
+      "native": "we"
+    },
+    {
+      "mokshan": "тинь",
+      "native": "you all"
+    },
+    {
+      "mokshan": "синь",
+      "native": "they"
+    },
+    {
+      "mokshan": "и",
+      "native": "and"
     },
     {
       "mokshan": "лямда",

@@ -169,6 +169,34 @@
     {
       "mokshan": "симихть",
       "native": "they drink"
+    },
+    {
+      "mokshan": "кофияда",
+      "native": "coffee"
+    },
+    {
+      "mokshan": "чайда",
+      "native": "tea"
+    },
+    {
+      "mokshan": "винада",
+      "native": "wine"
+    },
+    {
+      "mokshan": "ведьта",
+      "native": "water"
+    },
+    {
+      "mokshan": "лофцта",
+      "native": "milk"
+    },
+    {
+      "mokshan": "пивада",
+      "native": "beer"
+    },
+    {
+      "mokshan": "и",
+      "native": "and"
     }
   ]
 }
