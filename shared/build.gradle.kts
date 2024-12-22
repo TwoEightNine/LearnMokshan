@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -15,10 +17,10 @@ kotlin {
         }
     }
     
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
+    listOf<KotlinNativeTargetWithSimulatorTests>(
+//        iosX64(),
+//        iosArm64(),
+//        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -42,7 +44,11 @@ kotlin {
             implementation(libs.sqlite)
         }
         commonTest.dependencies {
+            implementation(libs.okio)
             implementation(libs.kotlin.test)
+        }
+        jvmTest.dependencies {
+            
         }
 
         androidMain.dependencies {
@@ -73,7 +79,7 @@ android {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
-    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    add("kspIosX64", libs.androidx.room.compiler)
-    add("kspIosArm64", libs.androidx.room.compiler)
+//    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+//    add("kspIosX64", libs.androidx.room.compiler)
+//    add("kspIosArm64", libs.androidx.room.compiler)
 }

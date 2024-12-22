@@ -16,9 +16,11 @@ coroutines = "1.9.0"
 koin = "3.5.3"
 lifecycle = "2.8.7"
 androidx-room = "2.7.0-alpha12"
+okio = "3.9.1"
 sqlite = "2.5.0-alpha12"
 
 [libraries]
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 
@@ -33,6 +35,7 @@ androidx-activity-compose = { module = "androidx.activity:activity-compose", ver
 
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
 sqlite = { module = "androidx.sqlite:sqlite", version.ref = "sqlite" }
 
