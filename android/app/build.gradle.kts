@@ -19,6 +19,8 @@ android {
         versionCode = 2
         versionName = "0.1.1"
         resourceConfigurations.addAll(listOf("en", "ru"))
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildFeatures {
         compose = true
@@ -84,5 +86,10 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+    implementation(libs.androidx.junit.ktx)
     debugImplementation(libs.compose.ui.tooling)
+
+    testImplementation(libs.kotlin.test)
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.rules)
 }

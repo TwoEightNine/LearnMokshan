@@ -6,6 +6,7 @@ import org.koin.dsl.module
 val lessonsNetworkModule = module {
     single<TopicsRepository.NetworkDataSource> {
         LessonsNetworkDataSource(
+            serverConfig = get(),
             client = get()
         )
     }

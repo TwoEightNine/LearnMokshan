@@ -9,7 +9,9 @@ import global.msnthrp.mokshan.android.koinimpls.AndroidFileProducer
 import global.msnthrp.mokshan.android.koinimpls.AndroidNowProvider
 import global.msnthrp.mokshan.android.koinimpls.DeviceLocaleProviderImpl
 import global.msnthrp.mokshan.android.koinimpls.LeMokBuildConfigImpl
+import global.msnthrp.mokshan.android.koinimpls.ProdServerConfig
 import global.msnthrp.mokshan.androidModules
+import global.msnthrp.mokshan.data.network.ServerConfig
 import global.msnthrp.mokshan.data.repository.repositoryModule
 import global.msnthrp.mokshan.data.storage.base.FileProducer
 import global.msnthrp.mokshan.usecase.DeviceLocaleProvider
@@ -41,6 +43,8 @@ class LeMokApplication : Application() {
                         single<LeMokBuildConfig> { LeMokBuildConfigImpl() }
                         single<FileProducer> { AndroidFileProducer(applicationContext = get()) }
                         single<NowProvider> { AndroidNowProvider() }
+                        single<ServerConfig> { ProdServerConfig() }
+//                        single<ServerConfig> { SandboxServerConfig(ProdServerConfig()) }
                     }
                 )
             )
