@@ -28,7 +28,7 @@ kotlin {
     }
     
     listOf(
-        iosX64(),
+//        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -53,8 +53,6 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.androidx.room.runtime)
-//            implementation(libs.sqlite.bundled)
-//            implementation(libs.sqlite)
         }
         commonTest.dependencies {
             implementation(libs.okio)
@@ -94,14 +92,14 @@ android {
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-    add("kspIosX64", libs.androidx.room.compiler)
+//    add("kspIosX64", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
 }
 
 tasks.register("assembleDebugXCFramework") {
     dependsOn(
         "linkDebugFrameworkIosArm64",
-        "linkDebugFrameworkIosX64",
+//        "linkDebugFrameworkIosX64",
         "linkDebugFrameworkIosSimulatorArm64"
     )
 
@@ -112,7 +110,7 @@ tasks.register("assembleDebugXCFramework") {
 
         val frameworks = listOf(
             "iosArm64" to "debugFramework",
-            "iosX64" to "debugFramework",
+//            "iosX64" to "debugFramework",
             "iosSimulatorArm64" to "debugFramework"
         )
 
