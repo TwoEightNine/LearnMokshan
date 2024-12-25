@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTargetWithSimulatorTests
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -6,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinCocoapods)
 }
 
 kotlin {
@@ -16,11 +16,21 @@ kotlin {
             }
         }
     }
+
+    cocoapods {
+        version = "1.0.0"
+        summary = "App for learning the Mokshan language"
+        homepage = "https://github.com/TwoEightNine/LearnMokshan"
+        ios.deploymentTarget = "14.0"
+        framework {
+            baseName = "shared"
+        }
+    }
     
-    listOf<KotlinNativeTargetWithSimulatorTests>(
-//        iosX64(),
-//        iosArm64(),
-//        iosSimulatorArm64()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -28,6 +38,9 @@ kotlin {
         }
     }
 
+    sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+    }
     sourceSets {
         commonMain.dependencies {
             implementation(libs.androidx.datastore)
@@ -40,18 +53,19 @@ kotlin {
             implementation(libs.koin.core)
 
             implementation(libs.androidx.room.runtime)
-            implementation(libs.sqlite.bundled)
-            implementation(libs.sqlite)
+//            implementation(libs.sqlite.bundled)
+//            implementation(libs.sqlite)
         }
         commonTest.dependencies {
             implementation(libs.okio)
             implementation(libs.kotlin.test)
         }
         jvmTest.dependencies {
-            
+            implementation(libs.okio)
         }
 
         androidMain.dependencies {
+            implementation(libs.sqlite.bundled)
             implementation(libs.ktor.client.okhttp)
         }
 
@@ -79,7 +93,46 @@ android {
 
 dependencies {
     add("kspAndroid", libs.androidx.room.compiler)
-//    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
-//    add("kspIosX64", libs.androidx.room.compiler)
-//    add("kspIosArm64", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
 }
+
+tasks.register("assembleDebugXCFramework") {
+    dependsOn(
+        "linkDebugFrameworkIosArm64",
+        "linkDebugFrameworkIosX64",
+        "linkDebugFrameworkIosSimulatorArm64"
+    )
+
+    doLast {
+        val outputDir = buildDir.resolve("XCFrameworks/debug")
+        outputDir.deleteRecursively()
+        outputDir.mkdirs()
+
+        val frameworks = listOf(
+            "iosArm64" to "debugFramework",
+            "iosX64" to "debugFramework",
+            "iosSimulatorArm64" to "debugFramework"
+        )
+
+        val frameworkArgs = frameworks.flatMap { (platform, config) ->
+            listOf(
+                "-framework", buildDir.resolve("bin/$platform/$config/shared.framework").absolutePath
+            )
+        }
+
+        exec {
+            commandLine(
+                "xcodebuild",
+                "-create-xcframework",
+                *frameworkArgs.toTypedArray(),
+                "-output", outputDir.resolve("shared.xcframework").absolutePath
+            )
+        }
+
+        println("XCFramework assembled at: ${outputDir.resolve("shared.xcframework")}")
+    }
+}
+
+

@@ -15,10 +15,10 @@ ktor = "2.3.11"
 coroutines = "1.9.0"
 koin = "3.5.3"
 lifecycle = "2.8.7"
-androidx-room = "2.7.0-alpha12"
+androidx-room = "2.7.0-alpha07"
 okio = "3.9.1"
 androidx-test = "1.6.1"
-sqlite = "2.5.0-alpha12"
+sqlite = "2.5.0-alpha07"
 junitKtx = "1.2.1"
 
 [libraries]

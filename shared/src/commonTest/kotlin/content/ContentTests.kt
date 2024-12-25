@@ -4,7 +4,9 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okio.FileSystem
 import okio.Path
+import okio.SYSTEM
 import okio.buffer
+import okio.use
 import kotlin.test.Test
 
 
@@ -64,7 +66,7 @@ class ContentTests {
 
     private fun Path.read(): String {
         val result = StringBuilder()
-        FileSystem.SYSTEM.source(this).use { fileSource ->
+        fs.source(this).use { fileSource ->
             fileSource.buffer().use { bufferedFileSource ->
                 while (true) {
                     val line = bufferedFileSource.readUtf8Line() ?: break
