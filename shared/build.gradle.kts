@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinCocoapods)
@@ -51,6 +53,13 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.koin.core)
+
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
 
             implementation(libs.androidx.room.runtime)
         }
