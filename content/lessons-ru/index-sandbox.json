@@ -64,6 +64,14 @@
       "lessonsCount": 3,
       "emoji": "7\uFE0F⃣",
       "grammar": "grammar-8-ru.prelinar"
+    },
+    {
+      "id": 9,
+      "title": "Моя семья",
+      "description": "Существительные и притяжательное склонение",
+      "lessonsCount": 3,
+      "emoji": "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66",
+      "grammar": "grammar-8-ru.prelinar"
     }
   ]
 }
