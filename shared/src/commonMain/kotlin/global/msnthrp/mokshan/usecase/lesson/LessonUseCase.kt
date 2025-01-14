@@ -138,8 +138,8 @@ class LessonUseCase(
                             ?.native
                             ?.let { native ->
                                 DictionaryEntry(
-                                    mokshan = mokshan,
-                                    native = native,
+                                    mokshan = mokshan.lowercase(),
+                                    native = native.map { it.lowercase() },
                                 )
                             }
                     }

@@ -2,6 +2,7 @@ package global.msnthrp.mokshan.android
 
 import android.app.Application
 import global.msnthrp.learmokshan.android.features.dictionary.dictionaryModule
+import global.msnthrp.learnmokshan.BuildConfig
 import global.msnthrp.mokshan.android.core.utils.LeMokBuildConfig
 import global.msnthrp.mokshan.android.features.articles.articlesModule
 import global.msnthrp.mokshan.android.features.lessons.lessonsModules
@@ -10,6 +11,7 @@ import global.msnthrp.mokshan.android.koinimpls.AndroidNowProvider
 import global.msnthrp.mokshan.android.koinimpls.DeviceLocaleProviderImpl
 import global.msnthrp.mokshan.android.koinimpls.LeMokBuildConfigImpl
 import global.msnthrp.mokshan.android.koinimpls.ProdServerConfig
+import global.msnthrp.mokshan.android.koinimpls.SandboxServerConfig
 import global.msnthrp.mokshan.androidModules
 import global.msnthrp.mokshan.data.network.ServerConfig
 import global.msnthrp.mokshan.data.repository.repositoryModule
@@ -43,8 +45,12 @@ class LeMokApplication : Application() {
                         single<LeMokBuildConfig> { LeMokBuildConfigImpl() }
                         single<FileProducer> { AndroidFileProducer(applicationContext = get()) }
                         single<NowProvider> { AndroidNowProvider() }
-                        single<ServerConfig> { ProdServerConfig() }
-//                        single<ServerConfig> { SandboxServerConfig(ProdServerConfig()) }
+
+                        if (BuildConfig.DEBUG) {
+                            single<ServerConfig> { SandboxServerConfig(ProdServerConfig()) }
+                        } else {
+                            single<ServerConfig> { ProdServerConfig() }
+                        }
                     }
                 )
             )
