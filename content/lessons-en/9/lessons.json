@@ -1,0 +1,432 @@
+{
+  "id": 9,
+  "title": "My family",
+  "description": "Nouns and possessive declension",
+  "version": 1,
+  "lessons": [
+    {
+      "order": 1,
+      "toNative": [
+        {
+          "mokshan": "Цёра",
+          "native": ["Son", "Guy"]
+        },
+        {
+          "mokshan": "Стирь",
+          "native": ["Daughter", "Girl"]
+        },
+        {
+          "mokshan": "Тядя",
+          "native": ["Mother", "Mom"]
+        },
+        {
+          "mokshan": "Аля",
+          "native": ["Father", "Dad"]
+        },
+        {
+          "mokshan": "Семья",
+          "native": ["Family"]
+        },
+        {
+          "mokshan": "Атя",
+          "native": ["Paternal grandfather"]
+        },
+        {
+          "mokshan": "Баба",
+          "native": ["Paternal grandmother"]
+        },
+        {
+          "mokshan": "Щятя",
+          "native": ["Maternal grandfather"]
+        },
+        {
+          "mokshan": "Щава",
+          "native": ["Maternal grandmother"]
+        },
+        {
+          "mokshan": "Брат",
+          "native": ["Younger brother"]
+        },
+        {
+          "mokshan": "Альняка",
+          "native": ["Older brother"]
+        },
+        {
+          "mokshan": "Сазор",
+          "native": ["Younger sister"]
+        },
+        {
+          "mokshan": "Ака",
+          "native": ["Older sister"]
+        },
+        {
+          "mokshan": "Мирде",
+          "native": ["Husband"]
+        },
+        {
+          "mokshan": "Ърьвя",
+          "native": ["Wife"]
+        }
+      ],
+      "dictionary": [
+        "Цёра", "Стирь", "Тядя", "Аля", "Семья", "Атя", "Баба", "Щятя", "Щава", "Брат", "Альняка",
+        "Сазор", "Ака", "Мирде", "Ърьвя"
+      ]
+    },
+    {
+      "order": 2,
+      "toNative": [
+        {
+          "mokshan": "Тонь улихть шабатне?",
+          "native": ["Do you have children?"]
+        },
+        {
+          "mokshan": "Монь улихть шабане",
+          "native": ["I have children"]
+        },
+        {
+          "mokshan": "Тонь шабатне?",
+          "native": ["Do you have children?"]
+        },
+        {
+          "mokshan": "Монь шабане",
+          "native": ["I have children"]
+        },
+        {
+          "mokshan": "Монь аш шабане",
+          "native": ["I don't have children"]
+        },
+        {
+          "mokshan": "Сонь кафта цёранза",
+          "native": ["He has two sons", "She has two sons"]
+        },
+        {
+          "mokshan": "Сонь колма стиренза",
+          "native": ["He has three daughters", "She has three daughters"]
+        },
+        {
+          "mokshan": "Монь аш братоне",
+          "native": ["I don't have a younger brother"]
+        },
+        {
+          "mokshan": "Тонь альнякаце",
+          "native": ["You have an older brother"]
+        },
+        {
+          "mokshan": "Сонь ули сазороц",
+          "native": ["He has a younger sister", "She has a younger sister"]
+        },
+        {
+          "mokshan": "Сонь аканза",
+          "native": ["He has an older sisters", "She has an older sisters"]
+        },
+        {
+          "mokshan": "Тонь братоце?",
+          "native": ["Do you have a younger brother?"]
+        },
+        {
+          "mokshan": "Монь альняказе",
+          "native": ["I have an older brother"]
+        },
+        {
+          "mokshan": "Сонь акац?",
+          "native": ["Does he have an older sister?", "Does she have an older sister?"]
+        },
+        {
+          "mokshan": "Сонь сазороц",
+          "native": ["He has a younger sister", "She has a younger sister"]
+        },
+        {
+          "mokshan": "Монь сазорозе и кафта братоне",
+          "native": ["I have a younger sister and two younger brothers"]
+        }
+      ],
+      "dictionary": [
+        "улемс", "аш", "монь", "тонь", "сонь"
+      ]
+    },
+    {
+      "order": 3,
+      "toNative": [
+        {
+          "mokshan": "Семьяце оцю? – Да, семьязе оцю",
+          "native": ["Is your family big? – Yes, my family is big"]
+        },
+        {
+          "mokshan": "Семьяц оцю? – Аф, семьяц ёмла",
+          "native": [
+            "Is his family big? – No, his family is small",
+            "Is her family big? – No, her family is small"
+          ]
+        },
+        {
+          "mokshan": "Минь шабаньке",
+          "native": ["We have a child", "We have children"]
+        },
+        {
+          "mokshan": "Минь улихть шабаньке",
+          "native": ["We have children"]
+        },
+        {
+          "mokshan": "Тинь аш шабанте",
+          "native": ["You don't have children"]
+        },
+        {
+          "mokshan": "Сонь шабасна",
+          "native": ["They have a child", "They have children"]
+        },
+        {
+          "mokshan": "Тинь шабанте? – Да, минь цёраньке и колма стиреньке",
+          "native": [
+            "Do you have children? – Yes, we have a son and three daughters",
+            "Do you have a child? – Yes, we have a son and three daughters"
+          ]
+        },
+        {
+          "mokshan": "Синь стиресна? – Аф, аньцек цёрасна",
+          "native": [
+            "Do they have a daughter? – No, only a son",
+            "Do they have daughters? – No, only sons"
+          ]
+        },
+        {
+          "mokshan": "Тинь атянте? – Да, минь атяньке и щятяньке",
+          "native": ["Do you have paternal grandfather? – Yes, we have paternal grandfather and grandmother"]
+        },
+        {
+          "mokshan": "Синь ули бабасна? – Да, синь улихть бабасна и щавасна",
+          "native": ["Do they have paternal grandmother – Yes, they have paternal and maternal grandmothers"]
+        },
+        {
+          "mokshan": "Тонь мирдеце?",
+          "native": ["Do you have a husband?"]
+        },
+        {
+          "mokshan": "Монь мирдезе",
+          "native": ["I have a husband"]
+        },
+        {
+          "mokshan": "Тонь ърьвяце?",
+          "native": ["Do you have a wife?"]
+        },
+        {
+          "mokshan": "Монь ърьвязе",
+          "native": ["I have a wife"]
+        },
+        {
+          "mokshan": "Сонь мирдец",
+          "native": ["She has a husband", "He has a husband"]
+        },
+        {
+          "mokshan": "Сонь ърьвяц",
+          "native": ["He has a wife", "She has a wife"]
+        }
+      ],
+      "dictionary": [
+        "минь", "тинь", "синь", "аньцек", "оцю", "ёмла", "семья", "ърьвя", "мирде"
+      ]
+    }
+  ],
+  "translations": [
+    {
+      "mokshan": "улихть",
+      "native": "are (have)"
+    },
+    {
+      "mokshan": "шабатне",
+      "native": "your children"
+    },
+    {
+      "mokshan": "шабане",
+      "native": "my children"
+    },
+    {
+      "mokshan": "кафта",
+      "native": "two"
+    },
+    {
+      "mokshan": "цёранза",
+      "native": "his/her sons"
+    },
+    {
+      "mokshan": "колма",
+      "native": "three"
+    },
+    {
+      "mokshan": "стиренза",
+      "native": "his/her daughters"
+    },
+    {
+      "mokshan": "братоне",
+      "native": "my younger brothers"
+    },
+    {
+      "mokshan": "альнякаце",
+      "native": "my older brother"
+    },
+    {
+      "mokshan": "ули",
+      "native": "is (has)"
+    },
+    {
+      "mokshan": "сазороц",
+      "native": "his/her younger sister"
+    },
+    {
+      "mokshan": "аканза",
+      "native": "his/her older sisters"
+    },
+    {
+      "mokshan": "братоце",
+      "native": "your younger brother"
+    },
+    {
+      "mokshan": "альняказе",
+      "native": "my older brother"
+    },
+    {
+      "mokshan": "акац",
+      "native": "his/her older sister"
+    },
+    {
+      "mokshan": "сазорозе",
+      "native": "my younger sister"
+    },
+    {
+      "mokshan": "и",
+      "native": "and "
+    },
+    {
+      "mokshan": "семьяце",
+      "native": "your family"
+    },
+    {
+      "mokshan": "да",
+      "native": "yes"
+    },
+    {
+      "mokshan": "семьязе",
+      "native": "my family"
+    },
+    {
+      "mokshan": "семьяц",
+      "native": "his/her family"
+    },
+    {
+      "mokshan": "аф",
+      "native": "no"
+    },
+    {
+      "mokshan": "шабаньке",
+      "native": "our child(ren)"
+    },
+    {
+      "mokshan": "шабанте",
+      "native": "your child(ren)"
+    },
+    {
+      "mokshan": "шабасна",
+      "native": "their child(ren)"
+    },
+    {
+      "mokshan": "цёраньке",
+      "native": "our son(s)"
+    },
+    {
+      "mokshan": "стиреньке",
+      "native": "our daughter(s)"
+    },
+    {
+      "mokshan": "стиресна",
+      "native": "their daughter(s)"
+    },
+    {
+      "mokshan": "цёрасна",
+      "native": "their son(s)"
+    },
+    {
+      "mokshan": "атянте",
+      "native": "your paternal grandfather"
+    },
+    {
+      "mokshan": "атяньке",
+      "native": "our paternal grandfather"
+    },
+    {
+      "mokshan": "щятяньке",
+      "native": "our maternal grandfather"
+    },
+    {
+      "mokshan": "бабасна",
+      "native": "their paternal grandmother"
+    },
+    {
+      "mokshan": "щавасна",
+      "native": "their maternal grandmother"
+    },
+    {
+      "mokshan": "мирдеце",
+      "native": "your husband"
+    },
+    {
+      "mokshan": "мирдезе",
+      "native": "my husband"
+    },
+    {
+      "mokshan": "ърьвяце",
+      "native": "your wife"
+    },
+    {
+      "mokshan": "ърьвязе",
+      "native": "my wife"
+    },
+    {
+      "mokshan": "мирдец",
+      "native": "his/her husband"
+    },
+    {
+      "mokshan": "ърьвяц",
+      "native": "his/her wife"
+    },
+    {
+      "mokshan": "улемс",
+      "native": "to be"
+    },
+    {
+      "mokshan": "аш",
+      "native": "is/are not (don't have)"
+    },
+    {
+      "mokshan": "монь",
+      "native": "at me"
+    },
+    {
+      "mokshan": "тонь",
+      "native": "at you"
+    },
+    {
+      "mokshan": "сонь",
+      "native": "at him/her"
+    },
+    {
+      "mokshan": "минь",
+      "native": "at us"
+    },
+    {
+      "mokshan": "тинь",
+      "native": "at you all"
+    },
+    {
+      "mokshan": "синь",
+      "native": "at them"
+    },
+    {
+      "mokshan": "оцю",
+      "native": "big"
+    },
+    {
+      "mokshan": "ёмла",
+      "native": "small"
+    }
+  ]
+}
