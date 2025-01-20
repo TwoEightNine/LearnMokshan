@@ -461,7 +461,7 @@ private fun BoxScope.CorrectSheet(
 ) {
     val message = if (otherPossibleVariant.isNotBlank()) {
         stringResource(
-            id = R.string.lesson_translate_title,
+            id = R.string.lesson_answer_correct_variant,
             "possibleVariant" to otherPossibleVariant
         )
     } else {
