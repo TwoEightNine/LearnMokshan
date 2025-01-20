@@ -1,0 +1,54 @@
+version: 1
+CONTENT
+<title> I have..: Lesson 9
+<h2> Possessive declension of nouns
+The possessive declension is a rare feature in Europe, but is often found in the languages of the world. It expresses the belonging of an object or person to a specific owner through special endings that are added to the base of the noun. In the Mokshan language, this form is actively used in everyday speech to convey the relations of ownership and belonging.
+In the nominative case, the possessive declension is formed by the following endings:
+<table>
+<row> | sin. | pl.
+<row> мон | -*зе* | -*не*
+<row> тон | -*це* | -*тне*
+<row> сон | -*ц* | -*нза*
+<row> минь | -*ньке* | -*ньке*
+<row> тинь | -*нте* | -*нте*
+<row> синь | -*сна* | -*сна*
+<endtable>
+
+Note that the possessive endings are the same if the person is plural. If the word stem ends in a consonant, *o* is added before the ending.
+
+Let's look at some examples:
+<list> куд (a house) – кудо*зе* (my house) – кудо*не* (my houses);
+<list> веле (a village) – веле*ньке* (our village, our villages).
+
+In addition to the nominative, the possessive declension in Mokshan is present for nouns in the genitive and dative cases. Their forms will be discussed later as we progress through the training.
+
+<h2> I have...
+In the Moksha language, the construction for expressing possession is built using the possessive declension. The basic structure looks like this:
+
+*[possessor in the genitive case] + [verb "to be" in the third person] + [possessed object in the possessive declension]*
+
+This structure literally means: *[at/by person] + [is/are] + [possessed object with an ending]*.
+
+The verb *to be (улемс)* in the third person has the forms *ули* in the singular and *улихть* in the plural and can be omitted.
+
+For instance:
+<list> *монь ули кудозе* (*I have a house*, lit. *by-me is my-house*), или *монь кудозе* (*I have a house*, the verb is omitted);
+<list> *тонь улихть кудотне* (*You have houses*, lit. *by-you are your-houses*), или *тонь кудотне* (*You have houses*).
+
+Since the endings coincide for several possessors (минь, тинь, синь), the number of the object is determined either from the context or from the number of the verb *улемс*. Compare:
+<list> синь кудосна (they have a house, they have houses);
+<list> синь *ули* кудосна (they have a house);
+<list> синь *улихть* кудосна (they have houses).
+
+Table of genitive case of pronouns:
+<table>
+<row> nom. | gen.
+<row> мон | монь
+<row> тон | тонь
+<row> сон | сонь
+<row> минь | минь
+<row> тинь | тинь
+<row> синь | синь
+<endtable>
+
+The genitive case of the main declension (common endings) are not given now to simplify the assimilation of the material.
