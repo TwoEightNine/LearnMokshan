@@ -182,10 +182,11 @@ class LessonUseCase(
         extendFrom: Collection<String>,
         desiredSize: Int
     ): List<String> {
-        if (source.size >= desiredSize) return source
+        val uniques = source.toSet()
+        if (uniques.size >= desiredSize) return uniques.toList()
 
-        val result = source.toMutableList()
-        val newWords = extendFrom.minus(result.toSet()).shuffled().take(desiredSize - source.size)
+        val result = uniques.toMutableList()
+        val newWords = extendFrom.minus(uniques).shuffled().take(desiredSize - uniques.size)
         return result.plus(newWords).shuffled()
     }
 
