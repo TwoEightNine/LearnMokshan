@@ -44,11 +44,11 @@ class ContentTests {
         }
 
         if (missingWords.isNotEmpty()) {
-            val message = "Missing words:\n" +
+            val message = "Missing words (placeholders):\n" +
                     missingWords
                         .distinct()
                         .sortedBy { it.second }
-                        .joinToString("\n") { "id=${it.second}, word=${it.first}" }
+                        .joinToString("\n") { "{\"mokshan\": \"${it.first}\", \"native\": \"\"}, // ${it.second}" }
             throw AssertionError(message)
         }
     }
