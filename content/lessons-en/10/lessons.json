@@ -1,7 +1,7 @@
 {
   "id": 10,
-  "title": "Где? Куда? Откуда?",
-  "description": "Местоположение и глаголы",
+  "title": "Where? Where to? Where from?",
+  "description": "Placement and verbs",
   "version": 1,
   "lessons": [
     {
@@ -9,71 +9,71 @@
       "toNative": [
         {
           "mokshan": "Коса?",
-          "native": ["Где?"]
+          "native": ["Where?"]
         },
         {
           "mokshan": "Коза?",
-          "native": ["Куда?"]
+          "native": ["Where to?"]
         },
         {
           "mokshan": "Ков?",
-          "native": ["Куда?"]
+          "native": ["Where to?"]
         },
         {
           "mokshan": "Коста?",
-          "native": ["Откуда?"]
+          "native": ["Where from?"]
         },
         {
           "mokshan": "Тоса",
-          "native": ["Там"]
+          "native": ["There"]
         },
         {
           "mokshan": "Тяса",
-          "native": ["Здесь"]
+          "native": ["Here"]
         },
         {
           "mokshan": "Тяза",
-          "native": ["Сюда"]
+          "native": ["Here"]
         },
         {
           "mokshan": "Тоза",
-          "native": ["Туда"]
+          "native": ["There"]
         },
         {
           "mokshan": "Тяста",
-          "native": ["Отсюда"]
+          "native": ["From here"]
         },
         {
           "mokshan": "Тоста",
-          "native": ["Оттуда"]
+          "native": ["From there"]
         },
         {
           "mokshan": "Коса? – Тоса",
-          "native": ["Где? – Там"]
+          "native": ["Where? – There"]
         },
         {
           "mokshan": "Коса? – Тяса",
-          "native": ["Где? – Здесь"]
+          "native": ["Where? – Here"]
         },
         {
           "mokshan": "Тяса? – Тоса",
-          "native": ["Здесь? – Там"]
+          "native": ["Here? – There"]
         },
         {
           "mokshan": "Коза? – Тяза",
-          "native": ["Куда? – Сюда"]
+          "native": ["Where to? – Here"]
         },
         {
           "mokshan": "Коза? – Тоза",
-          "native": ["Куда? – Туда"]
+          "native": ["Where to? – There"]
         },
         {
           "mokshan": "Коста? – Тяста",
-          "native": ["Откуда? – Отсюда"]
+          "native": ["From where? – From here"]
         },
         {
           "mokshan": "Коста? – Тоста",
-          "native": ["Откуда? – Оттуда"]
+          "native": ["From where? – From there"]
         }
       ],
       "dictionary": [
@@ -85,83 +85,83 @@
       "toNative": [
         {
           "mokshan": "Коса тон покат?",
-          "native": ["Где ты работаешь?"]
+          "native": ["Where do you work?"]
         },
         {
           "mokshan": "Коса тон тонафнят?",
-          "native": ["Где ты учишься?"]
+          "native": ["Where do you study?"]
         },
         {
           "mokshan": "Коса сон покай?",
-          "native": ["Где он работает?", "Где она работает?"]
+          "native": ["Where does he work?", "Where does she work?"]
         },
         {
           "mokshan": "Коса сон тонафни?",
-          "native": ["Где он учится?", "Где она учится?"]
+          "native": ["Where does he study?", "Where does he study?"]
         },
         {
           "mokshan": "Коса тинь покатада?",
-          "native": ["Где вы работаете?"]
+          "native": ["Where do you all work?"]
         },
         {
           "mokshan": "Коса синь тонафнихть?",
-          "native": ["Где они учатся?"]
+          "native": ["Where do they study?"]
         },
         {
           "mokshan": "Синь покайхть офисса",
-          "native": ["Они работают в офисе"]
+          "native": ["They work in an office"]
         },
         {
           "mokshan": "Минь покатама заводса",
-          "native": ["Мы работаем на заводе"]
+          "native": ["We work at a factory"]
         },
         {
           "mokshan": "Тон покат лавкаса?",
-          "native": ["Ты работаешь в магазине?"]
+          "native": ["Do you work in a store?"]
         },
         {
           "mokshan": "Минь тонафнетяма школаса",
-          "native": ["Мы учимся в школе"]
+          "native": ["We study at school"]
         },
         {
           "mokshan": "Тон тонафнят университетса?",
-          "native": ["Ты учишься в университете?"]
+          "native": ["Do you study at university?"]
         },
         {
           "mokshan": "Мон тонафнян университетса",
-          "native": ["Я учусь в университете"]
+          "native": ["I study at university"]
         },
         {
           "mokshan": "Коса тон эрят?",
-          "native": ["Где ты живёшь?"]
+          "native": ["Where do you live?"]
         },
         {
           "mokshan": "Мон эрян квартираса",
-          "native": ["Я живу в квартире"]
+          "native": ["I live in an apartment"]
         },
         {
           "mokshan": "Сон эряй кудса",
-          "native": ["Он живёт в доме", "Она живёт в доме"]
+          "native": ["He lives in a house", "She lives in a house"]
         },
         {
           "mokshan": "Минь эрятама ошса",
-          "native": ["Мы живём в городе"]
+          "native": ["We live in a city"]
         },
         {
           "mokshan": "Тинь эрятада велеса?",
-          "native": ["Вы живёте в селе?"]
+          "native": ["Do you all live in a village?"]
         },
         {
           "mokshan": "Синь эряйхть отельса",
-          "native": ["Они живут в отеле"]
+          "native": ["They live in an hotel"]
         },
         {
           "mokshan": "Коса тинь покатада? – Тяса",
-          "native": ["Где вы работаете? – Здесь"]
+          "native": ["Where do you all work? – Here"]
         },
         {
           "mokshan": "Коса тинь тонафнетяда? – Тоса",
-          "native": ["Где вы учитесь? – Там"]
+          "native": ["Where do you all study? – There"]
         }
       ],
       "dictionary": [
@@ -173,130 +173,132 @@
       "toNative": [
         {
           "mokshan": "Мон молян лавкав",
-          "native": ["Я иду в магазин"]
+          "native": ["I am going to a store"]
         },
         {
           "mokshan": "Тон молят школав?",
-          "native": ["Ты идёшь в школу?"]
+          "native": ["Are you going to school?"]
         },
         {
           "mokshan": "Сон моли куду",
-          "native": ["Он идёт домой", "Она идёт домой"]
+          "native": ["He is going home", "She is going home"]
         },
         {
           "mokshan": "Минь мольхтяма парку",
-          "native": ["Мы идём в парк"]
+          "native": ["We are going to a park"]
         },
         {
           "mokshan": "Коза тинь мольхтяда?",
-          "native": ["Куда вы идёте?"]
+          "native": ["Where are you going?"]
         },
         {
           "mokshan": "Синь молихть университету",
-          "native": ["Они идут в университет"]
+          "native": ["They are going to university"]
         },
         {
           "mokshan": "Минь мольхтяма вели",
-          "native": ["Мы идём в село"]
+          "native": ["We are going to a village"]
         },
         {
           "mokshan": "Мон молян заводста",
-          "native": ["Я иду с завода"]
+          "native": ["I am going from a factory"]
         },
         {
           "mokshan": "Тон молят университетста?",
-          "native": ["Ты идёшь из университета?"]
+          "native": ["Are you going from university?"]
         },
         {
           "mokshan": "Сон моли школаста",
-          "native": ["Он идёт из школы", "Она идёт из школы"]
+          "native": ["He is going from school", "She is going from school"]
         },
         {
           "mokshan": "Коста тинь мольхтяда?",
-          "native": ["Откуда вы идёте?"]
+          "native": ["Where are you all going from?"]
         },
         {
           "mokshan": "Ков тон молят? – Тоза",
-          "native": ["Куда ты идёшь – Туда"]
+          "native": ["Where are you going? – There"]
         },
         {
           "mokshan": "Коза сон моли? – Тяза",
-          "native": ["Куда он идёт? – Сюда", "Куда она идёт? – Сюда"]
+          "native": ["Where is he going? – Here", "Where is she going? – Here"]
         },
         {
           "mokshan": "Коста синь молихть? – Тоста",
-          "native": ["Откуда они идут? – Оттуда"]
+          "native": ["Where are they going from? – From there"]
         },
         {
           "mokshan": "Коста минь мольхтяма? – Тяста",
-          "native": ["Откуда мы идём? – Отсюда"]
+          "native": ["Where are we going from? – From here"]
         }
       ],
       "dictionary": [
-        "молемс", "парк", "синь", "аньцек", "оцю", "ёмла", "семья", "ърьвя", "мирде"
+        "молемс", "парк"
       ]
     }
   ],
   "translations": [
-    {"mokshan": "покат", "native": "работаешь"},
-    {"mokshan": "тонафнят", "native": "учишься"},
-    {"mokshan": "сон", "native": "он/она"},
-    {"mokshan": "покай", "native": "работает"},
-    {"mokshan": "тонафни", "native": "учится"},
-    {"mokshan": "тинь", "native": "вы"},
-    {"mokshan": "покатада", "native": "работаем"},
-    {"mokshan": "тонафнихть", "native": "учатся"},
-    {"mokshan": "покайхть", "native": "работают"},
-    {"mokshan": "офисса", "native": "в офисе"},
-    {"mokshan": "минь", "native": "мы"},
-    {"mokshan": "покатама", "native": "работаем"},
-    {"mokshan": "заводса", "native": "на заводе"},
-    {"mokshan": "лавкаса", "native": "в магазине"},
-    {"mokshan": "тонафнетяма", "native": "учимся"},
-    {"mokshan": "школаса", "native": "в школе"},
-    {"mokshan": "университетса", "native": "в университете"},
-    {"mokshan": "мон", "native": "я"},
-    {"mokshan": "тонафнян", "native": "учусь"},
-    {"mokshan": "эрят", "native": "живёшь"},
-    {"mokshan": "эрян", "native": "живу"},
-    {"mokshan": "квартираса", "native": "в квартире"},
-    {"mokshan": "эряй", "native": "живёт"},
-    {"mokshan": "кудса", "native": "в доме"},
-    {"mokshan": "эрятама", "native": "живём"},
-    {"mokshan": "ошса", "native": "в городе"},
-    {"mokshan": "эрятада", "native": "живёте"},
-    {"mokshan": "велеса", "native": "в селе"},
-    {"mokshan": "эряйхть", "native": "живут"},
-    {"mokshan": "отельса", "native": "в отеле"},
-    {"mokshan": "тонафнетяда", "native": "учитесь"},
-    {"mokshan": "молян", "native": "иду"},
-    {"mokshan": "лавкав", "native": " в магазин"},
-    {"mokshan": "молят", "native": "идёшь"},
-    {"mokshan": "школав", "native": "в школу"},
-    {"mokshan": "моли", "native": "идёт"},
-    {"mokshan": "куду", "native": "домой"},
-    {"mokshan": "мольхтяма", "native": "идём"},
-    {"mokshan": "парку", "native": "в парк"},
-    {"mokshan": "мольхтяда", "native": "идёте"},
-    {"mokshan": "молихть", "native": "идут"},
-    {"mokshan": "университету", "native": "в университет"},
-    {"mokshan": "вели", "native": "в село"},
-    {"mokshan": "заводста", "native": "из завода"},
-    {"mokshan": "университетста", "native": "из университета"},
-    {"mokshan": "школаста", "native": "из школы"},
-    {"mokshan": "покамс", "native": "работать"},
-    {"mokshan": "тонафнемс", "native": "учиться"},
-    {"mokshan": "офис", "native": "офис"},
-    {"mokshan": "завод", "native": "завод"},
-    {"mokshan": "лавка", "native": "магазин"},
-    {"mokshan": "отель", "native": "отель"},
-    {"mokshan": "куд", "native": "дом"},
-    {"mokshan": "квартира", "native": "квартира"},
-    {"mokshan": "город", "native": "ош"},
-    {"mokshan": "село", "native": "веле"},
-    {"mokshan": "школа", "native": "школа"},
-    {"mokshan": "университет", "native": "университет"},
-    {"mokshan": "молемс", "native": "идти"},
-    {"mokshan": "парк", "native": "парк"}
+    {"mokshan": "покат", "native": "work"},
+    {"mokshan": "тонафнят", "native": "study"},
+    {"mokshan": "сон", "native": "he/she"},
+    {"mokshan": "покай", "native": "works"},
+    {"mokshan": "тонафни", "native": "studies"},
+    {"mokshan": "тинь", "native": "you all"},
+    {"mokshan": "покатада", "native": "work"},
+    {"mokshan": "тонафнихть", "native": "study"},
+    {"mokshan": "покайхть", "native": "work"},
+    {"mokshan": "офисса", "native": "in an office"},
+    {"mokshan": "минь", "native": "we"},
+    {"mokshan": "покатама", "native": "work"},
+    {"mokshan": "заводса", "native": "at a factory"},
+    {"mokshan": "лавкаса", "native": "in a store"},
+    {"mokshan": "тонафнетяма", "native": "study"},
+    {"mokshan": "школаса", "native": "at school"},
+    {"mokshan": "университетса", "native": "at university"},
+    {"mokshan": "мон", "native": "I"},
+    {"mokshan": "тонафнян", "native": "study"},
+    {"mokshan": "эрят", "native": "live"},
+    {"mokshan": "эрян", "native": "live"},
+    {"mokshan": "квартираса", "native": "in an apartment"},
+    {"mokshan": "эряй", "native": "lives"},
+    {"mokshan": "кудса", "native": "in a house"},
+    {"mokshan": "эрятама", "native": "live"},
+    {"mokshan": "ошса", "native": "in a city"},
+    {"mokshan": "эрятада", "native": "live"},
+    {"mokshan": "велеса", "native": "in a village"},
+    {"mokshan": "эряйхть", "native": "live"},
+    {"mokshan": "отельса", "native": "in an hotel"},
+    {"mokshan": "тонафнетяда", "native": "study"},
+    {"mokshan": "молян", "native": "go"},
+    {"mokshan": "лавкав", "native": "to a store"},
+    {"mokshan": "молят", "native": "go"},
+    {"mokshan": "школав", "native": "to school"},
+    {"mokshan": "моли", "native": "go"},
+    {"mokshan": "куду", "native": "home"},
+    {"mokshan": "мольхтяма", "native": "go"},
+    {"mokshan": "парку", "native": "to a park"},
+    {"mokshan": "мольхтяда", "native": "go"},
+    {"mokshan": "молихть", "native": "go"},
+    {"mokshan": "университету", "native": "to university"},
+    {"mokshan": "вели", "native": "to a village"},
+    {"mokshan": "заводста", "native": "from a factory"},
+    {"mokshan": "университетста", "native": "from university"},
+    {"mokshan": "школаста", "native": "from school"},
+    {"mokshan": "покамс", "native": "to work"},
+    {"mokshan": "тонафнемс", "native": "to study"},
+    {"mokshan": "офис", "native": "office"},
+    {"mokshan": "завод", "native": "factory"},
+    {"mokshan": "лавка", "native": "store"},
+    {"mokshan": "отель", "native": "hotel"},
+    {"mokshan": "куд", "native": "house"},
+    {"mokshan": "квартира", "native": "apartment"},
+    {"mokshan": "город", "native": "city"},
+    {"mokshan": "село", "native": "village"},
+    {"mokshan": "школа", "native": "school"},
+    {"mokshan": "университет", "native": "university"},
+    {"mokshan": "молемс", "native": "to go"},
+    {"mokshan": "парк", "native": "park"},
+    {"mokshan": "тон", "native": "you"},
+    {"mokshan": "синь", "native": "they"}
   ]
 }
