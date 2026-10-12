@@ -99,6 +99,8 @@ dependencies {
     implementation(libs.okio)
     debugImplementation(libs.compose.ui.tooling)
 
+    testImplementation(libs.junit)
+
     androidTestImplementation(libs.androidx.runner)
     androidTestImplementation(libs.androidx.test.core)
     androidTestImplementation(libs.androidx.junit)

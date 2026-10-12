@@ -143,12 +143,18 @@ The main checks are:
 
 ```shell
 ./gradlew :shared:allTests
+./gradlew testDebugUnitTest
 ./gradlew :android:app:lintDebug
 ./gradlew :android:app:assembleDebug
 ./gradlew :android:app:assembleRelease
 ```
 
-The shared tests validate lesson content, including translation-hint coverage.
+The shared tests cover the business logic (lesson engine, repositories, network
+client, parsers, storage) and validate the `content/` files with the production
+parsers, including translation-hint coverage. `testDebugUnitTest` runs the JVM
+unit tests of the Android modules (view models, server configuration, locale
+mapping). Tests named `*Bug*`/`*Issue*` deliberately pin behaviour that is
+currently wrong; see [DOCS.md](DOCS.md).
 `ServerConfigTests` is an Android instrumentation test and requires a connected
 device or emulator running the non-debug application configuration it is meant
 to verify.

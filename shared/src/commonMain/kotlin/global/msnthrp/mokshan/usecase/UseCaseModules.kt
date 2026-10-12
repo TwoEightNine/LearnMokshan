@@ -7,5 +7,11 @@ import org.koin.dsl.module
 
 val useCaseModule = module {
     singleOf(::PhrasebookUseCase)
-    singleOf(::LessonUseCase)
+    single {
+        LessonUseCase(
+            lessonRepository = get(),
+            dictionaryRepository = get(),
+            topicsRepository = get(),
+        )
+    }
 }

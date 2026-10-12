@@ -69,7 +69,9 @@ through common interfaces or `expect` declarations and implemented under
 - `shared/src/commonMain`: cross-platform models and behavior.
 - `shared/src/androidMain`: Android database construction, network cache, and
   date formatting.
-- `shared/src/commonTest`: portable content validation.
+- `shared/src/commonTest`: business-logic unit tests, in-memory fakes
+  (`testutil/`), and content validation with the production parsers
+  (`content/`).
 - `shared/src/androidHostTest`: JVM helpers for the Android KMP host tests.
 
 The shared module exposes only an Android target. The standalone SwiftUI
@@ -173,6 +175,10 @@ locally stored progress.
 6. builds word-bank choices from the correct words plus shuffled distractors,
    targeting ten choices when enough vocabulary exists.
 
+`LessonUseCase` takes a `kotlin.random.Random` (default `Random.Default`) so the
+shuffling can be made deterministic in tests; `useCaseModule` registers it
+explicitly instead of through `singleOf`.
+
 A topic with `n` content lessons has `2n + 3` app lesson steps. The phases are
 word-bank lessons, a word-bank summary, typed-input lessons, a typed-input
 summary, and a full review. The repeat sentinel is `-3`; completing a repeat
@@ -210,6 +216,9 @@ timestamp. Existing Mokshan entries merge and deduplicate translations.
 The Room 3 database is version 1 and contains `DictionaryEntity`. Lists of native
 translations are serialized into a single `|`-delimited column. A schema or
 converter change requires a Room migration and updated generated schemas.
+
+`DictionaryRepository` receives a `DictionaryDao` (obtained from `AppDatabase` in
+`repositoryModule`) so it can be tested without Room.
 
 `DictionaryRepository.addNewWords` currently performs per-entry insert/update
 work and then calls `insertMany` for all entries. Treat this as current behavior,
@@ -366,6 +375,29 @@ Android instrumentation tests require an emulator/device and should be run
 separately. They cover the Room 3 read/write and version-1 database compatibility
 paths; `ServerConfigTests` asserts that its resolved indexes are not sandbox
 indexes.
+
+### Unit tests
+
+- `./gradlew :shared:allTests` runs `shared/src/commonTest` on the Android host
+  target. It covers `LessonUseCase`, the repositories, `NetworkClient` (Ktor mock
+  engine plus a fake cache), `LessonsStorageDataSource` (a real DataStore in a
+  temporary directory), the Prelinar/JART/lesson/article/phrasebook mappers,
+  `PhrasebookUseCase`, the Koin graph, and `ContentContractTests`/`ContentTests`
+  over `content/`.
+- `./gradlew testDebugUnitTest` runs the JVM tests of the Android modules
+  (`LessonViewModel`, the list/article/dictionary/phrasebook view models,
+  `BaseViewModel`, route builders, server configs, locale mapping). View models
+  are tested with a `MainDispatcherRule` and real use cases over in-memory fakes;
+  view models that use `KoinJavaComponent.inject` start and stop Koin in the test.
+- Not covered by unit tests: `AndroidCacheStorage` (needs a `Context`), real Room
+  queries, and Compose UI.
+
+Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
+today (for example the dictionary dropping single words, the topic length
+mismatch between an index and its topic file, or the answer bank not being
+shuffled for sentences of ten or more words). They keep the suite green and are
+expected to fail when the bug is fixed; update them together with the fix.
+Never "fix" such a test by weakening it without fixing the behaviour.
 
 `shared/src/commonTest/kotlin/content/ContentTests.kt` traverses lesson files and
 checks translation-hint coverage. Content work must run this test when the

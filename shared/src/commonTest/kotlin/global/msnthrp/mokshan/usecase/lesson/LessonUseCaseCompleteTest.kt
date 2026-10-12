@@ -1,0 +1,271 @@
+package global.msnthrp.mokshan.usecase.lesson
+
+import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
+import global.msnthrp.mokshan.domain.lessons.TopicsProgress
+import global.msnthrp.mokshan.testutil.assertSuccess
+import global.msnthrp.mokshan.testutil.lesson
+import global.msnthrp.mokshan.testutil.pair
+import global.msnthrp.mokshan.testutil.sampleTopic
+import global.msnthrp.mokshan.testutil.topic
+import global.msnthrp.mokshan.testutil.translation
+import kotlinx.coroutines.test.runTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
+
+/** `sampleTopic()` has 2 lessons: 1-2 bank, 3 bank summary, 4-5 input, 6 input summary, 7 review. */
+class LessonUseCaseCompleteTest {
+
+    private suspend fun LessonHarness.words(): List<DictionaryEntry> =
+        dictionaryRepository.getAllWords().assertSuccess()
+
+    // region progress
+
+    @Test
+    fun completingRegularLesson_savesItAsCompletedInTheTopic() = runTest {
+        val harness = LessonHarness(sampleTopic(id = 3))
+
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+
+        assertEquals(listOf(3 to 1), harness.storage.writes)
+    }
+
+    @Test
+    fun completingFinalLesson_movesProgressToNextTopicStart() = runTest {
+        val harness = LessonHarness(sampleTopic(id = 3))
+        harness.storage.progress = TopicsProgress(listOf(1, 2), 3, 6)
+
+        harness.useCase.completeLesson(harness.topic, 7).assertSuccess()
+
+        assertEquals(listOf(4 to 0), harness.storage.writes)
+    }
+
+    @Test
+    fun completingSummaryLessons_savesProgressWithoutDictionaryWords() = runTest {
+        val harness = LessonHarness(sampleTopic())
+
+        listOf(3, 6, 7).forEach { number ->
+            harness.useCase.completeLesson(harness.topic, number).assertSuccess()
+        }
+
+        assertEquals(listOf(1 to 3, 1 to 6, 2 to 0), harness.storage.writes)
+        assertEquals(emptyList(), harness.words())
+    }
+
+    @Test
+    fun repeat_doesNotTouchProgressNorDictionary() = runTest {
+        val harness = LessonHarness(sampleTopic())
+
+        harness.useCase.completeLesson(harness.topic, LessonUseCase.LESSON_NUMBER_REPEAT).assertSuccess()
+
+        assertEquals(emptyList(), harness.storage.writes)
+        assertEquals(emptyList(), harness.dao.rows)
+    }
+
+    @Test
+    fun repeat_doesNotEvenReadProgress() = runTest {
+        val harness = LessonHarness(sampleTopic())
+        harness.storage.readError = IllegalStateException("must not be read")
+
+        harness.useCase.completeLesson(harness.topic, LessonUseCase.LESSON_NUMBER_REPEAT).assertSuccess()
+    }
+
+    @Test
+    fun alreadyCompletedTopic_isNotTouched() = runTest {
+        val harness = LessonHarness(sampleTopic(id = 1))
+        harness.storage.progress = TopicsProgress(listOf(1), 2, 0)
+
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+
+        assertEquals(emptyList(), harness.storage.writes)
+        assertEquals(emptyList(), harness.dao.rows)
+    }
+
+    @Test
+    fun ongoingTopic_isNotConsideredCompleted() = runTest {
+        val harness = LessonHarness(sampleTopic(id = 2))
+        harness.storage.progress = TopicsProgress(listOf(1), 2, 1)
+
+        harness.useCase.completeLesson(harness.topic, 2).assertSuccess()
+
+        assertEquals(listOf(2 to 2), harness.storage.writes)
+    }
+
+    @Test
+    fun unreadableProgress_isTreatedAsNotCompleted() = runTest {
+        val harness = LessonHarness(sampleTopic())
+        harness.storage.readError = IllegalStateException("broken")
+
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+
+        assertEquals(listOf(1 to 1), harness.storage.writes)
+    }
+
+    @Test
+    fun progressIsNotMonotonic_completingEarlierLessonMovesProgressBack() = runTest {
+        // pins current behaviour (B10): only the UI guarantees lessons are started in order
+        val harness = LessonHarness(sampleTopic())
+        harness.storage.progress = TopicsProgress(emptyList(), 1, 5)
+
+        harness.useCase.completeLesson(harness.topic, 2).assertSuccess()
+
+        assertEquals(2, harness.storage.progress.ongoingTopicLessonNumber)
+    }
+
+    // endregion
+
+    // region dictionary
+
+    @Test
+    fun bankLesson_addsLessonDictionaryWordsLowercasedWithNativeTranslations() = runTest {
+        val harness = LessonHarness(sampleTopic())
+
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+
+        assertEquals(
+            listOf(
+                DictionaryEntry("мон эрян", listOf("i live"), 5_000L),
+                DictionaryEntry("шумбрат!", listOf("hello!"), 5_000L),
+            ),
+            harness.words(),
+        )
+    }
+
+    @Test
+    fun secondLesson_addsItsOwnDictionaryWords() = runTest {
+        val harness = LessonHarness(sampleTopic())
+
+        harness.useCase.completeLesson(harness.topic, 2).assertSuccess()
+
+        assertEquals(listOf("лац"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun inputLesson_addsWordsOfTheCorrespondingLesson() = runTest {
+        val harness = LessonHarness(sampleTopic())
+
+        harness.useCase.completeLesson(harness.topic, 5).assertSuccess() // input lesson 2
+
+        assertEquals(listOf("лац"), harness.words().map { it.mokshan })
+        assertEquals(listOf(1 to 5), harness.storage.writes)
+    }
+
+    @Test
+    fun bankAndInputPhaseOfSameLesson_doNotDuplicateWordsInDictionaryView() = runTest {
+        val harness = LessonHarness(sampleTopic())
+
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+        harness.useCase.completeLesson(harness.topic, 4).assertSuccess()
+
+        assertEquals(listOf("мон эрян", "шумбрат!"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun nativeTranslation_isTakenFromFirstMatchingPair() = runTest {
+        val topic = topic(
+            lessons = listOf(
+                lesson(
+                    1,
+                    listOf(pair("Лац", "Fine"), pair("Лац", "OK")),
+                    dictionary = listOf("Лац"),
+                ),
+            ),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(listOf("fine"), harness.words().single().native)
+    }
+
+    @Test
+    fun dictionaryWordFromAnotherLessonPair_isResolvedAcrossTheWholeTopic() = runTest {
+        val topic = topic(
+            lessons = listOf(
+                lesson(1, listOf(pair("Лац", "Fine"))),
+                lesson(2, listOf(pair("Пара", "Good")), dictionary = listOf("Лац")),
+            ),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 2).assertSuccess()
+
+        assertEquals(listOf("лац"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun dictionaryWordsThatAreNotWholePairs_areSilentlyDropped_knownBugB2() = runTest {
+        // KNOWN BUG B2: dictionary words are matched with exact `==` against whole pair sentences,
+        // so single words (even those listed in `topic.translations`) never reach the dictionary.
+        val topic = topic(
+            lessons = listOf(
+                lesson(
+                    1,
+                    listOf(pair("Кода тефне?", "How are you?")),
+                    dictionary = listOf("кода", "тефне", "Кода тефне?"),
+                ),
+            ),
+            translations = listOf(translation("кода", "how"), translation("тефне", "your deal")),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(listOf("кода тефне?"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun dictionaryWordsDifferingOnlyByCase_areDropped_knownBugB2() = runTest {
+        val topic = topic(
+            lessons = listOf(
+                lesson(1, listOf(pair("Лац", "Fine")), dictionary = listOf("лац")),
+            ),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(emptyList(), harness.words())
+    }
+
+    @Test
+    fun lessonWithoutDictionary_savesNothing() = runTest {
+        val topic = topic(lessons = listOf(lesson(1, listOf(pair("Лац", "Fine")))))
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(emptyList(), harness.dao.rows)
+        assertEquals(listOf(1 to 1), harness.storage.writes)
+    }
+
+    // endregion
+
+    // region failures are swallowed (B3)
+
+    @Test
+    fun failureToSaveProgress_isReportedAsSuccess_knownBugB3() = runTest {
+        // KNOWN BUG B3: the Result of markLessonAsCompleted is ignored
+        val harness = LessonHarness(sampleTopic())
+        harness.storage.writeError = IllegalStateException("disk is full")
+
+        val result = harness.useCase.completeLesson(harness.topic, 1)
+
+        assertTrue(result.isSuccess)
+        assertEquals(emptyList(), harness.storage.writes)
+    }
+
+    @Test
+    fun failureToSaveDictionary_isReportedAsSuccess_knownBugB3() = runTest {
+        // KNOWN BUG B3: the Result of addNewWords is ignored; progress is already advanced
+        val harness = LessonHarness(sampleTopic())
+        harness.dao.error = IllegalStateException("db is locked")
+
+        val result = harness.useCase.completeLesson(harness.topic, 1)
+
+        assertTrue(result.isSuccess)
+        assertEquals(listOf(1 to 1), harness.storage.writes)
+    }
+
+    // endregion
+}

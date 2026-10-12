@@ -25,4 +25,7 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.androidx.lifecycle.viewmodel)
     debugImplementation(libs.compose.ui.tooling)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

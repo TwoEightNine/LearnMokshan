@@ -142,7 +142,7 @@ wrapper. Never report an unrun check as passing.
 | --- | --- |
 | Markdown only | Check links/paths, inspect the rendered structure, run `git diff --check`, and verify no secrets or unrelated edits. |
 | Shared Kotlin | Relevant shared tests, then `:shared:allTests`; compile affected Android targets. |
-| Android UI/logic | Affected tests, `:android:app:lintDebug`, and `:android:app:assembleDebug`; inspect previews or runtime UI when layout changes. |
+| Android UI/logic | Affected tests (`testDebugUnitTest`), `:android:app:lintDebug`, and `:android:app:assembleDebug`; inspect previews or runtime UI when layout changes. |
 | Lessons/content | `:shared:allTests`, especially `ContentTests`; verify both language trees and relevant production/sandbox indexes. |
 | Network/config | Unit/integration coverage plus debug and release URL expectations; run instrumentation tests when their environment is available. |
 | Room/DataStore | Tests for read/write and migration/compatibility behavior; build all affected KMP targets. |
@@ -153,12 +153,17 @@ Typical commands are:
 
 ```shell
 ./gradlew :shared:allTests
+./gradlew testDebugUnitTest
 ./gradlew :android:app:lintDebug
 ./gradlew :android:app:assembleDebug
 ```
 
 Release tasks produce an unsigned artifact when signing material is absent. Do
 not create or substitute production credentials just to satisfy validation.
+
+Tests named `*knownBug*`/`*knownIssue*` pin currently wrong behavior. When you fix
+the behavior, update the pinning test in the same change; never edit one just to
+make it pass.
 
 If validation is blocked, report:
 

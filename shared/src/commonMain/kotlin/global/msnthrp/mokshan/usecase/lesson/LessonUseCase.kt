@@ -12,12 +12,14 @@ import global.msnthrp.mokshan.domain.lessons.PreparedLesson
 import global.msnthrp.mokshan.domain.lessons.Topic
 import global.msnthrp.mokshan.domain.lessons.UserInput
 import global.msnthrp.mokshan.utils.failureOf
+import kotlin.random.Random
 import kotlin.reflect.KClass
 
 class LessonUseCase(
     private val lessonRepository: LessonRepository,
     private val dictionaryRepository: DictionaryRepository,
     private val topicsRepository: TopicsRepository,
+    private val random: Random = Random.Default,
 ) {
 
     suspend fun prepareLesson(topicId: Int, lessonNumber: Int): Result<PreparedLesson> {
@@ -63,7 +65,7 @@ class LessonUseCase(
         val allAvailableWordsNative = lessonPairsFromMokshan.flatMap { it.getNativeWords() }.toSet()
 
         val pairsCount = lessonPairsFromMokshan.size
-        val lessonSteps = lessonPairsFromMokshan.shuffled()
+        val lessonSteps = lessonPairsFromMokshan.shuffled(random)
             .mapIndexed { index, pair ->
                 val stepRatio = index.inc().toFloat() / pairsCount
                 val direction = getDirectionByNumber(stepRatio, lessonByNumber)
@@ -186,8 +188,8 @@ class LessonUseCase(
         if (source.size >= desiredSize) return source
 
         val result = source.toMutableList()
-        val newWords = extendFrom.minus(source.toSet()).shuffled().take(desiredSize - source.size)
-        return result.plus(newWords).shuffled()
+        val newWords = extendFrom.minus(source.toSet()).shuffled(random).take(desiredSize - source.size)
+        return result.plus(newWords).shuffled(random)
     }
 
     private fun LessonPair.getMokshanWords(): List<String> {
