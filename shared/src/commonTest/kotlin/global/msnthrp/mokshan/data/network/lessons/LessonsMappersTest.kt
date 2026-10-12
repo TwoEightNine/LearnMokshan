@@ -88,32 +88,41 @@ class LessonsMappersTest {
     }
 
     @Test
-    fun topic_keepsLessonsOrderAsInFile() {
-        val topic = topicResponse(lessons = listOf(lessonResponse(order = 2), lessonResponse(order = 1))).toDomain()!!
-
-        assertEquals(listOf(2, 1), topic.lessons.map { it.order })
-    }
-
-    @Test
-    fun topic_silentlyDropsInvalidLessons_changingLessonCount_knownBugB12() {
-        // KNOWN BUG B12: a lesson with a missing field disappears; topicLength shrinks with it
+    fun topic_sortsLessonsByOrder() {
         val topic = topicResponse(
-            lessons = listOf(
-                lessonResponse(order = 1),
-                lessonResponse(order = 2, dictionary = null),
-                lessonResponse(order = 3, toNative = emptyList()),
-                lessonResponse(order = null),
-                lessonResponse(order = 5, toNative = null),
-            ),
+            lessons = listOf(lessonResponse(order = 3), lessonResponse(order = 1), lessonResponse(order = 2)),
         ).toDomain()!!
 
-        assertEquals(listOf(1), topic.lessons.map { it.order })
-        assertEquals(5, topic.topicLength)
+        assertEquals(listOf(1, 2, 3), topic.lessons.map { it.order })
     }
 
     @Test
-    fun topic_withOnlyInvalidLessons_isInvalid() {
-        assertNull(topicResponse(lessons = listOf(lessonResponse(dictionary = null))).toDomain())
+    fun topic_withDuplicatedLessonOrder_isRejected() {
+        assertNull(topicResponse(lessons = listOf(lessonResponse(order = 1), lessonResponse(order = 1))).toDomain())
+    }
+
+    @Test
+    fun topic_withUnusableLesson_isRejectedInsteadOfRenumberingLessons() {
+        // dropping a lesson would silently shift the numbers of the following ones
+        val invalidLessons = listOf(
+            lessonResponse(order = null),
+            lessonResponse(order = 2, toNative = null),
+            lessonResponse(order = 2, toNative = emptyList()),
+            lessonResponse(order = 2, toNative = listOf(pairResponse(mokshan = null))),
+        )
+
+        invalidLessons.forEach { invalid ->
+            val topic = topicResponse(lessons = listOf(lessonResponse(order = 1), invalid, lessonResponse(order = 3)))
+
+            assertNull(topic.toDomain(), "invalid=$invalid")
+        }
+    }
+
+    @Test
+    fun lessonWithoutDictionary_isUsableWithEmptyDictionary() {
+        val topic = topicResponse(lessons = listOf(lessonResponse(dictionary = null))).toDomain()!!
+
+        assertEquals(emptyList(), topic.lessons.single().dictionary)
     }
 
     @Test
@@ -183,19 +192,33 @@ class LessonsMappersTest {
     }
 
     @Test
-    fun summary_dropsInvalidTopicInfos() {
-        val summary = TopicsSummaryResponse(
-            topicsCount = 4,
-            topicsInfo = listOf(
-                infoResponse(id = 1),
-                infoResponse(id = null),
-                infoResponse(id = 3, lessonsCount = null),
-                infoResponse(id = 4, title = null),
-                infoResponse(id = 5),
-            ),
-        ).toDomain()!!
+    fun summary_withUnusableTopicInfo_isRejectedInsteadOfHidingTheTopic() {
+        // topics unlock by id, so a missing entry could lock the user out of the next ones
+        val invalidInfos = listOf(
+            infoResponse(id = null),
+            infoResponse(id = 3, lessonsCount = null),
+            infoResponse(id = 3, lessonsCount = 0),
+            infoResponse(id = 3, lessonsCount = -2),
+            infoResponse(id = 3, title = null),
+        )
 
-        assertEquals(listOf(1, 5), summary.topicsInfo.map { it.id })
+        invalidInfos.forEach { invalid ->
+            val summary = TopicsSummaryResponse(3, listOf(infoResponse(id = 1), invalid, infoResponse(id = 5)))
+
+            assertNull(summary.toDomain(), "invalid=$invalid")
+        }
+    }
+
+    @Test
+    fun summary_withDuplicatedTopicIds_isRejected() {
+        assertNull(TopicsSummaryResponse(2, listOf(infoResponse(id = 1), infoResponse(id = 1))).toDomain())
+    }
+
+    @Test
+    fun summary_keepsTopicsInFileOrder() {
+        val summary = TopicsSummaryResponse(3, listOf(infoResponse(id = 2), infoResponse(id = 1), infoResponse(id = 3))).toDomain()!!
+
+        assertEquals(listOf(2, 1, 3), summary.topicsInfo.map { it.id })
     }
 
     @Test

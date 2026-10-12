@@ -26,7 +26,10 @@ internal class LessonsNetworkDataSource(
     override suspend fun getTopic(topicId: Int, language: ForeignLanguage): Topic {
         val url = serverConfig.getTopicUrl(language.code, topicId)
         return client.getMapped<TopicResponse, Topic>(url) {
-            it.toDomain() ?: throw InvalidEntityException("topic", url)
+            val topic = it.toDomain() ?: throw InvalidEntityException("topic", url)
+            // progress is tracked by topic id, so a file that answers for another topic is unusable
+            if (topic.id != topicId) throw InvalidEntityException("topic", url)
+            topic
         }
     }
 }

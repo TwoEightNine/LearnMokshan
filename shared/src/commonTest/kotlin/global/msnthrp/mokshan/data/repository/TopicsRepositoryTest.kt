@@ -111,14 +111,6 @@ class TopicsRepositoryTest {
         assertEquals(boom, repository.getTopic(3).assertFailure())
     }
 
-    @Test
-    fun getTopic_doesNotVerifyReturnedTopicId() = runTest {
-        // pins current behaviour (B12): the repository trusts the id inside the downloaded file
-        network.topics[3] = sampleTopic(id = 9)
-
-        assertEquals(9, repository.getTopic(3).assertSuccess().id)
-    }
-
     // endregion
 
     // region isLessonCompleted

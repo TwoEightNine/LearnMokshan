@@ -93,6 +93,15 @@ class ContentContractTests {
     }
 
     @Test
+    fun lessonIndexes_topicsCountMatchesNumberOfTopics() {
+        for (lang in languages) for (name in indexNames) {
+            val response = summary(lang, name)
+
+            assertEquals(response.topicsInfo!!.size, response.topicsCount, "$lang/$name")
+        }
+    }
+
+    @Test
     fun lessonIndexes_haveUniqueAndAscendingTopicIds() {
         for (lang in languages) for (name in indexNames) {
             val ids = topicIds(lang, name)

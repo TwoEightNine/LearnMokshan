@@ -321,6 +321,39 @@ class LessonUseCaseCompleteTest {
     }
 
     @Test
+    fun completingLesson_savesWordsOfTheSameLessonThatWasPlayed_whenOrdersHaveGaps() = runTest {
+        // prepareLesson and completeLesson must agree on which lesson "number 2" is
+        val gappedTopic = topic(
+            lessons = listOf(
+                lesson(1, listOf(pair("а", "a")), dictionary = listOf("а")),
+                lesson(3, listOf(pair("б", "b")), dictionary = listOf("б")),
+            ),
+        )
+        val harness = LessonHarness(gappedTopic)
+        val playedSentences = harness.prepare(2).lessonSteps.map { it.sentence }
+
+        harness.useCase.completeLesson(gappedTopic, 2).assertSuccess()
+
+        assertEquals(listOf("б"), playedSentences)
+        assertEquals(listOf("б"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun completingLessonsGivenOutOfOrder_savesWordsByLessonOrder() = runTest {
+        val shuffledTopic = topic(
+            lessons = listOf(
+                lesson(2, listOf(pair("б", "b")), dictionary = listOf("б")),
+                lesson(1, listOf(pair("а", "a")), dictionary = listOf("а")),
+            ),
+        )
+        val harness = LessonHarness(shuffledTopic)
+
+        harness.useCase.completeLesson(shuffledTopic, 1).assertSuccess()
+
+        assertEquals(listOf("а"), harness.words().map { it.mokshan })
+    }
+
+    @Test
     fun lessonWithoutDictionary_savesNothing() = runTest {
         val topic = topic(lessons = listOf(lesson(1, listOf(pair("Лац", "Fine")))))
         val harness = LessonHarness(topic)

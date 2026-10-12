@@ -170,8 +170,11 @@ locally stored progress.
 
 `LessonUseCase.prepareLesson`:
 
-1. loads a topic and validates the requested lesson number;
-2. selects one lesson or all topic pairs for summary/review steps;
+1. loads a topic and validates the requested lesson number (`1..2n + 3`, or the
+   repeat sentinel; `0` is rejected);
+2. selects one lesson or all topic pairs for summary/review steps (lesson `k` is
+   the `k`-th lesson when lessons are sorted by `order`, both when a lesson is
+   played and when it is completed);
 3. shuffles phrase pairs;
 4. chooses Mokshan-to-native or native-to-Mokshan direction based on lesson
    phase;
@@ -306,8 +309,17 @@ An index topic contains `id`, `lessonsCount`, `title`, `description`, optional
 `description`, `version`, ordered lessons, and word translations. Each lesson
 contains `order`, `toNative` phrase pairs, and dictionary words.
 
+The client does not repair content: an unusable lesson (no `order`, no usable
+pairs), lessons sharing an `order`, a topic file whose `id` differs from the
+requested one, an unusable index entry (no `id`/`title`, `lessonsCount` below 1),
+or duplicated topic ids reject the whole file. Such a file is never cached, so
+the last good cached copy keeps being used. A lesson without `dictionary` is
+valid and has no dictionary words; single pairs or translations with missing
+fields are skipped.
+
 Maintain these invariants:
 
+- `topicsCount` in every `index*.json` must equal the number of listed topics.
 - Topic IDs, order, and lesson counts must agree between index and topic data:
   `lessonsCount` in every `index*.json` must equal the number of lessons in the
   topic's `lessons.json` (enforced by `ContentContractTests`).
@@ -439,9 +451,8 @@ indexes.
   queries, and Compose UI.
 
 Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example a lesson silently disappearing from a topic when one of its
-fields is missing, or an empty list not surviving the dictionary column
-converter). They keep the suite green and are expected to fail when the bug is
+today (for example an empty translation list not surviving the dictionary column
+converter, or a failed dictionary load being shown as an empty dictionary). They keep the suite green and are expected to fail when the bug is
 fixed; update them together with the fix.
 Never "fix" such a test by weakening it without fixing the behaviour.
 

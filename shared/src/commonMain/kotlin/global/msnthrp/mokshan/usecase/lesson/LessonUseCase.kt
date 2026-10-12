@@ -27,7 +27,7 @@ class LessonUseCase(
         println("prepareLesson(topicId=$topicId, lessonNumber=$lessonNumber)")
         val topicResult = lessonRepository.getTopic(topicId)
         val topic = topicResult.getOrNull() ?: return Result.failureOf(topicResult)
-        if (lessonNumber !in 0..topic.topicLength && lessonNumber != LESSON_NUMBER_REPEAT) {
+        if (lessonNumber !in 1..topic.topicLength && lessonNumber != LESSON_NUMBER_REPEAT) {
             return Result.failure(
                 IllegalArgumentException(
                     "Lesson number $lessonNumber received while topic ${topic.id} offers " +
@@ -44,7 +44,7 @@ class LessonUseCase(
 
         val lessonPairsFromMokshan = when (exactLesson) {
             null -> topic.lessons.flatMap { it.toNative }
-            else -> topic.lessons.find { it.order == exactLesson }?.toNative ?: emptyList()
+            else -> getLesson(topic, exactLesson)?.toNative ?: emptyList()
         }
             // a pair without a translation has nothing to ask or to accept as an answer
             .filter { it.native.isNotEmpty() }
@@ -131,9 +131,7 @@ class LessonUseCase(
             return Result.success(Unit)
         }
 
-        val lesson = getExactLesson(topic, lessonNumber)
-            ?.dec()
-            ?.let { topic.lessons.getOrNull(it) }
+        val lesson = getExactLesson(topic, lessonNumber)?.let { getLesson(topic, it) }
         if (lesson != null) {
             val dictionaryResult = dictionaryRepository.addNewWords(getDictionaryEntries(topic, lesson))
             if (dictionaryResult.isFailure) return dictionaryResult
@@ -257,6 +255,12 @@ class LessonUseCase(
         }
     }
 
+    /** The lesson that is the [position]-th (1-based) one when lessons are sorted by `order`. */
+    private fun getLesson(topic: Topic, position: Int): Lesson? {
+        return topic.lessons.sortedBy { it.order }.getOrNull(position - 1)
+    }
+
+    /** Position (1-based) of the single lesson a step trains, or null when it trains all of them. */
     private fun getExactLesson(topic: Topic, lessonNumber: Int): Int? {
         val lessonsCount = topic.lessons.size
         return (lessonNumber % (lessonsCount + 1))

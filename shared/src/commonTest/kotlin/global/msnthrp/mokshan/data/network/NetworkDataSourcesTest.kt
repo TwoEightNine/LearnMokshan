@@ -38,7 +38,7 @@ class NetworkDataSourcesTest {
     """.trimIndent()
 
     private val topicJson = """
-        {"id": 1, "title": "Hello", "description": "d", "version": 1,
+        {"id": 7, "title": "Hello", "description": "d", "version": 1,
          "lessons": [{"order": 1, "toNative": [{"mokshan": "Лац", "native": ["Fine"]}], "dictionary": ["Лац"]}],
          "translations": [{"mokshan": "лац", "native": "fine"}]}
     """.trimIndent()
@@ -77,8 +77,21 @@ class NetworkDataSourcesTest {
     }
 
     @Test
+    fun topicFileOfAnotherTopic_isRejectedAndNotCached() = runTest {
+        val url = "https://test/lessons-en/8/lessons.json"
+        val network = mock(url to topicJson) // the file says it is topic 7
+
+        val error = assertFailsWith<InvalidEntityException> {
+            LessonsNetworkDataSource(config, network.client).getTopic(8, ForeignLanguage.ENGLISH)
+        }
+
+        assertEquals("Invalid topic received from $url", error.message)
+        assertEquals(null, network.cache.cached(url))
+    }
+
+    @Test
     fun invalidTopic_failsWithInvalidEntity() = runTest {
-        val network = mock("https://test/lessons-en/7/lessons.json" to """{"id": 1, "title": "x", "lessons": []}""")
+        val network = mock("https://test/lessons-en/7/lessons.json" to """{"id": 7, "title": "x", "lessons": []}""")
 
         val error = assertFailsWith<InvalidEntityException> {
             LessonsNetworkDataSource(config, network.client).getTopic(7, ForeignLanguage.ENGLISH)
@@ -113,7 +126,7 @@ class NetworkDataSourcesTest {
     @Test
     fun invalidTopic_doesNotReplaceGoodCachedTopic() = runTest {
         val url = "https://test/lessons-en/7/lessons.json"
-        val network = mock(url to """{"id": 1, "title": "x", "lessons": []}""")
+        val network = mock(url to """{"id": 7, "title": "x", "lessons": []}""")
         network.cache.put(url, topicJson, isExpired = true)
 
         val topic = LessonsNetworkDataSource(config, network.client).getTopic(7, ForeignLanguage.ENGLISH)

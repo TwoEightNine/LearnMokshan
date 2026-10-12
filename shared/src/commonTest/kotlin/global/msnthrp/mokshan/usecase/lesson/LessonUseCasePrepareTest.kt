@@ -157,18 +157,15 @@ class LessonUseCasePrepareTest {
     }
 
     @Test
-    fun lessonNumberZero_isAcceptedAndBehavesAsWholeTopicWordBank() = runTest {
-        // pins current behaviour: UI never starts lesson 0 (progress starts at 0 completed lessons)
-        val prepared = LessonHarness(sampleTopic()).prepare(0)
+    fun lessonNumberZero_isRejected() = runTest {
+        // progress starts at "0 lessons completed", so the first lesson to start is number 1
+        val error = LessonHarness(sampleTopic()).useCase.prepareLesson(1, 0).assertFailure()
 
-        assertEquals(8, prepared.lessonSteps.size)
-        assertTrue(prepared.lessonSteps.all { it.type is LessonStepType.WordBank })
+        assertIs<IllegalArgumentException>(error)
     }
 
     @Test
-    fun lessonsAreSelectedByOrder_notByPosition_knownBugB9() = runTest {
-        // KNOWN BUG B9: prepareLesson looks a lesson up by `order`, completeLesson by list index.
-        // With non-contiguous orders [1, 3] lesson number 2 has no matching `order`.
+    fun lessonsAreSelectedByPositionInOrder_evenWhenOrderValuesHaveGaps() = runTest {
         val gappedTopic = topic(
             lessons = listOf(
                 lesson(1, listOf(pair("а", "a"))),
@@ -176,9 +173,24 @@ class LessonUseCasePrepareTest {
             ),
         )
 
-        val error = LessonHarness(gappedTopic).useCase.prepareLesson(1, 2).assertFailure()
+        val first = LessonHarness(gappedTopic).prepare(1)
+        val second = LessonHarness(gappedTopic).prepare(2)
 
-        assertIs<IllegalStateException>(error)
+        assertEquals(listOf("а"), first.lessonSteps.map { it.sentence })
+        assertEquals(listOf("б"), second.lessonSteps.map { it.sentence })
+    }
+
+    @Test
+    fun lessonsGivenOutOfOrder_areStillNumberedByOrder() = runTest {
+        val shuffledTopic = topic(
+            lessons = listOf(
+                lesson(2, listOf(pair("б", "b"))),
+                lesson(1, listOf(pair("а", "a"))),
+            ),
+        )
+
+        assertEquals(listOf("а"), LessonHarness(shuffledTopic).prepare(1).lessonSteps.map { it.sentence })
+        assertEquals(listOf("б"), LessonHarness(shuffledTopic).prepare(2).lessonSteps.map { it.sentence })
     }
 
     // endregion
