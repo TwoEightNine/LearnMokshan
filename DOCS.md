@@ -154,9 +154,13 @@ On Android, the application cache stores response bodies in
 `cacheDir/ktor_cache`, keyed by a SHA-512 hash of the URL. Creation timestamps
 are held in `SharedPreferences` named `ktor_cache_meta`. The default TTL is one
 hour. A fresh entry is returned immediately; after expiry, the client attempts a
-network request and saves a successful response. If that request fails, an
-expired cached response is returned. If neither network nor cache can provide a
-response, the original request error is thrown.
+network request. A response body is cached and returned only after it has been
+parsed (decoded and, for the data sources, mapped to the domain model)
+successfully, so an error page or malformed file never replaces a good cached
+copy, and an unparsable cached entry is ignored. If the request fails or its body
+cannot be parsed, an expired cached copy that parses is returned. If nothing is
+usable, the request error (or the parse error) is thrown. Coroutine cancellation is
+never turned into a cache fallback.
 
 ### Lessons
 
@@ -263,10 +267,19 @@ article content directory.
 - every other suffix uses the line-oriented Prelinar parser.
 
 Supported JART entries are title, `h1`, `h2`, `h3`, body, hint, list, sublist,
-image, and table. Unknown JSON types become `Unknown` entries. Prelinar begins
-with `key: value` metadata, requires a line containing exactly `CONTENT`, and
-then uses `<type>` prefixes. Prelinar images use `link | footer`; tables use
-`<table>`, `<row>`, and `<endtable>` records.
+image, and table. Unknown JSON types become `Unknown` entries. JSON tables need a
+`size` of exactly `[columns, rows]` with positive numbers and at least one cell,
+otherwise the entry is dropped. Prelinar begins with `key: value` metadata
+(blank lines are skipped, a value may contain `: `, `version` is required and
+numeric), requires a line containing exactly `CONTENT`, and then uses `<type>`
+prefixes. A line is a prefix line only if it starts with `<name>` followed by the
+end of the line or one space; any other line (for example `<b>bold</b>` or
+`<h1>glued`) is body text. Blank lines become empty body entries, which the
+renderer uses as spacing. `\n`, `\r\n` and `\r` line endings are accepted. Prelinar
+images use `link | footer` (the footer is optional and may contain `|`); tables use
+`<table>`, `<row>`, and `<endtable>` records, short rows are padded to the widest
+row, an empty table is skipped, and a table left open at the end of the file keeps
+its rows.
 
 ### Phrasebook
 
@@ -309,12 +322,16 @@ Maintain these invariants:
 
 `content/articles/index-{en,ru}.json` lists categories and articles. Each article
 has a title, description, category list, relative URL, and ISO-style `added`
-date. Sandbox indexes are separate files.
+date. Sandbox indexes are separate files. `added` (`yyyy-MM-dd`) is parsed
+strictly and locale-independently as a calendar date in UTC (an invalid date
+becomes `0` and sorts last); the article list formats it back in UTC with the
+device locale's month names, so the displayed day never depends on the time zone.
 
 Article bodies may be JART JSON or `.prelinar`. Keep localized article pairs and
 their index entries aligned. Image paths are relative to the article directory.
-The Prelinar parser is strict about the `CONTENT` marker and metadata format;
-malformed metadata or image/table records can fail at runtime.
+The Prelinar parser is strict about the `CONTENT` marker and the `key: value`
+metadata format, and requires a numeric `version`; a malformed file makes the
+article fail to load (and is not cached).
 
 ### Phrasebook and legal files
 
@@ -422,10 +439,10 @@ indexes.
   queries, and Compose UI.
 
 Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example a network response being cached before it is validated, or
-Prelinar files with Windows line endings failing to parse). They keep the suite
-green and are expected to fail when the bug is fixed; update them together with
-the fix.
+today (for example a lesson silently disappearing from a topic when one of its
+fields is missing, or an empty list not surviving the dictionary column
+converter). They keep the suite green and are expected to fail when the bug is
+fixed; update them together with the fix.
 Never "fix" such a test by weakening it without fixing the behaviour.
 
 `shared/src/commonTest/kotlin/content/ContentTests.kt` traverses lesson files and

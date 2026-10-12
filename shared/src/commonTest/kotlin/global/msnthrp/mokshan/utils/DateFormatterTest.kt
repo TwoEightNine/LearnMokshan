@@ -38,10 +38,17 @@ class DateFormatterTest {
     }
 
     @Test
-    fun parsing_isLenient_knownBugB19() {
-        // KNOWN BUG B19: invalid calendar values roll over, trailing garbage is ignored
-        assertNotEquals(0L, formatter.parse("2024-13-45"))
-        assertEquals(formatter.parse("2024-03-15"), formatter.parse("2024-03-15 trailing garbage"))
+    fun parsing_isStrict() {
+        assertEquals(0L, formatter.parse("2024-13-45"))
+        assertEquals(0L, formatter.parse("2024-02-30"))
+        assertEquals(0L, formatter.parse("2023-02-29"))
+        assertEquals(0L, formatter.parse("2024-03-15 trailing garbage"))
+        assertEquals(0L, formatter.parse("2024-03-15T00:00"))
+    }
+
+    @Test
+    fun leapDay_isAccepted() {
+        assertNotEquals(0L, formatter.parse("2024-02-29"))
     }
 
     @Test

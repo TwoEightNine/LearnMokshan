@@ -18,13 +18,15 @@ internal class LessonsNetworkDataSource(
 
     override suspend fun getTopicsSummary(language: ForeignLanguage): TopicsSummary {
         val url = serverConfig.getTopicsIndexUrl(language.code)
-        val response: TopicsSummaryResponse = client.get(url)
-        return response.toDomain() ?: throw InvalidEntityException("topics index", url)
+        return client.getMapped<TopicsSummaryResponse, TopicsSummary>(url) {
+            it.toDomain() ?: throw InvalidEntityException("topics index", url)
+        }
     }
 
     override suspend fun getTopic(topicId: Int, language: ForeignLanguage): Topic {
         val url = serverConfig.getTopicUrl(language.code, topicId)
-        val response: TopicResponse = client.get(url)
-        return response.toDomain() ?: throw InvalidEntityException("topic", url)
+        return client.getMapped<TopicResponse, Topic>(url) {
+            it.toDomain() ?: throw InvalidEntityException("topic", url)
+        }
     }
 }

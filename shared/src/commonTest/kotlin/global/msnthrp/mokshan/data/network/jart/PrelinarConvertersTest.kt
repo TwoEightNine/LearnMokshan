@@ -50,13 +50,30 @@ class PrelinarConvertersTest {
     }
 
     @Test
-    fun metadata_missingVersion_failsWithNullPointer_knownBugB13() {
-        assertFailsWith<NullPointerException> { parse("title: Hello", "CONTENT") }
+    fun metadata_missingVersion_failsWithDescriptiveError() {
+        val error = assertFailsWith<IllegalStateException> { parse("title: Hello", "CONTENT") }
+
+        assertEquals("Prelinar metadata has no version", error.message)
     }
 
     @Test
-    fun metadata_nonNumericVersion_failsWithNumberFormat_knownBugB13() {
-        assertFailsWith<NumberFormatException> { parse("version: abc", "CONTENT") }
+    fun metadata_nonNumericVersion_failsWithDescriptiveError() {
+        val error = assertFailsWith<IllegalStateException> { parse("version: abc", "CONTENT") }
+
+        assertEquals("Malformed Prelinar version: abc", error.message)
+    }
+
+    @Test
+    fun metadata_valueMayContainColonSpace() {
+        val jart = parse("title: Cases: nominative", "version: 4", "CONTENT")
+
+        assertEquals(4, jart.meta.version)
+        assertFailsWith<IllegalStateException> { parse("version: 1: 2", "CONTENT") }
+    }
+
+    @Test
+    fun metadata_laterDuplicateKeyWins() {
+        assertEquals(2, parse("version: 1", "version: 2", "CONTENT").meta.version)
     }
 
     @Test
@@ -66,20 +83,19 @@ class PrelinarConvertersTest {
     }
 
     @Test
-    fun metadata_blankLineBeforeContent_isMalformed_knownBugB13() {
-        assertFailsWith<IllegalStateException> { parse("version: 1", "", "CONTENT") }
+    fun metadata_blankLinesAreSkipped() {
+        val jart = parse("", "version: 1", "   ", "CONTENT", "<h1> A")
+
+        assertEquals(1, jart.meta.version)
+        assertEquals(listOf<JartEntry>(JartEntry.Header1("A")), jart.content)
     }
 
     @Test
-    fun metadata_valueWithColonSpace_isMalformed_knownBugB13() {
-        assertFailsWith<IllegalStateException> { parse("version: 1", "title: Cases: nominative", "CONTENT") }
-    }
+    fun windowsAndOldMacLineEndings_areSupported() {
+        val expected = listOf<JartEntry>(JartEntry.Header1("A"), JartEntry.Body("text"))
 
-    @Test
-    fun windowsLineEndings_breakContentMarker_knownBugB13() {
-        val text = "version: 1\r\nCONTENT\r\n<h1> A\r\n"
-
-        assertFailsWith<IllegalStateException> { text.asPrelinarToJart(url) }
+        assertEquals(expected, "version: 1\r\nCONTENT\r\n<h1> A\r\ntext".asPrelinarToJart(url).content)
+        assertEquals(expected, "version: 1\rCONTENT\r<h1> A\rtext".asPrelinarToJart(url).content)
     }
 
     @Test
@@ -148,18 +164,22 @@ class PrelinarConvertersTest {
     }
 
     @Test
-    fun valueDirectlyAfterPrefix_losesItsFirstCharacter_knownBugB13() {
-        assertEquals(listOf<JartEntry>(JartEntry.Header1("")), content("<h1>x"))
-        assertEquals(listOf<JartEntry>(JartEntry.Header1("y")), content("<h1>xy"))
+    fun tagLikeTextThatIsNotAPrefixLine_staysPlainBody() {
+        assertEquals(listOf<JartEntry>(JartEntry.Body("<h1>glued")), content("<h1>glued"))
+        assertEquals(listOf<JartEntry>(JartEntry.Body("<b>bold</b> text")), content("<b>bold</b> text"))
+        assertEquals(listOf<JartEntry>(JartEntry.Body("<3 you")), content("<3 you"))
+        assertEquals(listOf<JartEntry>(JartEntry.Body("<my tag> text")), content("<my tag> text"))
     }
 
     @Test
-    fun bodyStartingWithAngleBracket_isMisparsedAsPrefix_knownBugB13() {
-        assertEquals(listOf<JartEntry>(JartEntry.Unknown("old</b> text")), content("<b>bold</b> text"))
+    fun prefixLine_keepsRestOfLineVerbatimAfterOneSpace() {
+        assertEquals(listOf<JartEntry>(JartEntry.Header1(" x ")), content("<h1>  x "))
+        assertEquals(listOf<JartEntry>(JartEntry.Header1("")), content("<h1> "))
     }
 
     @Test
-    fun blankLinesInContent_becomeEmptyBodyEntries_knownBugB13() {
+    fun blankLinesInContent_becomeEmptyBodyEntries_usedAsSpacingByArticles() {
+        // intended: several articles rely on blank lines as vertical spacing
         assertEquals(
             listOf<JartEntry>(JartEntry.Body("a"), JartEntry.Body(""), JartEntry.Body("b"), JartEntry.Body("")),
             content("a", "", "b", ""),
@@ -186,16 +206,22 @@ class PrelinarConvertersTest {
     }
 
     @Test
-    fun image_withExtraPipes_dropsTheRest() {
+    fun image_footerKeepsPipesAfterTheFirstOne() {
         assertEquals(
-            listOf<JartEntry>(JartEntry.Image(link = "pic.png", footer = "a")),
+            listOf<JartEntry>(JartEntry.Image(link = "pic.png", footer = "a | b")),
             content("<image> pic.png | a | b"),
         )
     }
 
     @Test
-    fun image_withoutFooterSeparator_fails_knownBugB13() {
-        assertFailsWith<IndexOutOfBoundsException> { content("<image> pic.png") }
+    fun image_withoutFooter_hasEmptyFooter() {
+        assertEquals(listOf<JartEntry>(JartEntry.Image("pic.png", "")), content("<image> pic.png"))
+        assertEquals(listOf<JartEntry>(JartEntry.Image("pic.png", "")), content("<image> pic.png |"))
+    }
+
+    @Test
+    fun image_withoutLink_isDropped() {
+        assertEquals(emptyList(), content("<image>", "<image> | footer"))
     }
 
     // endregion
@@ -246,21 +272,36 @@ class PrelinarConvertersTest {
     }
 
     @Test
-    fun table_withJaggedRows_isFlattenedWithoutPadding_knownBugB13() {
+    fun table_withJaggedRows_isPaddedToTheWidestRow() {
         val table = content("<table>", "<row> a | b | c", "<row> d | e", "<endtable>").single() as JartEntry.Table
 
         assertEquals(3 to 2, table.size)
-        assertEquals(listOf("a", "b", "c", "d", "e"), table.cells)
+        assertEquals(listOf("a", "b", "c", "d", "e", ""), table.cells)
     }
 
     @Test
-    fun emptyTable_fails_knownBugB13() {
-        assertFailsWith<NoSuchElementException> { content("<table>", "<endtable>") }
+    fun emptyTable_producesNoEntry() {
+        assertEquals(emptyList(), content("<table>", "<endtable>"))
+        assertEquals(listOf<JartEntry>(JartEntry.Body("x")), content("<table>", "<endtable>", "x"))
     }
 
     @Test
-    fun unclosedTable_isDroppedSilently_knownBugB13() {
-        assertEquals(emptyList(), content("<table>", "<row> a | b"))
+    fun unclosedTable_keepsWrittenRows() {
+        assertEquals(
+            listOf<JartEntry>(JartEntry.Table(listOf("a", "b"), 2 to 1, false)),
+            content("<table>", "<row> a | b"),
+        )
+    }
+
+    @Test
+    fun newTableBeforeEndOfPreviousOne_closesThePreviousOne() {
+        assertEquals(
+            listOf<JartEntry>(
+                JartEntry.Table(listOf("a"), 1 to 1, false),
+                JartEntry.Table(listOf("b"), 1 to 1, false),
+            ),
+            content("<table>", "<row> a", "<table>", "<row> b", "<endtable>"),
+        )
     }
 
     @Test

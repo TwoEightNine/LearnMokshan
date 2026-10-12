@@ -151,19 +151,35 @@ class JartResponseExtensionsTest {
     }
 
     @Test
-    fun table_sizeUsesFirstAndLastItems_knownBugB14() {
-        val single = mapped(entry("table", null, size = listOf(4), cells = listOf("a"))).single() as JartEntry.Table
-        val triple = mapped(entry("table", null, size = listOf(2, 9, 3), cells = listOf("a"))).single() as JartEntry.Table
-
-        assertEquals(4 to 4, single.size)
-        assertEquals(2 to 3, triple.size)
+    fun table_sizeMustBeExactlyColumnsAndRows() {
+        listOf(emptyList(), listOf(4), listOf(2, 9, 3)).forEach { size ->
+            assertEquals(
+                emptyList(),
+                mapped(entry("table", null, size = size, cells = listOf("a"))),
+                "size=$size",
+            )
+        }
     }
 
     @Test
-    fun table_withEmptySize_fails_knownBugB14() {
-        assertFailsWith<NoSuchElementException> {
-            mapped(entry("table", null, size = emptyList(), cells = listOf("a")))
+    fun table_withNonPositiveDimension_isDropped() {
+        listOf(listOf(0, 3), listOf(3, 0), listOf(-1, 2)).forEach { size ->
+            assertEquals(emptyList(), mapped(entry("table", null, size = size, cells = listOf("a"))), "size=$size")
         }
+    }
+
+    @Test
+    fun table_withoutCells_isDropped() {
+        assertEquals(emptyList(), mapped(entry("table", null, size = listOf(2, 2), cells = emptyList())))
+    }
+
+    @Test
+    fun table_withFewerCellsThanSize_isAccepted() {
+        // the content has such tables and the renderer pads missing cells
+        val table = mapped(entry("table", null, size = listOf(4, 20), cells = List(20) { "c$it" })).single() as JartEntry.Table
+
+        assertEquals(4 to 20, table.size)
+        assertEquals(20, table.cells.size)
     }
 
     // endregion
@@ -183,7 +199,8 @@ class JartResponseExtensionsTest {
     }
 
     @Test
-    fun table_withZeroWidth_failsWhenRendered_knownBugB14() {
+    fun table_withZeroWidth_cannotBeRendered() {
+        // mappers never produce such a table
         val table = JartEntry.Table(listOf("a"), 0 to 1, header = false)
 
         assertFailsWith<IllegalArgumentException> { table.value }

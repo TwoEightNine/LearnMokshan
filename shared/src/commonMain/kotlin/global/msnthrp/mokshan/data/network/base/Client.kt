@@ -11,6 +11,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.hours
@@ -29,31 +30,61 @@ class NetworkClient(
     private val cacheStorage: CacheStorage,
 ) {
 
-    suspend fun getPlain(
-        url: String
-    ): String {
+    suspend fun getPlain(url: String): String = getParsed(url) { it }
+
+    /**
+     * Loads [url] and converts the body with [parse]. Only a body that [parse] accepts is cached
+     * or returned, so an error page or a malformed file can neither replace a good cached copy nor
+     * be served from the cache later. Fresh cache is used without a request; when the request
+     * fails (or returns a body that [parse] rejects) an expired cached copy that [parse] accepts
+     * is returned. If nothing is usable, the request error (or the parse error) is thrown.
+     */
+    suspend fun <T> getParsed(url: String, parse: (String) -> T): T {
         val cachedResponse = cacheStorage.getResponse(url)
-        if (cachedResponse != null && !cachedResponse.isExpired) {
-            return cachedResponse.response
+        val cachedParsed = cachedResponse?.let { kotlin.runCatching { parse(it.response) } }
+        if (cachedResponse != null && !cachedResponse.isExpired && cachedParsed?.isSuccess == true) {
+            return cachedParsed.getOrThrow()
         }
 
-        val result: Result<String> = kotlin.runCatching { client.get(url).body() }
-        val response = result.getOrNull()
+        val requestResult = request(url)
+        val response = requestResult.getOrNull()
+        var parseError: Throwable? = null
         if (response != null) {
-            cacheStorage.saveResponse(url, response)
-            return response
-        } else if (cachedResponse != null) {
-            return cachedResponse.response
-        } else {
-            throw (result.exceptionOrNull() ?: IllegalStateException("Result thrown but exception is null"))
+            val parsed = kotlin.runCatching { parse(response) }
+            if (parsed.isSuccess) {
+                cacheStorage.saveResponse(url, response)
+                return parsed.getOrThrow()
+            }
+            parseError = parsed.exceptionOrNull()
         }
+
+        if (cachedParsed?.isSuccess == true) {
+            return cachedParsed.getOrThrow()
+        }
+        throw parseError
+            ?: requestResult.exceptionOrNull()
+            ?: IllegalStateException("Result thrown but exception is null")
     }
 
     suspend inline fun <reified T> get(url: String): T {
-        val plainResponse = getPlain(url)
         return when {
-            T::class == String::class -> plainResponse as T
-            else -> defaultJson.decodeFromString(plainResponse)
+            T::class == String::class -> getPlain(url) as T
+            else -> getParsed(url) { defaultJson.decodeFromString<T>(it) }
+        }
+    }
+
+    /** Decodes the body as [R] and maps it; a mapping that throws keeps the body out of the cache. */
+    suspend inline fun <reified R, T> getMapped(url: String, crossinline map: (R) -> T): T {
+        return getParsed(url) { map(defaultJson.decodeFromString<R>(it)) }
+    }
+
+    private suspend fun request(url: String): Result<String> {
+        return try {
+            Result.success(client.get(url).body())
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Throwable) {
+            Result.failure(e)
         }
     }
 

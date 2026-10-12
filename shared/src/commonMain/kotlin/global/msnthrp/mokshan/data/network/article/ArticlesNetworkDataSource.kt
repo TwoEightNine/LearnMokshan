@@ -13,7 +13,7 @@ class ArticlesNetworkDataSource(
 
     override suspend fun loadArticles(language: ForeignLanguage): Articles {
         val url = serverConfig.getArticlesIndexUrl(language.code)
-        val response = client.get<ArticlesResponse>(url)
-        return response.toDomain(urlBase = serverConfig.getArticlesDirUrl())
+        val urlBase = serverConfig.getArticlesDirUrl()
+        return client.getMapped<ArticlesResponse, Articles>(url) { it.toDomain(urlBase = urlBase) }
     }
 }

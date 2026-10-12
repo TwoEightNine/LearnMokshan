@@ -7,6 +7,7 @@ import global.msnthrp.mokshan.testutil.MockNetwork.MockResponse
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.Serializable
@@ -168,23 +169,91 @@ class NetworkClientTest {
     }
 
     @Test
-    fun invalidBody_isCachedBeforeValidation_knownBugB4() = runTest {
-        // KNOWN BUG B4: the body is saved to the cache before it is decoded
+    fun invalidBody_isNotCached_andStaleCopyIsKept() = runTest {
         val cache = FakeCacheStorage().apply { put(url, """{"id": 1}""", isExpired = true) }
         val network = network(cache) { MockResponse.Ok("<html>rate limited</html>") }
 
-        assertFailsWith<SerializationException> { network.client.get<Dto>(url) }
+        assertEquals(Dto(id = 1), network.client.get<Dto>(url))
 
-        assertEquals("<html>rate limited</html>", cache.cached(url))
+        assertEquals(emptyList(), cache.saved)
+        assertEquals("""{"id": 1}""", cache.cached(url))
     }
 
     @Test
-    fun invalidFreshCacheEntry_keepsFailingWithoutNetworkCall_knownBugB4() = runTest {
+    fun invalidBody_withoutCache_isThrownAndNotCached() = runTest {
+        val network = network { MockResponse.Ok("<html>rate limited</html>") }
+
+        assertFailsWith<SerializationException> { network.client.get<Dto>(url) }
+
+        assertNull(network.cache.cached(url))
+    }
+
+    @Test
+    fun invalidFreshCacheEntry_isIgnoredAndReplacedFromNetwork() = runTest {
         val cache = FakeCacheStorage().apply { put(url, "garbage", isExpired = false) }
         val network = network(cache) { MockResponse.Ok("""{"id": 1}""") }
 
-        assertFailsWith<SerializationException> { network.client.get<Dto>(url) }
-        assertEquals(emptyList(), network.requestedUrls)
+        assertEquals(Dto(id = 1), network.client.get<Dto>(url))
+
+        assertEquals(listOf(url), network.requestedUrls)
+        assertEquals("""{"id": 1}""", cache.cached(url))
+    }
+
+    @Test
+    fun invalidCacheEntry_isNeverReturned_evenWhenOffline() = runTest {
+        val cache = FakeCacheStorage().apply { put(url, "garbage", isExpired = true) }
+        val network = network(cache) { MockResponse.Crash(IllegalStateException("offline")) }
+
+        val error = assertFailsWith<IllegalStateException> { network.client.get<Dto>(url) }
+
+        assertEquals("offline", error.message)
+    }
+
+    @Test
+    fun bodyThatDecodesButFailsMapping_isNotCached() = runTest {
+        val network = network { MockResponse.Ok("""{"id": null}""") }
+
+        assertFailsWith<IllegalStateException> {
+            network.client.getMapped<Dto, Int>(url) { it.id ?: throw IllegalStateException("no id") }
+        }
+
+        assertNull(network.cache.cached(url))
+    }
+
+    @Test
+    fun mappedBody_isCachedAsReceivedAndReturnedMapped() = runTest {
+        val network = network { MockResponse.Ok("""{"id": 7}""") }
+
+        assertEquals("id=7", network.client.getMapped<Dto, String>(url) { "id=${it.id}" })
+
+        assertEquals("""{"id": 7}""", network.cache.cached(url))
+    }
+
+    @Test
+    fun staleCopyThatNoLongerMaps_isNotReturned() = runTest {
+        val cache = FakeCacheStorage().apply { put(url, """{"id": null}""", isExpired = true) }
+        val network = network(cache) { MockResponse.Error(HttpStatusCode.BadGateway) }
+
+        assertFailsWith<ServerResponseException> {
+            network.client.getMapped<Dto, Int>(url) { it.id ?: throw IllegalStateException("no id") }
+        }
+    }
+
+    @Test
+    fun parser_isAppliedToPlainBodiesToo() = runTest {
+        val network = network { MockResponse.Ok("not a number") }
+
+        assertFailsWith<NumberFormatException> { network.client.getParsed(url) { it.toInt() } }
+
+        assertNull(network.cache.cached(url))
+    }
+
+    @Test
+    fun cancellation_isNotMistakenForOfflineAndNotAnsweredFromStaleCache() = runTest {
+        val cache = FakeCacheStorage().apply { put(url, "stale", isExpired = true) }
+        val network = network(cache) { MockResponse.Crash(CancellationException("scope is cancelled")) }
+
+        assertFailsWith<CancellationException> { network.client.getPlain(url) }
     }
 
     // endregion

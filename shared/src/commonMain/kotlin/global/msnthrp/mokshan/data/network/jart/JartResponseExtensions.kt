@@ -35,8 +35,10 @@ private fun JartEntryResponse.toDomain(): JartEntry? {
             footer = this.footer.orEmpty(),
         )
         "table" -> JartEntry.Table(
-            cells = this.cells ?: return null,
-            size = this.size?.run { first() to last() } ?: return null,
+            cells = this.cells?.takeIf { it.isNotEmpty() } ?: return null,
+            // exactly [columns, rows]; anything else cannot be laid out
+            size = this.size?.takeIf { it.size == 2 && it.all { n -> n > 0 } }
+                ?.let { it[0] to it[1] } ?: return null,
             header = this.header ?: false,
         )
         else -> JartEntry.Unknown(value = value.takeIf { it.isNotBlank() } ?: return null)

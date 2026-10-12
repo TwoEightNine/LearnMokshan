@@ -98,6 +98,32 @@ class NetworkDataSourcesTest {
 
     // endregion
 
+    @Test
+    fun invalidTopicsIndex_isNotCached() = runTest {
+        val url = "https://test/lessons-en/index.json"
+        val network = mock(url to """{"topicsCount": 1, "topicsInfo": []}""")
+
+        assertFailsWith<InvalidEntityException> {
+            LessonsNetworkDataSource(config, network.client).getTopicsSummary(ForeignLanguage.ENGLISH)
+        }
+
+        assertEquals(null, network.cache.cached(url))
+    }
+
+    @Test
+    fun invalidTopic_doesNotReplaceGoodCachedTopic() = runTest {
+        val url = "https://test/lessons-en/7/lessons.json"
+        val network = mock(url to """{"id": 1, "title": "x", "lessons": []}""")
+        network.cache.put(url, topicJson, isExpired = true)
+
+        val topic = LessonsNetworkDataSource(config, network.client).getTopic(7, ForeignLanguage.ENGLISH)
+
+        assertEquals("Hello", topic.title)
+        assertEquals(topicJson, network.cache.cached(url))
+    }
+
+    // endregion
+
     // region articles
 
     @Test
@@ -118,6 +144,26 @@ class NetworkDataSourcesTest {
     // endregion
 
     // region jart
+
+    @Test
+    fun malformedPrelinar_isNotCached() = runTest {
+        val url = "https://test/a.prelinar"
+        val network = mock(url to "no version here\nCONTENT\n<h1> Hi")
+
+        assertFailsWith<IllegalStateException> { JartNetworkDataSource(network.client).loadPrelinar(url) }
+
+        assertEquals(null, network.cache.cached(url))
+    }
+
+    @Test
+    fun jartJsonWithoutMeta_isNotCached() = runTest {
+        val url = "https://test/a.json"
+        val network = mock(url to """{"content": []}""")
+
+        assertFailsWith<IllegalStateException> { JartNetworkDataSource(network.client).loadJart(url) }
+
+        assertEquals(null, network.cache.cached(url))
+    }
 
     @Test
     fun jartJson_isLoadedAndKeepsArticleUrl() = runTest {

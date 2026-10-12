@@ -9,12 +9,12 @@ class JartNetworkDataSource(
 ) : JartRepository.NetworkDataSource {
 
     override suspend fun loadJart(url: String): Jart {
-        val response = client.get<JartResponse>(url)
-        return response.toDomain(url) ?: throw IllegalStateException("Malformed jart")
+        return client.getMapped<JartResponse, Jart>(url) {
+            it.toDomain(url) ?: throw IllegalStateException("Malformed jart")
+        }
     }
 
     override suspend fun loadPrelinar(url: String): Jart {
-        val response = client.getPlain(url)
-        return response.asPrelinarToJart(url)
+        return client.getParsed(url) { it.asPrelinarToJart(url) }
     }
 }

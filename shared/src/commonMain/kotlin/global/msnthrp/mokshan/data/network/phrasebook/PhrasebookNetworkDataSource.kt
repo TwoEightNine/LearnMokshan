@@ -9,8 +9,9 @@ class PhrasebookNetworkDataSource(
 ) : PhrasebookRepositoryImpl.NetworkDataSource {
 
     override suspend fun loadPhrasebook(): Phrasebook {
-        val response = client.get<PhrasebookResponse>(PHRASEBOOK_URL)
-        return response.toDomain() ?: throw IllegalStateException("Malformed json file!")
+        return client.getMapped<PhrasebookResponse, Phrasebook>(PHRASEBOOK_URL) {
+            it.toDomain() ?: throw IllegalStateException("Malformed json file!")
+        }
     }
 
     companion object {
