@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import asPxToDp
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.domain.jart.Jart
 import global.msnthrp.mokshan.domain.jart.JartEntry

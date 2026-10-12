@@ -28,25 +28,24 @@ target is an early placeholder rather than a feature-complete app.
 | Android app information | Active | Version, legal links, and developer contact. |
 | Phrasebook | Dormant | Code and content exist, but the main navigation entry is disabled. |
 | “I Speak” | Dormant | A UI module exists but is not connected to application navigation. |
-| iOS | Placeholder | Builds a SwiftUI shell around the shared framework but does not expose the Android feature set. |
+| iOS | Placeholder | Standalone SwiftUI shell with no shared-framework or product-feature integration. |
 
 ## Platform support
 
 | Platform | Repository target | Runtime status |
 | --- | --- | --- |
-| Android | API 26 minimum, API 34 target | Primary supported application. |
-| iOS device | `iosArm64` | Placeholder application shell. |
-| iOS simulator | `iosSimulatorArm64` | Apple Silicon simulator only; the x64 target is commented out. |
+| Android | API 26 minimum, API 36 target | Primary supported application. |
+| iOS | Standalone Xcode project | Buildable placeholder; not a Gradle/KMP target. |
 
 ## Technology
 
-- Kotlin 2.0.21 and Kotlin Multiplatform for shared domain, network, and storage
-  code.
+- Kotlin 2.4.21 and an Android-only Kotlin Multiplatform library for shared
+  domain, network, and storage code.
 - Jetpack Compose and Material 3 for Android UI.
 - Koin for dependency injection.
 - Ktor and Kotlin serialization for content loading.
-- Room for the learned-word dictionary and DataStore for lesson progress.
-- SwiftUI and CocoaPods for the current iOS shell.
+- Room 3 for the learned-word dictionary and DataStore for lesson progress.
+- SwiftUI for the standalone iOS placeholder.
 - Gradle version catalogs for dependency and plugin versions.
 
 See [DOCS.md](DOCS.md) for the architecture, data formats, coding conventions,
@@ -60,8 +59,8 @@ android/
   core/                Shared Android architecture, design system, navigation, utilities
   features/            Feature UI modules
 content/               English/Russian lessons, articles, phrasebook, and legal text
-iosApp/                SwiftUI application and CocoaPods project
-shared/                Kotlin Multiplatform domain, data, use-case, and platform code
+iosApp/                Standalone SwiftUI placeholder
+shared/                Android-only KMP domain, data, use-case, and platform code
 gradle/libs.versions.toml
 settings.gradle.kts
 ```
@@ -70,16 +69,15 @@ settings.gradle.kts
 
 For Android development:
 
-- Android Studio with Android SDK 34 and SDK Build Tools 34 installed.
+- Android Studio with Android SDK 36 and SDK Build Tools 36 installed.
 - JDK 17.
-- Gradle 8.9 until the repository's wrapper is restored.
+- The checked-in Gradle 9.6 wrapper.
 
-Android Gradle Plugin 8.7.x requires Gradle 8.9 and JDK 17; see the
-[official compatibility table](https://developer.android.com/build/releases/agp-8-7-0-release-notes#compatibility).
+Android Gradle Plugin 9.4.x requires Gradle 9.6 and JDK 17; see the
+[official compatibility table](https://developer.android.com/build/releases/agp-9-4-0-release-notes#compatibility).
 
-For optional iOS inspection or development, use macOS with Xcode and CocoaPods.
-The shared module declares iOS 14.0 as its CocoaPods deployment target, while
-the application target currently uses iOS 16.0.
+For optional iOS placeholder inspection, use macOS with Xcode. CocoaPods and a
+Kotlin framework are not required. The application target uses iOS 16.0.
 
 ## Configuration
 
@@ -89,35 +87,28 @@ machine, and keep real signing secrets outside source control.
 
 ```properties
 sdk.dir=/absolute/path/to/Android/sdk
-storeFile=keystore-local.jks
-storePassword=<local-secret>
-keyAlias=<local-alias>
-keyPassword=<local-secret>
 ```
 
-The current Android build script reads all four signing properties while the
-project is being configured, even for a debug build. The keystore only needs to
-be valid when a signed release is built, but all keys must currently be present
-in `local.properties`. Files named `keystore-*` are ignored by the repository.
+Only `sdk.dir` belongs in `local.properties`. Release signing is optional and is
+configured through all four `mokshan.release.*` properties in the user's Gradle
+properties or the equivalent `MOKSHAN_RELEASE_*` environment variables:
+
+```properties
+mokshan.release.storeFile=/absolute/path/to/keystore.jks
+mokshan.release.storePassword=<local-secret>
+mokshan.release.keyAlias=<local-alias>
+mokshan.release.keyPassword=<local-secret>
+```
+
+When none are set, release builds are unsigned. A partially configured release
+fails with a clear error, while debug builds never require signing values.
 
 Do not copy credentials from another developer, commit a keystore, or put real
 values in documentation or issue reports.
 
 ## Build and run
 
-### Important: incomplete Gradle wrapper
-
-The repository tracks `gradlew` and `gradlew.bat`, but does not currently track
-`gradle/wrapper/gradle-wrapper.jar` or `gradle-wrapper.properties`. Consequently,
-`./gradlew` fails before Gradle starts.
-
-Until the wrapper is restored in a separate build-system change, either:
-
-1. configure Android Studio to use a local Gradle 8.9 installation; or
-2. run the tasks below with an installed Gradle 8.9 executable by replacing
-   `./gradlew` with `gradle`.
-
-Once the wrapper is complete, build and install the debug application with:
+Build and install the debug application with:
 
 ```shell
 ./gradlew :android:app:assembleDebug
@@ -128,8 +119,7 @@ The debug application ID is `global.msnthrp.learnmokshan.debug`. Debug builds
 load the sandbox lesson and article indexes; release builds load production
 indexes.
 
-A release build additionally requires a valid keystore and matching signing
-credentials:
+A release build is unsigned unless complete signing properties are supplied:
 
 ```shell
 ./gradlew :android:app:assembleRelease
@@ -137,28 +127,25 @@ credentials:
 
 ### iOS shell
 
-The iOS target is useful for shared-framework integration work, but it is not a
-complete Learn Mokshan client. After a working Gradle installation or wrapper is
-available:
+The iOS project is a standalone placeholder and is not a complete Learn Mokshan
+client. It can be opened directly without Gradle or CocoaPods:
 
 ```shell
-cd iosApp
-pod install
-open iosApp.xcworkspace
+open iosApp/iosApp.xcodeproj
 ```
 
-The Kotlin CocoaPods integration builds the `shared` framework. Do not treat a
-successful launch of the placeholder SwiftUI view as feature parity with
-Android.
+Do not treat a successful launch of the placeholder SwiftUI view as feature
+parity with Android.
 
 ## Tests and checks
 
-With a working Gradle 8.9 installation or restored wrapper, the main checks are:
+The main checks are:
 
 ```shell
 ./gradlew :shared:allTests
 ./gradlew :android:app:lintDebug
 ./gradlew :android:app:assembleDebug
+./gradlew :android:app:assembleRelease
 ```
 
 The shared tests validate lesson content, including translation-hint coverage.

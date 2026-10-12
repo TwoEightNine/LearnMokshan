@@ -1,24 +1,31 @@
-import java.io.FileInputStream
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.room) apply false
-    alias(libs.plugins.ksp) apply false
 }
+
+val releaseSigning = mapOf(
+    "storeFile" to providers.gradleProperty("mokshan.release.storeFile")
+        .orElse(providers.environmentVariable("MOKSHAN_RELEASE_STORE_FILE")).orNull,
+    "storePassword" to providers.gradleProperty("mokshan.release.storePassword")
+        .orElse(providers.environmentVariable("MOKSHAN_RELEASE_STORE_PASSWORD")).orNull,
+    "keyAlias" to providers.gradleProperty("mokshan.release.keyAlias")
+        .orElse(providers.environmentVariable("MOKSHAN_RELEASE_KEY_ALIAS")).orNull,
+    "keyPassword" to providers.gradleProperty("mokshan.release.keyPassword")
+        .orElse(providers.environmentVariable("MOKSHAN_RELEASE_KEY_PASSWORD")).orNull,
+)
+val hasCompleteReleaseSigning = releaseSigning.values.all { !it.isNullOrBlank() }
+val hasPartialReleaseSigning = releaseSigning.values.any { !it.isNullOrBlank() } &&
+    !hasCompleteReleaseSigning
 
 android {
     namespace = "global.msnthrp.learnmokshan"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
         applicationId = "global.msnthrp.learnmokshan"
-        minSdk = 26
-        targetSdk = 34
+        minSdk = libs.versions.min.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = 4
         versionName = "0.1.3"
-        resourceConfigurations.addAll(listOf("en", "ru"))
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -26,21 +33,22 @@ android {
         compose = true
         buildConfig = true
     }
+    androidResources {
+        localeFilters += listOf("en", "ru")
+    }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    signingConfigs {
-        val projectDir = "../../"
-        val propFile = file(projectDir + "local.properties")
-        val props = Properties()
-        props.load(FileInputStream(propFile))
-        create("release") {
-            storeFile = file(projectDir + props["storeFile"] as String)
-            storePassword = props["storePassword"] as? String
-            keyAlias = props["keyAlias"] as? String
-            keyPassword = props["keyPassword"] as? String
+    if (hasCompleteReleaseSigning) {
+        signingConfigs {
+            create("release") {
+                storeFile = rootProject.file(requireNotNull(releaseSigning["storeFile"]))
+                storePassword = releaseSigning["storePassword"]
+                keyAlias = releaseSigning["keyAlias"]
+                keyPassword = releaseSigning["keyPassword"]
+            }
         }
     }
     buildTypes {
@@ -51,7 +59,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            if (hasCompleteReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         getByName("debug") {
             isMinifyEnabled = false
@@ -60,11 +70,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -80,8 +87,6 @@ dependencies {
     implementation(projects.android.features.lessons)
     implementation(projects.android.features.dictionary)
 
-    implementation(libs.androidx.datastore)
-    implementation(libs.androidx.datastore.core)
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
@@ -91,10 +96,23 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.koin.core)
     implementation(libs.koin.android)
-    implementation(libs.androidx.junit.ktx)
+    implementation(libs.okio)
     debugImplementation(libs.compose.ui.tooling)
 
-    testImplementation(libs.kotlin.test)
     androidTestImplementation(libs.androidx.runner)
-    androidTestImplementation(libs.androidx.rules)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.room.runtime)
+    androidTestImplementation(libs.sqlite.bundled)
+}
+
+tasks.configureEach {
+    if (hasPartialReleaseSigning && name.contains("Release", ignoreCase = true)) {
+        doFirst {
+            error(
+                "Release signing is only partially configured. Set all four " +
+                    "mokshan.release.* Gradle properties or MOKSHAN_RELEASE_* environment variables."
+            )
+        }
+    }
 }

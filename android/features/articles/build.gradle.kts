@@ -1,24 +1,20 @@
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.compose.compiler)
 }
 
 android {
     namespace = "global.msnthrp.mokshan.android.features.articles"
-    compileSdk = 34
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.min.sdk.get().toInt()
     }
     buildFeatures {
         compose = true
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -31,13 +27,12 @@ dependencies {
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
     implementation(libs.compose.material3)
-    implementation(libs.androidx.activity.compose)
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.lifecycle.compose.runtime)
-    implementation(libs.androidx.lifecycle.common)
+    implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.koin.core)
-    implementation(libs.koin.android)
-    implementation(libs.koin.android.compose)
+    implementation(libs.koin.compose)
+    implementation(libs.koin.compose.viewmodel)
     debugImplementation(libs.compose.ui.tooling)
 }

@@ -9,3 +9,4 @@
 # This is generated automatically by the Android Gradle plugin.
 -dontwarn java.lang.management.ManagementFactory
 -dontwarn java.lang.management.RuntimeMXBean
+-keep class * extends androidx.room3.RoomDatabase { <init>(); }

@@ -1,11 +1,15 @@
 import SwiftUI
-import shared
 
 struct ContentView: View {
-	let greet = Greeting().greet()
-
 	var body: some View {
-		Text(greet)
+		VStack(spacing: 12) {
+			Text("Learn Mokshan")
+				.font(.title)
+			Text("The iOS application is not implemented yet.")
+				.foregroundStyle(.secondary)
+				.multilineTextAlignment(.center)
+		}
+		.padding()
 	}
 }
 

@@ -1,7 +1,7 @@
 package global.msnthrp.mokshan
 
 import android.content.Context
-import androidx.room.Room
+import androidx.room3.Room
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import global.msnthrp.mokshan.data.network.base.AndroidCacheStorage
 import global.msnthrp.mokshan.data.network.base.NetworkClient

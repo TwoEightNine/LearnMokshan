@@ -31,7 +31,7 @@ import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.dictionary.R
 import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 
 @Composable

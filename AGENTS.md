@@ -133,9 +133,8 @@ work.
 
 ## 7. Validation requirements
 
-Run checks proportional to the changed area. The repository currently lacks the
-Gradle wrapper JAR and properties, so Gradle commands require a restored wrapper
-or a local Gradle 8.9 installation. Never report an unrun check as passing.
+Run checks proportional to the changed area with the checked-in Gradle 9.6
+wrapper. Never report an unrun check as passing.
 
 ### Minimum checks by change type
 
@@ -147,10 +146,10 @@ or a local Gradle 8.9 installation. Never report an unrun check as passing.
 | Lessons/content | `:shared:allTests`, especially `ContentTests`; verify both language trees and relevant production/sandbox indexes. |
 | Network/config | Unit/integration coverage plus debug and release URL expectations; run instrumentation tests when their environment is available. |
 | Room/DataStore | Tests for read/write and migration/compatibility behavior; build all affected KMP targets. |
-| iOS/shared Apple target | Build the affected Kotlin iOS framework, run relevant shared tests, run CocoaPods integration, and build the Xcode target when available. |
+| iOS placeholder | Build the standalone Xcode target when available; it must not require Gradle or CocoaPods. |
 | Build/dependency changes | Sync/resolve the full project and build every directly affected target; update setup/version documentation. |
 
-Typical commands after the wrapper is available are:
+Typical commands are:
 
 ```shell
 ./gradlew :shared:allTests
@@ -158,8 +157,8 @@ Typical commands after the wrapper is available are:
 ./gradlew :android:app:assembleDebug
 ```
 
-Use release tasks only when authorized signing material is configured. Do not
-create or substitute production credentials just to satisfy validation.
+Release tasks produce an unsigned artifact when signing material is absent. Do
+not create or substitute production credentials just to satisfy validation.
 
 If validation is blocked, report:
 

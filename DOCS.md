@@ -26,7 +26,7 @@ All modules are declared in `settings.gradle.kts`.
 
 | Module | Responsibility |
 | --- | --- |
-| `:shared` | KMP domain models, use cases, repositories, Ktor data sources, DataStore abstractions, Room database, and Android/iOS platform implementations. |
+| `:shared` | Android-only KMP domain models, use cases, repositories, Ktor data sources, DataStore abstractions, Room database, and Android platform implementations. |
 | `:android:app` | Android entry point, top-level navigation, Koin startup, platform bindings, build variants, signing, and app resources. |
 | `:android:core:arch` | Generic `BaseViewModel<State>` backed by `StateFlow`. |
 | `:android:core:designsystem` | Theme, icons, and reusable Compose components. |
@@ -60,20 +60,20 @@ platform implementations (Android today)
 ```
 
 Android features may depend on Android core modules and `:shared`. Shared
-`commonMain` must not import Android or iOS APIs. Platform facilities are
-introduced through common interfaces or `expect` declarations and implemented
-under `androidMain` or `iosMain`.
+`commonMain` must not import Android APIs. Platform facilities are introduced
+through common interfaces or `expect` declarations and implemented under
+`androidMain`.
 
 ### Source sets
 
 - `shared/src/commonMain`: cross-platform models and behavior.
-- `shared/src/androidMain`: Android database construction, network cache,
-  platform information, and date formatting.
-- `shared/src/iosMain`: current iOS platform and date-formatting actuals.
+- `shared/src/androidMain`: Android database construction, network cache, and
+  date formatting.
 - `shared/src/commonTest`: portable content validation.
-- `shared/src/androidTest`, `iosTest`, and `test`: platform-specific test helpers.
+- `shared/src/androidHostTest`: JVM helpers for the Android KMP host tests.
 
-Only `iosArm64` and `iosSimulatorArm64` are enabled. `iosX64` is commented out.
+The shared module exposes only an Android target. The standalone SwiftUI
+placeholder does not depend on it.
 
 ## 3. Application runtime
 
@@ -207,7 +207,7 @@ Room database `main.db`. `DictionaryRepository` resolves native translations
 from topic lesson pairs, lowercases both sides, and records the current
 timestamp. Existing Mokshan entries merge and deduplicate translations.
 
-The Room database is version 1 and contains `DictionaryEntity`. Lists of native
+The Room 3 database is version 1 and contains `DictionaryEntity`. Lists of native
 translations are serialized into a single `|`-delimited column. A schema or
 converter change requires a Room migration and updated generated schemas.
 
@@ -336,29 +336,24 @@ maintenance workflow changes.
 
 ### Toolchain
 
-The version catalog currently specifies Android Gradle Plugin 8.7.3 and Kotlin
-2.0.21. AGP 8.7 requires Gradle 8.9, JDK 17, and SDK Build Tools 34.0.0. Android
-uses compile/target SDK 34 and minimum SDK 26. Java/Kotlin JVM bytecode targets
-1.8.
-
-The repository's Gradle wrapper is incomplete: the launch scripts exist but
-`gradle/wrapper/gradle-wrapper.jar` and `gradle-wrapper.properties` do not. All
-Gradle commands below assume those files have been restored or `./gradlew` has
-been replaced with a local Gradle 8.9 executable.
+The version catalog specifies Android Gradle Plugin 9.4.1 and Kotlin 2.4.21.
+The checked-in wrapper uses Gradle 9.6. Android requires JDK 17 and SDK Build
+Tools 36, uses compile/target SDK 36 and minimum SDK 26, and emits Java/Kotlin
+JVM 17 bytecode. Android modules use AGP's built-in Kotlin support.
 
 ### Local and signing configuration
 
-`android/app/build.gradle.kts` loads root `local.properties` unconditionally and
-reads `storeFile`, `storePassword`, `keyAlias`, and `keyPassword` while creating
-the release signing configuration. `sdk.dir` is also normally stored there.
+`local.properties` is used only for local Android SDK discovery. Release signing
+uses all four `mokshan.release.*` Gradle properties or the matching
+`MOKSHAN_RELEASE_*` environment variables. Complete values create a signed
+release, no values create an unsigned release, and partial values fail release
+tasks without blocking debug configuration.
 
 Never commit `local.properties`, keystores, signing credentials, IDE-local
 paths, or generated signing artifacts. The repository ignores `local.properties`
 and filenames starting with `keystore-`.
 
 ### Useful checks
-
-After the Gradle bootstrap issue is resolved:
 
 ```shell
 ./gradlew :shared:allTests
@@ -367,9 +362,10 @@ After the Gradle bootstrap issue is resolved:
 ./gradlew :android:app:assembleRelease
 ```
 
-Run the release task only with authorized local signing material. Android
-instrumentation tests require an emulator/device and should be run separately;
-`ServerConfigTests` asserts that its resolved indexes are not sandbox indexes.
+Android instrumentation tests require an emulator/device and should be run
+separately. They cover the Room 3 read/write and version-1 database compatibility
+paths; `ServerConfigTests` asserts that its resolved indexes are not sandbox
+indexes.
 
 `shared/src/commonTest/kotlin/content/ContentTests.kt` traverses lesson files and
 checks translation-hint coverage. Content work must run this test when the
@@ -378,24 +374,16 @@ and do not claim the check passed.
 
 ## 8. Known limitations and technical debt
 
-- The Gradle wrapper distribution is incomplete, so the checked-in `gradlew`
-  scripts cannot start Gradle.
-- Signing properties are read during project configuration instead of only for
-  release tasks, increasing setup friction for debug-only contributors.
-- iOS contains a placeholder view and lacks product feature wiring and shared
-  dependency initialization.
-- The KMP CocoaPods target declares iOS 14.0, while Xcode project settings also
-  contain 14.1 and the app target uses 16.0.
+- iOS is a standalone placeholder and has no product feature or shared-module
+  integration.
 - Phrasebook and “I Speak” modules are present but unreachable.
-- Some Android module namespaces and dictionary package paths are inconsistent,
-  including `learmokshan` and reused design-system namespaces.
+- The dictionary package path still contains the historical `learmokshan` typo.
 - There is no checked-in CI workflow, formatter/linter policy beyond Kotlin's
   official style, or automated Markdown validation.
 - Production content URLs depend on the `master` branch name and GitHub raw-file
   availability.
 - Network logs include response headers and several ViewModels print data or
   stack traces directly.
-- Room schema output is configured but no `shared/schemas` directory is tracked.
 - The repository has no standalone license file.
 
 These items are documentation, not authorization to fix unrelated technical
