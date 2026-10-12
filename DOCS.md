@@ -109,6 +109,12 @@ nested navigation routes:
 Feature navigation callbacks are passed into factories. Preserve this pattern
 instead of reading a global `NavController` from feature UI.
 
+Free text that is put into a route (topic title and description, article title and
+URL) must go through `encodeRouteArgument` from `:android:core:navigation`, which
+percent-encodes it (spaces as `%20`) so characters such as `&`, `=`, `#`, `%`, `?`
+and `{` cannot break the route; the navigation library decodes it when the
+argument is read. Route patterns with `{placeholders}` are built without encoding.
+
 ### UI state
 
 Most Android features extend `BaseViewModel<State>`, expose read-only
@@ -246,11 +252,18 @@ the current timestamp. Existing Mokshan entries merge and deduplicate
 translations.
 
 The Room 3 database is version 1 and contains `DictionaryEntity`. Lists of native
-translations are serialized into a single `|`-delimited column. A schema or
-converter change requires a Room migration and updated generated schemas.
+translations are serialized into a single `|`-delimited column; a `|` or `\`
+inside a translation is escaped with a backslash, an empty list is an empty string
+(so a list holding only an empty string is read back as empty), and rows written
+before escaping existed are read unchanged. A schema or converter change requires
+a Room migration and updated generated schemas.
 
 `DictionaryRepository` receives a `DictionaryDao` (obtained from `AppDatabase` in
 `repositoryModule`) so it can be tested without Room.
+
+If the dictionary cannot be loaded and no words are shown yet, the dictionary screen
+shows the shared failed view with a retry action instead of the "no words yet"
+text; words that are already shown stay on screen when a refresh fails.
 
 `DictionaryRepository.addNewWords` writes each word once: it inserts an unknown
 word, or merges the new translations into the existing row and refreshes its
@@ -367,7 +380,9 @@ together.
   `android/app`, `android/core`, and `android/features` organization.
 - Prefer constructor injection. Register bindings in the owning Koin module.
 - Return `Result<T>` at repository/use-case boundaries where the surrounding
-  code already models recoverable failure that way.
+  code already models recoverable failure that way. Wrap suspending work with
+  `runCatchingCancellable`, not `runCatching`: it rethrows `CancellationException`
+  so a cancelled coroutine is not reported as a failed result.
 - Preserve nullable-response validation and throw a descriptive
   `InvalidEntityException` or equivalent at malformed external-data boundaries.
 
@@ -451,8 +466,8 @@ indexes.
   queries, and Compose UI.
 
 Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example an empty translation list not surviving the dictionary column
-converter, or a failed dictionary load being shown as an empty dictionary). They keep the suite green and are expected to fail when the bug is
+today (for example the Russian lesson 1 of topic 1 having one pair less than the
+English one). They keep the suite green and are expected to fail when the bug is
 fixed; update them together with the fix.
 Never "fix" such a test by weakening it without fixing the behaviour.
 

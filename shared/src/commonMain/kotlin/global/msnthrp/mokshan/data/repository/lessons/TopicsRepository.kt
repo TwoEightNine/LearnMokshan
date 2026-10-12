@@ -8,6 +8,7 @@ import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import global.msnthrp.mokshan.usecase.DeviceLocaleProvider
 import global.msnthrp.mokshan.usecase.lesson.LessonRepository
 import global.msnthrp.mokshan.utils.failureOf
+import global.msnthrp.mokshan.utils.runCatchingCancellable
 
 class TopicsRepository(
     private val networkDs: NetworkDataSource,
@@ -45,7 +46,7 @@ class TopicsRepository(
             isLastLessonInTopic -> 0
             else -> completedLessonNumber
         }
-        return kotlin.runCatching {
+        return runCatchingCancellable {
             // progress only moves forward: completing an earlier lesson again must not undo it
             val current = storageDs.getTopicsProgress()
             val isAhead = topicId > current.ongoingTopicId ||
@@ -57,15 +58,15 @@ class TopicsRepository(
     }
 
     private suspend fun getTopicsSummary(): Result<TopicsSummary> {
-        return kotlin.runCatching { networkDs.getTopicsSummary(language) }
+        return runCatchingCancellable { networkDs.getTopicsSummary(language) }
     }
 
     private suspend fun getTopicsProgress(): Result<TopicsProgress> {
-        return kotlin.runCatching { storageDs.getTopicsProgress() }
+        return runCatchingCancellable { storageDs.getTopicsProgress() }
     }
 
     override suspend fun getTopic(topicId: Int): Result<Topic> {
-        return kotlin.runCatching { networkDs.getTopic(topicId, language) }
+        return runCatchingCancellable { networkDs.getTopic(topicId, language) }
     }
 
     interface NetworkDataSource {

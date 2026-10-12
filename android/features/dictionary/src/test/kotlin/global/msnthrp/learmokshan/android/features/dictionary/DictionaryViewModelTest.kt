@@ -86,14 +86,51 @@ class DictionaryViewModelTest {
     }
 
     @Test
-    fun load_failure_isIndistinguishableFromNoData_knownBugB17() {
-        // KNOWN BUG B17: the failure is dropped, dictionary == null and the screen shows "empty"
+    fun load_failure_publishesFailedStateInsteadOfEmptyDictionary() {
         dao.error = IllegalStateException("db")
 
         viewModel.load()
 
-        assertFalse(viewModel.state.value.isLoading)
-        assertNull(viewModel.state.value.dictionary)
+        val state = viewModel.state.value
+        assertFalse(state.isLoading)
+        assertTrue(state.isFailed)
+        assertNull(state.dictionary)
+    }
+
+    @Test
+    fun successfulLoad_isNotFailed_evenWhenEmpty() {
+        viewModel.load()
+
+        assertFalse(viewModel.state.value.isFailed)
+        assertEquals(emptyList<DictionaryEntry>(), viewModel.state.value.dictionary)
+    }
+
+    @Test
+    fun retry_afterFailure_loadsTheDictionary() {
+        dao.rows += row("лац", "fine")
+        dao.error = IllegalStateException("db")
+        viewModel.load()
+
+        dao.error = null
+        viewModel.load()
+
+        val state = viewModel.state.value
+        assertFalse(state.isFailed)
+        assertEquals(listOf("лац"), state.dictionary!!.map { it.mokshan })
+    }
+
+    @Test
+    fun retry_clearsFailedStateWhileLoading() {
+        dao.error = IllegalStateException("db")
+        viewModel.load()
+        dao.error = null
+        dao.gate = CompletableDeferred()
+
+        viewModel.load()
+
+        assertTrue(viewModel.state.value.isLoading)
+        assertFalse(viewModel.state.value.isFailed)
+        dao.gate!!.complete(Unit)
     }
 
     @Test
@@ -110,13 +147,16 @@ class DictionaryViewModelTest {
     }
 
     @Test
-    fun reload_afterFailure_dropsPreviousDictionary() {
+    fun failedRefresh_keepsWordsThatAreAlreadyShown() {
         dao.rows += row("лац", "fine")
         viewModel.load()
         dao.error = IllegalStateException("db")
 
         viewModel.load()
 
-        assertNull(viewModel.state.value.dictionary)
+        val state = viewModel.state.value
+        assertFalse(state.isFailed)
+        assertFalse(state.isLoading)
+        assertEquals(listOf("лац"), state.dictionary!!.map { it.mokshan })
     }
 }

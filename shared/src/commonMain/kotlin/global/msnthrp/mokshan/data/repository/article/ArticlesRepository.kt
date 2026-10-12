@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.data.repository.article
 import global.msnthrp.mokshan.domain.articles.Articles
 import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
 import global.msnthrp.mokshan.usecase.DeviceLocaleProvider
+import global.msnthrp.mokshan.utils.runCatchingCancellable
 
 class ArticlesRepository(
     private val networkDs: NetworkDataSource,
@@ -13,7 +14,7 @@ class ArticlesRepository(
         get() = deviceLocaleProvider.getDeviceLocale()
 
     suspend fun loadArticles(): Result<Articles> {
-        return kotlin.runCatching {
+        return runCatchingCancellable {
             val articles = networkDs.loadArticles(language)
 
             Articles(

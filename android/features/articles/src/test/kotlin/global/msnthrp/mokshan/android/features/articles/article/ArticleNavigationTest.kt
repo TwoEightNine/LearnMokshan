@@ -19,25 +19,43 @@ class ArticleNavigationTest {
     }
 
     @Test
-    fun routeUrl_roundTripsThroughUrlDecoding() {
+    fun routeUrl_roundTripsThroughDecoding() {
         val url = "https://t/статья вторая.json"
 
         val encoded = ArticleRouter(url).route().substringAfter("&url=")
 
-        assertEquals(url, java.net.URLDecoder.decode(encoded, "UTF-8"))
+        assertEquals(url, decode(encoded))
     }
 
     @Test
-    fun title_isNotEncoded_knownBugB21() {
-        // KNOWN BUG B21: '&' in a title splits the route into an extra argument
-        val route = ArticleRouter("https://t/a.json", title = "Cats & dogs").route()
+    fun title_isEncoded() {
+        val route = ArticleRouter("https://t/a.json", title = "Cats & dogs = 100%").route()
 
-        assertTrue(route.startsWith("article?title=Cats & dogs&url="))
+        assertEquals("article?title=Cats%20%26%20dogs%20%3D%20100%25&url=https%3A%2F%2Ft%2Fa.json", route)
     }
+
+    @Test
+    fun routeArguments_staySeparateWhateverTitleAndUrlContain() {
+        val titles = listOf("a&url=b", "Where? Where to?", "{title}", "#x", "Грамматика: падежи")
+        val urls = listOf("https://t/a.json?x=1&title=2#z", "https://t/статья вторая+третья.json")
+
+        titles.forEach { title ->
+            urls.forEach { url ->
+                val route = ArticleRouter(url, title).route()
+
+                val arguments = route.substringAfter('?').split('&').associate { it.substringBefore('=') to it.substringAfter('=') }
+                assertEquals(listOf("title", "url"), arguments.keys.toList())
+                assertEquals(title, decode(arguments["title"]!!))
+                assertEquals(url, decode(arguments["url"]!!))
+            }
+        }
+    }
+
+    private fun decode(value: String) = java.net.URLDecoder.decode(value.replace("+", "%2B"), "UTF-8")
 
     @Test
     fun defaultRouter_hasEncodedPlaceholderForUrl() {
-        // pins current output: the {url} placeholder is percent-encoded by the same builder
+        // unchanged route pattern: the {url} placeholder has always been percent-encoded
         assertEquals("article?title={title}&url=%7Burl%7D", ArticleDefaultRouter().route())
     }
 }

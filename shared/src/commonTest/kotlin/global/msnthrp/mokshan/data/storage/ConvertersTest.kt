@@ -6,6 +6,7 @@ import global.msnthrp.mokshan.data.repository.dictionary.toEntity
 import global.msnthrp.mokshan.data.storage.base.Converters
 import global.msnthrp.mokshan.data.storage.dictionary.DictionaryEntity
 import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -31,15 +32,63 @@ class ConvertersTest {
     }
 
     @Test
-    fun emptyListDoesNotRoundTrip_knownBugB16() {
-        // KNOWN BUG B16: "" is split into a single empty string
+    fun emptyList_roundTrips() {
         assertEquals("", Converters.fromListOfStrings(emptyList()))
-        assertEquals(listOf(""), Converters.toListOfStrings(""))
+        assertEquals(emptyList(), Converters.toListOfStrings(""))
     }
 
     @Test
-    fun valueWithPipeDoesNotRoundTrip_knownBugB16() {
-        assertEquals(listOf("a", "b"), Converters.toListOfStrings(Converters.fromListOfStrings(listOf("a|b"))))
+    fun listWithOnlyAnEmptyItem_isStoredLikeAnEmptyList() {
+        // the single ambiguous case: "" cannot be told apart from "no items"
+        assertEquals("", Converters.fromListOfStrings(listOf("")))
+    }
+
+    @Test
+    fun emptyItemsBetweenOthers_roundTrip() {
+        val list = listOf("a", "", "b", "")
+
+        assertEquals("a||b|", Converters.fromListOfStrings(list))
+        assertEquals(list, Converters.toListOfStrings("a||b|"))
+    }
+
+    @Test
+    fun valueWithPipe_isEscapedAndRoundTrips() {
+        val list = listOf("a|b", "c")
+
+        assertEquals("a\\|b|c", Converters.fromListOfStrings(list))
+        assertEquals(list, Converters.toListOfStrings(Converters.fromListOfStrings(list)))
+    }
+
+    @Test
+    fun valueWithBackslash_isEscapedAndRoundTrips() {
+        listOf(
+            listOf("a\\b"), listOf("trailing\\"), listOf("\\"), listOf("\\|"), listOf("\\\\|\\"),
+            listOf("x\\", "y"), listOf("|", "|"),
+        ).forEach { list ->
+            assertEquals(list, Converters.toListOfStrings(Converters.fromListOfStrings(list)), list.toString())
+        }
+    }
+
+    @Test
+    fun rowsWrittenBeforeEscapingExisted_areReadUnchanged() {
+        assertEquals(listOf("hello", "hi"), Converters.toListOfStrings("hello|hi"))
+        assertEquals(listOf("how are you?", "привет!"), Converters.toListOfStrings("how are you?|привет!"))
+        // a lone backslash that does not escape anything stays a normal character
+        assertEquals(listOf("a\\b"), Converters.toListOfStrings("a\\b"))
+    }
+
+    @Test
+    fun anyListOfRegularAndSpecialCharacters_roundTrips() {
+        val alphabet = listOf('a', 'б', ' ', '|', '\\', '"')
+        val random = Random(7)
+        repeat(3000) {
+            val list = List(random.nextInt(0, 5)) {
+                String(CharArray(random.nextInt(0, 6)) { alphabet[random.nextInt(alphabet.size)] })
+            }
+            if (list == listOf("")) return@repeat
+
+            assertEquals(list, Converters.toListOfStrings(Converters.fromListOfStrings(list)), list.toString())
+        }
     }
 
     @Test

@@ -12,7 +12,7 @@ class DictionaryViewModel(
     override fun getInitialState() = DictionaryViewState()
 
     fun load() {
-        updateState { copy(isLoading = true) }
+        updateState { copy(isLoading = true, isFailed = false) }
         viewModelScope.launch {
             val result = dictionaryRepository.getAllWords()
             result.getOrNull()?.also {
@@ -22,9 +22,12 @@ class DictionaryViewModel(
                 it.printStackTrace()
             }
             updateState {
+                // words that are already shown stay on screen when a refresh fails
+                val dictionary = result.getOrNull() ?: dictionary
                 copy(
                     isLoading = false,
-                    dictionary = result.getOrNull()
+                    dictionary = dictionary,
+                    isFailed = result.isFailure && dictionary == null,
                 )
             }
         }

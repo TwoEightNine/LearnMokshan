@@ -4,6 +4,7 @@ import global.msnthrp.mokshan.data.storage.dictionary.DictionaryDao
 import global.msnthrp.mokshan.domain.dictionary.Dictionary
 import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
 import global.msnthrp.mokshan.utils.NowProvider
+import global.msnthrp.mokshan.utils.runCatchingCancellable
 
 class DictionaryRepository(
     private val dictionaryDao: DictionaryDao,
@@ -11,7 +12,7 @@ class DictionaryRepository(
 ) {
 
     suspend fun getAllWords(): Result<Dictionary> {
-        return kotlin.runCatching {
+        return runCatchingCancellable {
             val entities = dictionaryDao.getAll()
             val dictionary = entities
                 .toDomain()
@@ -27,7 +28,7 @@ class DictionaryRepository(
      */
     suspend fun addNewWords(entries: List<DictionaryEntry>): Result<Unit> {
         val addedTs = nowProvider.getNow()
-        return kotlin.runCatching {
+        return runCatchingCancellable {
             entries.groupBy { it.mokshan }.forEach { (mokshan, sameWordEntries) ->
                 val natives = sameWordEntries.flatMap { it.native }.distinct()
                 val existingEntity = dictionaryDao.findByMokshan(mokshan).firstOrNull()

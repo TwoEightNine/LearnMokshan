@@ -1,6 +1,7 @@
 package global.msnthrp.mokshan.data.repository.jart
 
 import global.msnthrp.mokshan.domain.jart.Jart
+import global.msnthrp.mokshan.utils.runCatchingCancellable
 
 class JartRepository(
     private val networkDs: NetworkDataSource,
@@ -11,7 +12,7 @@ class JartRepository(
             url.endsWith(".json") -> networkDs::loadJart
             else -> networkDs::loadPrelinar
         }
-        return kotlin.runCatching { method(url) }
+        return runCatchingCancellable { method(url) }
     }
 
     interface NetworkDataSource {

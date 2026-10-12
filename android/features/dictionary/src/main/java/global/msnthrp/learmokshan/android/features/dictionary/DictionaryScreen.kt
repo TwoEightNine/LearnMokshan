@@ -27,6 +27,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
+import global.msnthrp.mokshan.android.core.designsystem.uikit.FailedView
 import global.msnthrp.mokshan.android.core.designsystem.uikit.LeMokScreen
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.dictionary.R
@@ -69,6 +70,8 @@ fun DictionaryScreen(
                         .width(40.dp),
                 )
             }
+        } else if (state.isFailed) {
+            FailedView(onRetryClicked = dictionaryViewModel::load)
         } else if (dictionary.isNullOrEmpty()) {
             Box(
                 modifier = Modifier

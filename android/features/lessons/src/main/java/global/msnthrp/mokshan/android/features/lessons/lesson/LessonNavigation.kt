@@ -3,6 +3,7 @@ package global.msnthrp.mokshan.android.features.lessons.lesson
 import android.os.Bundle
 import global.msnthrp.mokshan.android.core.navigation.Router
 import global.msnthrp.mokshan.android.core.navigation.ScreenFactory
+import global.msnthrp.mokshan.android.core.navigation.encodeRouteArgument
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 
 private const val ARG_LESSON_NUMBER = "lesson_number"
@@ -34,11 +35,12 @@ fun LessonRouterDefault() = LessonRouterInternal(
 fun LessonRouter(topicInfo: TopicInfo, lessonNumber: Int) = LessonRouterInternal(
     topicId = topicInfo.id.toString(),
     lessonsCount = topicInfo.lessonsCount.toString(),
-    topicTitle = topicInfo.title,
+    topicTitle = encodeRouteArgument(topicInfo.title),
     lessonNumber = lessonNumber.toString(),
-    topicDescription = topicInfo.description,
+    topicDescription = encodeRouteArgument(topicInfo.description),
 )
 
+/** All arguments must already be safe to put into a route (numbers, placeholders or encoded text). */
 private fun LessonRouterInternal(
     topicId: String,
     lessonsCount: String,

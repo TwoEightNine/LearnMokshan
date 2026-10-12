@@ -11,9 +11,11 @@ import global.msnthrp.mokshan.testutil.FakeTopicsNetwork
 import global.msnthrp.mokshan.testutil.assertFailure
 import global.msnthrp.mokshan.testutil.assertSuccess
 import global.msnthrp.mokshan.testutil.sampleTopic
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -225,4 +227,19 @@ class TopicsRepositoryTest {
     }
 
     // endregion
+
+    @Test
+    fun cancellation_isRethrown_notWrappedInResult() = runTest {
+        network.error = CancellationException("scope is cancelled")
+        assertFailsWith<CancellationException> { repository.getTopic(1) }
+        assertFailsWith<CancellationException> { repository.getTopicsSummaryWithProgress() }
+
+        storage.readError = CancellationException("scope is cancelled")
+        assertFailsWith<CancellationException> { repository.isLessonCompleted(sampleTopic(1)) }
+        assertFailsWith<CancellationException> { repository.markLessonAsCompleted(sampleTopic(1), 1) }
+
+        storage.readError = null
+        storage.writeError = CancellationException("scope is cancelled")
+        assertFailsWith<CancellationException> { repository.markLessonAsCompleted(sampleTopic(1), 1) }
+    }
 }

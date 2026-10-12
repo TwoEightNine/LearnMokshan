@@ -27,4 +27,6 @@ dependencies {
     implementation(libs.compose.material3)
     implementation(libs.navigation.compose)
     debugImplementation(libs.compose.ui.tooling)
+
+    testImplementation(libs.junit)
 }

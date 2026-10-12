@@ -12,9 +12,11 @@ import global.msnthrp.mokshan.domain.phrasebook.Phrasebook
 import global.msnthrp.mokshan.testutil.FakeLocaleProvider
 import global.msnthrp.mokshan.testutil.assertFailure
 import global.msnthrp.mokshan.testutil.assertSuccess
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class ArticlesRepositoryTest {
 
@@ -71,6 +73,13 @@ class ArticlesRepositoryTest {
         repository.loadArticles()
 
         assertEquals(listOf(ForeignLanguage.RUSSIAN, ForeignLanguage.ENGLISH), network.languages)
+    }
+
+    @Test
+    fun cancellation_isRethrown_notWrappedInResult() = runTest {
+        val network = FakeArticlesNetwork { throw CancellationException("scope is cancelled") }
+
+        assertFailsWith<CancellationException> { ArticlesRepository(network, FakeLocaleProvider()).loadArticles() }
     }
 
     @Test
@@ -146,6 +155,14 @@ class JartRepositoryTest {
     }
 
     @Test
+    fun cancellation_isRethrown_notWrappedInResult() = runTest {
+        network.error = CancellationException("scope is cancelled")
+
+        assertFailsWith<CancellationException> { repository.loadJart("https://test/a.json") }
+        assertFailsWith<CancellationException> { repository.loadJart("https://test/a.prelinar") }
+    }
+
+    @Test
     fun failures_areWrappedInResult() = runTest {
         val boom = IllegalStateException("malformed")
         network.error = boom
@@ -169,6 +186,13 @@ class PhrasebookRepositoryImplTest {
         val result = PhrasebookRepositoryImpl(FakePhrasebookNetwork { phrasebook }).loadPhrasebook()
 
         assertEquals(phrasebook, result.assertSuccess())
+    }
+
+    @Test
+    fun cancellation_isRethrown_notWrappedInResult() = runTest {
+        val repository = PhrasebookRepositoryImpl(FakePhrasebookNetwork { throw CancellationException("cancelled") })
+
+        assertFailsWith<CancellationException> { repository.loadPhrasebook() }
     }
 
     @Test

@@ -7,9 +7,11 @@ import global.msnthrp.mokshan.testutil.FakeDictionaryDao
 import global.msnthrp.mokshan.testutil.FakeNow
 import global.msnthrp.mokshan.testutil.assertFailure
 import global.msnthrp.mokshan.testutil.assertSuccess
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class DictionaryRepositoryTest {
 
@@ -207,4 +209,14 @@ class DictionaryRepositoryTest {
     }
 
     // endregion
+
+    @Test
+    fun cancellation_isRethrown_notWrappedInResult() = runTest {
+        dao.error = CancellationException("scope is cancelled")
+
+        assertFailsWith<CancellationException> { repository.getAllWords() }
+        assertFailsWith<CancellationException> {
+            repository.addNewWords(listOf(DictionaryEntry("лац", listOf("fine"))))
+        }
+    }
 }
