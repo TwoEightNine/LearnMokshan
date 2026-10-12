@@ -184,10 +184,20 @@ word-bank lessons, a word-bank summary, typed-input lessons, a typed-input
 summary, and a full review. The repeat sentinel is `-3`; completing a repeat
 does not change progress.
 
-Answers are checked case-insensitively after removing `?`, `!`, `.`, `,`, the
-en dash, and one occurrence of doubled spaces. An incorrect exercise is moved
-to the end of the current lesson. Translation hints combine explicit topic
-translations with translations inferred from lesson pairs.
+Texts are normalised by lowercasing, removing `?`, `!`, `.`, `,` and the en dash,
+and collapsing any whitespace (including non-breaking spaces) to single spaces;
+this form is used for word-bank words, hints, and dictionary lookups. Answers are
+compared more leniently: additionally apostrophes (including typographic ones),
+quotes, ellipsis, colons, and the em dash are ignored, hyphens count as spaces,
+and `ё` equals `е` (so `все` is also accepted for `всё`). An empty answer is never
+correct. A word bank is always shuffled, and a
+lesson pair without any native translation is skipped when a lesson is prepared.
+If a lesson cannot be prepared, the lesson screen shows the shared failed view with
+a retry action. `LessonViewModel` ignores a repeated "check" while a result sheet is shown and a
+word-bank chip that is already selected. An incorrect exercise is moved to the end
+of the current lesson.
+Translation hints combine explicit topic translations with translations inferred
+from lesson pairs.
 
 ### Progress
 
@@ -400,9 +410,9 @@ indexes.
   queries, and Compose UI.
 
 Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example the answer bank not being shuffled for sentences of ten or
-more words, or progress writes that are never reported as failures). They keep the suite green and are
-expected to fail when the bug is fixed; update them together with the fix.
+today (for example progress writes that are never reported as failures, or a
+corrupt stored progress value being parsed leniently). They keep the suite green
+and are expected to fail when the bug is fixed; update them together with the fix.
 Never "fix" such a test by weakening it without fixing the behaviour.
 
 `shared/src/commonTest/kotlin/content/ContentTests.kt` traverses lesson files and

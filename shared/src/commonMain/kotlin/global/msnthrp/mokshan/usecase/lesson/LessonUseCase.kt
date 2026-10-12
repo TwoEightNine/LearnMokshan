@@ -46,6 +46,8 @@ class LessonUseCase(
             null -> topic.lessons.flatMap { it.toNative }
             else -> topic.lessons.find { it.order == exactLesson }?.toNative ?: emptyList()
         }
+            // a pair without a translation has nothing to ask or to accept as an answer
+            .filter { it.native.isNotEmpty() }
         println("LessonUC: lessonPairs(${lessonPairsFromMokshan.size}) = $lessonPairsFromMokshan")
         if (lessonPairsFromMokshan.isEmpty()) {
             return Result.failure(IllegalStateException("Lesson pairs not found"))
@@ -111,9 +113,9 @@ class LessonUseCase(
         val cleanInput = when (userInput) {
             is UserInput.Bank -> userInput.words.joinToString(separator = " ") { it.word }
             is UserInput.Input -> userInput.text
-        }.cleanUp().trim()
-        val cleanAnswers = lesson.answers.map { it.cleanUp() }
-        return cleanInput in cleanAnswers
+        }.normalizedForComparison()
+        if (cleanInput.isEmpty()) return false
+        return cleanInput in lesson.answers.map { it.normalizedForComparison() }
     }
 
     suspend fun completeLesson(topic: Topic, lessonNumber: Int): Result<Unit> {
@@ -176,11 +178,11 @@ class LessonUseCase(
     private fun getDictionaryEntries(topic: Topic, lesson: Lesson): List<DictionaryEntry> {
         val lessonPairs = topic.lessons.flatMap { it.toNative }
         return lesson.dictionary.mapNotNull { word ->
-            val key = word.cleanUp().trim()
+            val key = word.cleanUp()
             val natives = topic.translations
-                .filter { it.mokshan.cleanUp().trim() == key }
+                .filter { it.mokshan.cleanUp() == key }
                 .map { it.native }
-                .ifEmpty { lessonPairs.find { it.mokshan.cleanUp().trim() == key }?.native.orEmpty() }
+                .ifEmpty { lessonPairs.find { it.mokshan.cleanUp() == key }?.native.orEmpty() }
             natives.takeIf { it.isNotEmpty() }?.let {
                 DictionaryEntry(
                     mokshan = word.lowercase(),
@@ -196,7 +198,7 @@ class LessonUseCase(
         desiredSize: Int
     ): List<String> {
         // do not distinct source!!
-        if (source.size >= desiredSize) return source
+        if (source.size >= desiredSize) return source.shuffled(random)
 
         val result = source.toMutableList()
         val newWords = extendFrom.minus(source.toSet()).shuffled(random).take(desiredSize - source.size)
@@ -263,17 +265,59 @@ class LessonUseCase(
 
     private fun String.splitToWords(): List<String> {
         return cleanUp()
-            .split(' ')
+            .takeIf { it.isNotEmpty() }
+            ?.split(' ')
+            .orEmpty()
     }
 
+    /**
+     * Lowercases the text, removes the punctuation that is never typed or shown as a separate
+     * word, and collapses any whitespace to single spaces. Used for word-bank words, hints and
+     * dictionary lookups.
+     */
     private fun String.cleanUp(): String {
         return replace("?", "")
             .replace("!", "")
             .replace(".", "")
             .replace(",", "")
             .replace("–", "")
-            .replace("  ", " ")
             .lowercase()
+            .collapseWhitespace()
+    }
+
+    /**
+     * Stricter form for comparing a typed answer with the expected one: on top of [cleanUp] it
+     * ignores apostrophes (also the typographic ones phone keyboards insert), quotes, ellipsis,
+     * colons and long dashes, treats hyphens as spaces, and treats `ё` as `е`.
+     */
+    private fun String.normalizedForComparison(): String {
+        return cleanUp()
+            .filterNot { it in IGNORED_IN_ANSWERS }
+            .map {
+                when (it) {
+                    in HYPHENS -> ' '
+                    'ё' -> 'е' // Russian keyboards and people often skip the diaeresis
+                    else -> it
+                }
+            }
+            .joinToString(separator = "")
+            .collapseWhitespace()
+    }
+
+    private fun String.collapseWhitespace(): String {
+        val source = this
+        return buildString {
+            var pendingSpace = false
+            for (char in source) {
+                if (char.isWhitespace()) {
+                    pendingSpace = length > 0
+                } else {
+                    if (pendingSpace) append(' ')
+                    pendingSpace = false
+                    append(char)
+                }
+            }
+        }
     }
 
     internal enum class LessonByNumber {
@@ -287,5 +331,8 @@ class LessonUseCase(
 
     companion object {
         const val LESSON_NUMBER_REPEAT = -3
+
+        private val IGNORED_IN_ANSWERS = "'’‘ʼ`\"“”„«»…:;—".toSet()
+        private val HYPHENS = "-‐‑".toSet()
     }
 }

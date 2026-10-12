@@ -19,6 +19,7 @@ data class LessonViewState(
     // correct answer but before increasing the currentStepIndex
     val completedStepsCount: Int = 0,
     val translationHint: TranslationHint? = null,
+    val isLoadFailed: Boolean = false,
 ) {
 
     val progress: Float

@@ -178,7 +178,7 @@ class ContentContractTests {
                 lesson.toNative.forEach { pair ->
                     val where = "$lang/$id/${lesson.order}: ${pair.mokshan}"
                     assertTrue(pair.mokshan.isNotBlank(), where)
-                    assertTrue(pair.native.isNotEmpty(), "$where has no translation (lesson crashes)")
+                    assertTrue(pair.native.isNotEmpty(), "$where has no translation (the client skips it)")
                     pair.native.forEach { native -> assertTrue(native.isNotBlank(), where) }
                     assertEquals(pair.mokshan.trim(), pair.mokshan, where)
                     pair.native.forEach { assertEquals(it.trim(), it, where) }

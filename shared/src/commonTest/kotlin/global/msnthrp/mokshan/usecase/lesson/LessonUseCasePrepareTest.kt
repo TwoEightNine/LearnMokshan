@@ -268,12 +268,25 @@ class LessonUseCasePrepareTest {
     }
 
     @Test
-    fun pairWithEmptyNative_crashesTypedInputPreparation_knownBugB7() = runTest {
-        // KNOWN BUG B7: `native.first()` throws instead of returning Result.failure
+    fun pairWithoutTranslation_isSkipped_insteadOfCrashing() = runTest {
+        val topic = topic(
+            lessons = listOf(lesson(1, listOf(pair("Шумбрат!"), pair("Лац", "Fine")))),
+        )
+
+        listOf(1, 3).forEach { number -> // word bank and typed input
+            val steps = LessonHarness(topic).prepare(number).lessonSteps
+
+            assertEquals(1, steps.size, "lesson=$number")
+            assertTrue(steps.single().sentence == "Лац" || steps.single().sentence == "Fine")
+        }
+    }
+
+    @Test
+    fun lessonWithoutAnyTranslatedPair_failsWithoutCrashing() = runTest {
         val topic = topic(lessons = listOf(lesson(1, listOf(pair("Шумбрат!")))))
 
-        assertFailsWith<NoSuchElementException> {
-            LessonHarness(topic).useCase.prepareLesson(1, 3)
+        listOf(1, 3).forEach { number ->
+            assertIs<IllegalStateException>(LessonHarness(topic).useCase.prepareLesson(1, number).assertFailure())
         }
     }
 
@@ -354,15 +367,43 @@ class LessonUseCasePrepareTest {
     }
 
     @Test
-    fun wordBank_withTenOrMoreCorrectWords_isNotShuffled_knownBugB6() = runTest {
-        // KNOWN BUG B6: when the answer has >= 10 words the bank is returned in the correct order
+    fun wordBank_withTenOrMoreCorrectWords_isShuffledToo() = runTest {
         val sentence = "one two three four five six seven eight nine ten"
         val topic = topic(lessons = listOf(lesson(1, listOf(pair("слово", sentence)))))
 
-        repeat(10) { seed ->
-            val step = LessonHarness(topic, seed).prepare(1).lessonSteps.single()
-            assertEquals(sentence.split(" "), step.bankWords(), "seed=$seed")
+        val banks = (0 until 20).map { seed ->
+            LessonHarness(topic, seed).prepare(1).lessonSteps.single().bankWords()
         }
+
+        assertTrue(banks.all { it.sorted() == sentence.split(" ").sorted() })
+        assertTrue(banks.any { it != sentence.split(" ") }, "the correct order must not be shown")
+        assertTrue(banks.toSet().size > 1)
+    }
+
+    @Test
+    fun wordBank_ofAnswerWithMoreThanTenWords_keepsEveryWord() = runTest {
+        val sentence = "a b c d e f g h i j k l"
+        val topic = topic(lessons = listOf(lesson(1, listOf(pair("слово", sentence)))))
+
+        val bank = LessonHarness(topic).prepare(1).lessonSteps.single().bankWords()
+
+        assertEquals(sentence.split(" ").sorted(), bank.sorted())
+    }
+
+    @Test
+    fun wordBank_ignoresIrregularWhitespace_andNeverHasEmptyWords() = runTest {
+        val topic = topic(lessons = listOf(lesson(1, listOf(pair("слово", "  how   are\u00A0you  ?  ")))))
+
+        val bank = LessonHarness(topic).prepare(1).lessonSteps.single().bankWords()
+
+        assertEquals(listOf("are", "how", "you"), bank.sorted())
+    }
+
+    @Test
+    fun wordBank_ofPunctuationOnlyAnswer_isEmpty() = runTest {
+        val topic = topic(lessons = listOf(lesson(1, listOf(pair("слово", "?!")))))
+
+        assertEquals(emptyList(), LessonHarness(topic).prepare(1).lessonSteps.single().bankWords())
     }
 
     @Test

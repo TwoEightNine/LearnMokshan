@@ -75,29 +75,77 @@ class LessonUseCaseCheckTest {
     }
 
     @Test
-    fun doubleSpaceInsideAnswer_isCollapsedOnce() {
+    fun doubleSpaceInsideAnswer_isCollapsed() {
         assertTrue(useCase.isCorrect(typed("how  are you"), inputStep("how are you")))
     }
 
     @Test
-    fun tripleSpaceInsideAnswer_isNotCollapsed_knownBugB11() {
-        // KNOWN BUG B11: only one pass of "  " -> " " is performed
-        assertFalse(useCase.isCorrect(typed("how   are you"), inputStep("how are you")))
+    fun anyAmountOfWhitespaceInsideAnswer_isCollapsed() {
+        assertTrue(useCase.isCorrect(typed("how   are \t  you"), inputStep("how are you")))
+        assertTrue(useCase.isCorrect(typed("how\u00A0are you"), inputStep("how are you")))
     }
 
     @Test
-    fun answersWithOuterWhitespace_areNotTrimmed_knownBugB11() {
-        // KNOWN BUG B11: the user input is trimmed, the stored answers are not
-        assertFalse(useCase.isCorrect(typed("hello"), inputStep("hello ")))
-        assertFalse(useCase.isCorrect(typed("hello"), inputStep(" hello")))
+    fun whitespaceAroundStoredAnswers_isIgnored() {
+        assertTrue(useCase.isCorrect(typed("hello"), inputStep("hello ")))
+        assertTrue(useCase.isCorrect(typed("hello"), inputStep(" hello")))
+        assertTrue(useCase.isCorrect(typed("hello"), inputStep("hello ?")))
     }
 
     @Test
-    fun punctuationOutsideSupportedSet_isSignificant_knownBugB11() {
-        // KNOWN BUG B11: hyphen, apostrophe, ellipsis are not normalised
-        assertFalse(useCase.isCorrect(typed("so so"), inputStep("so-so")))
-        assertFalse(useCase.isCorrect(typed("im here"), inputStep("I'm here")))
-        assertFalse(useCase.isCorrect(typed("wait"), inputStep("wait…")))
+    fun hyphenIsEquivalentToSpace() {
+        assertTrue(useCase.isCorrect(typed("so so"), inputStep("So-so")))
+        assertTrue(useCase.isCorrect(typed("so-so"), inputStep("so so")))
+        assertFalse(useCase.isCorrect(typed("soso"), inputStep("so-so")))
+    }
+
+    @Test
+    fun apostropheIsIgnored_includingTypographicOnes() {
+        val step = inputStep("Don't mention it")
+
+        assertTrue(useCase.isCorrect(typed("Don't mention it"), step))
+        assertTrue(useCase.isCorrect(typed("Don’t mention it"), step))
+        assertTrue(useCase.isCorrect(typed("dont mention it"), step))
+    }
+
+    @Test
+    fun quotesEllipsisColonAndLongDashAreIgnored() {
+        assertTrue(useCase.isCorrect(typed("wait"), inputStep("wait…")))
+        assertTrue(useCase.isCorrect(typed("he said hello"), inputStep("He said: «hello»")))
+        assertTrue(useCase.isCorrect(typed("yes no"), inputStep("\"Yes\" — no")))
+    }
+
+    @Test
+    fun yoAndYeAreEquivalent_inAnswers() {
+        val step = inputStep("Он пьёт воду и молоко", "Она пьёт воду и молоко")
+
+        assertTrue(useCase.isCorrect(typed("Он пьёт воду и молоко"), step))
+        assertTrue(useCase.isCorrect(typed("он пьет воду и молоко"), step))
+        assertTrue(useCase.isCorrect(typed("ОНА ПЬЁТ ВОДУ И МОЛОКО"), step))
+        assertTrue(useCase.isCorrect(typed("она пьёт воду и молоко"), inputStep("Она пьет воду и молоко")))
+    }
+
+    @Test
+    fun yoAndYe_areEquivalentForWordBankAnswers() {
+        assertTrue(useCase.isCorrect(bank("он", "пьет"), inputStep("Он пьёт")))
+        assertTrue(useCase.isCorrect(bank("он", "пьёт"), inputStep("Он пьет")))
+    }
+
+    @Test
+    fun yoEquivalence_doesNotMakeOtherLettersEqual() {
+        assertFalse(useCase.isCorrect(typed("он пьят"), inputStep("Он пьёт")))
+    }
+
+    @Test
+    fun yoEquivalence_alsoAcceptsWordsThatDifferOnlyByYo() {
+        // deliberate trade-off: "все" (everyone) is accepted for "всё" (everything)
+        assertTrue(useCase.isCorrect(typed("все"), inputStep("всё")))
+    }
+
+    @Test
+    fun differentWordsAreStillDifferent() {
+        assertFalse(useCase.isCorrect(typed("dont mention"), inputStep("Don't mention it")))
+        assertFalse(useCase.isCorrect(typed("im here"), inputStep("you are here")))
     }
 
     @Test
@@ -107,8 +155,9 @@ class LessonUseCaseCheckTest {
     }
 
     @Test
-    fun emptyInput_matchesAnswerConsistingOnlyOfPunctuation() {
-        assertTrue(useCase.isCorrect(typed(""), inputStep("?!")))
+    fun emptyInput_isNeverCorrect_evenForAnswerConsistingOnlyOfPunctuation() {
+        assertFalse(useCase.isCorrect(typed(""), inputStep("?!")))
+        assertFalse(useCase.isCorrect(UserInput.Bank(), inputStep("?!")))
     }
 
     @Test
@@ -234,6 +283,14 @@ class LessonUseCaseCheckTest {
     fun explicitTranslationKeys_areComparedWithoutNormalisation() {
         // pins current behaviour: a translation stored as "Пара" is not found by "пара"
         assertEquals(emptyList(), useCase.getTranslationsForWord("Пара", hintsTopic, FROM_MOKSHAN))
+    }
+
+    @Test
+    fun translations_ignoreIrregularWhitespaceAroundClickedWord() {
+        assertEquals(
+            listOf("fine", "ok"),
+            useCase.getTranslationsForWord("  Лац \u00A0", hintsTopic, FROM_MOKSHAN),
+        )
     }
 
     @Test

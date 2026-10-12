@@ -79,6 +79,8 @@ import asPxToDp
 import global.msnthrp.mokshan.android.core.designsystem.theme.Icons
 import global.msnthrp.mokshan.android.core.designsystem.theme.LeMokTheme
 import global.msnthrp.mokshan.android.core.designsystem.theme.SpecialColors
+import global.msnthrp.mokshan.android.core.designsystem.uikit.FailedView
+import global.msnthrp.mokshan.android.core.designsystem.uikit.Loader
 import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.BankWord
@@ -112,7 +114,14 @@ fun LessonScreen(
         return
     }
 
-    val preparedLesson = viewState.preparedLesson ?: return
+    if (viewState.isLoadFailed) {
+        FailedView(onRetryClicked = lessonViewModel::onRetryClicked)
+        return
+    }
+    val preparedLesson = viewState.preparedLesson ?: run {
+        Loader()
+        return
+    }
     val currentStep = preparedLesson.lessonSteps.getOrNull(viewState.currentStepIndex) ?: return
     if (viewState.showExitAlert) {
         ExitAlert(

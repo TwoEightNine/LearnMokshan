@@ -83,14 +83,52 @@ class LessonViewModelTest {
     }
 
     @Test
-    fun init_whenPreparationFails_leavesStateWithoutLessonAndWithoutError() {
-        // pins current behaviour (B7): no failed state exists, the screen stays blank
+    fun init_whenPreparationFails_publishesFailedState() {
         val viewModel = viewModel(lessonNumber = 99)
 
         val state = viewModel.state.value
+        assertTrue(state.isLoadFailed)
         assertNull(state.preparedLesson)
         assertNull(state.userInput)
         assertEquals(99, state.lessonNumber)
+    }
+
+    @Test
+    fun init_whenNetworkFails_publishesFailedState() {
+        val environment = LessonsEnvironment()
+        environment.network.error = IllegalStateException("offline")
+
+        assertTrue(viewModel(1, environment).state.value.isLoadFailed)
+    }
+
+    @Test
+    fun successfulInit_isNotFailed() {
+        assertFalse(viewModel(1).state.value.isLoadFailed)
+    }
+
+    @Test
+    fun retry_afterFailure_loadsTheLesson() {
+        val environment = LessonsEnvironment()
+        environment.network.error = IllegalStateException("offline")
+        val viewModel = viewModel(1, environment)
+
+        environment.network.error = null
+        viewModel.onRetryClicked()
+
+        val state = viewModel.state.value
+        assertFalse(state.isLoadFailed)
+        assertEquals(3, state.preparedLesson!!.lessonSteps.size)
+        assertEquals(UserInput.Bank(), state.userInput)
+    }
+
+    @Test
+    fun retry_whileStillFailing_staysFailed() {
+        val viewModel = viewModel(lessonNumber = 99)
+
+        viewModel.onRetryClicked()
+
+        assertTrue(viewModel.state.value.isLoadFailed)
+        assertNull(viewModel.state.value.preparedLesson)
     }
 
     @Test
@@ -142,15 +180,36 @@ class LessonViewModelTest {
     }
 
     @Test
-    fun sameBankWordCanBeAddedTwice_knownBugB23() {
-        // KNOWN BUG B23: the view model does not guard against duplicates (UI hides used chips)
+    fun sameBankWordIsNotAddedTwice() {
         val viewModel = viewModel(1)
         val word = (viewModel.step.type as LessonStepType.WordBank).availableWords.first()
 
         viewModel.onWordAdded(word)
         viewModel.onWordAdded(word)
 
-        assertEquals(UserInput.Bank(listOf(word, word)), viewModel.state.value.userInput)
+        assertEquals(UserInput.Bank(listOf(word)), viewModel.state.value.userInput)
+    }
+
+    @Test
+    fun equalWordsWithDifferentIndices_canBothBeAdded() {
+        val viewModel = viewModel(1)
+
+        viewModel.onWordAdded(BankWord("he", 0))
+        viewModel.onWordAdded(BankWord("he", 1))
+
+        assertEquals(2, (viewModel.state.value.userInput as UserInput.Bank).words.size)
+    }
+
+    @Test
+    fun removedWord_canBeAddedAgain() {
+        val viewModel = viewModel(1)
+        val word = (viewModel.step.type as LessonStepType.WordBank).availableWords.first()
+        viewModel.onWordAdded(word)
+        viewModel.onWordRemoved(word)
+
+        viewModel.onWordAdded(word)
+
+        assertEquals(UserInput.Bank(listOf(word)), viewModel.state.value.userInput)
     }
 
     @Test
@@ -284,13 +343,37 @@ class LessonViewModelTest {
     }
 
     @Test
-    fun checkingTwiceBeforeClosingSheet_countsStepTwice_knownBugB23() {
-        // KNOWN BUG B23: a double tap on "check" increments the progress counter twice
+    fun checkingTwiceBeforeClosingSheet_countsStepOnce() {
         val viewModel = viewModel(4)
         viewModel.typeCorrectAnswer()
 
         viewModel.onCheckClicked()
         viewModel.onCheckClicked()
+
+        assertEquals(1, viewModel.state.value.completedStepsCount)
+    }
+
+    @Test
+    fun checkingTwiceAfterWrongAnswer_keepsSingleIncorrectSheet() {
+        val viewModel = viewModel(4)
+        viewModel.answerWrongly()
+
+        viewModel.onInputUpdated(viewModel.step.answers.first())
+        viewModel.onCheckClicked()
+
+        val state = viewModel.state.value
+        assertTrue(state.showIncorrectCheck)
+        assertFalse(state.showCorrectCheck)
+        assertEquals(0, state.completedStepsCount)
+    }
+
+    @Test
+    fun checkingIsPossibleAgain_afterSheetIsClosed() {
+        val viewModel = viewModel(4)
+        viewModel.answerCorrectly()
+        viewModel.onCheckSheetClosed()
+
+        viewModel.answerCorrectly()
 
         assertEquals(2, viewModel.state.value.completedStepsCount)
     }

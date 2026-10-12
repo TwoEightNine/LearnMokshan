@@ -20,10 +20,23 @@ class LessonViewModel(
 
     init {
         updateState { copy(topicInfo = topicInfo, lessonNumber = lessonNumber) }
+        loadLesson(topicInfo.id, lessonNumber)
+    }
+
+    fun onRetryClicked() {
+        val topicId = currentState.topicInfo?.id ?: return
+        updateState { copy(isLoadFailed = false) }
+        loadLesson(topicId, currentState.lessonNumber)
+    }
+
+    private fun loadLesson(topicId: Int, lessonNumber: Int) {
         viewModelScope.launch {
-            val preparedLesson = lessonUc.prepareLesson(topicId = topicInfo.id, lessonNumber = lessonNumber).getOrNull()
+            val preparedLesson = lessonUc.prepareLesson(topicId = topicId, lessonNumber = lessonNumber).getOrNull()
             println(preparedLesson)
-            preparedLesson ?: return@launch
+            if (preparedLesson == null) {
+                updateState { copy(isLoadFailed = true) }
+                return@launch
+            }
 
             val initialUserInput = preparedLesson.getEmptyUserInputForIndex(index = 0)
             updateState {
@@ -37,6 +50,8 @@ class LessonViewModel(
 
     fun onWordAdded(word: BankWord) {
         val currentInput = currentState.userInput as? UserInput.Bank ?: return
+        // a double tap must not select the same chip twice
+        if (currentInput.words.any { it.index == word.index }) return
         val updatedInput = currentInput.copy(words = currentInput.words.plus(word))
         updateState { copy(userInput = updatedInput) }
     }
@@ -78,6 +93,8 @@ class LessonViewModel(
     }
 
     fun onCheckClicked() {
+        // the result sheet is already shown for this answer, a repeated tap must not count it twice
+        if (currentState.showCorrectCheck || currentState.showIncorrectCheck) return
         val currentInput = currentState.userInput ?: return
         val currentLesson = currentState.preparedLesson ?: return
         val currentStep = currentLesson.lessonSteps.getOrNull(currentState.currentStepIndex) ?: return
