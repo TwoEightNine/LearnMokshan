@@ -5,6 +5,7 @@ import global.msnthrp.mokshan.android.core.arch.BaseViewModel
 import global.msnthrp.mokshan.domain.lessons.BankWord
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.PreparedLesson
+import global.msnthrp.mokshan.domain.lessons.Topic
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.UserInput
 import global.msnthrp.mokshan.usecase.lesson.LessonUseCase
@@ -81,11 +82,17 @@ class LessonViewModel(
     }
 
     fun onCheckSheetClosed() {
+        if (currentState.isCompleting) return
         if (currentState.showIncorrectCheck) {
             updateLessonAfterIncorrectCheck()
         } else if (currentState.showCorrectCheck) {
             updateLessonAfterCorrectCheck()
         }
+    }
+
+    fun onCompletionRetryClicked() {
+        val topic = currentState.preparedLesson?.topic ?: return
+        completeLesson(topic)
     }
 
     fun onCompletedClosed() {
@@ -135,13 +142,8 @@ class LessonViewModel(
         val nextLessonIndex = currentState.currentStepIndex.inc()
         val currentLesson = currentState.preparedLesson ?: return
         if (nextLessonIndex == currentLesson.lessonSteps.size) {
-            viewModelScope.launch {
-                lessonUc.completeLesson(
-                    topic = topic,
-                    lessonNumber = currentState.lessonNumber,
-                )
-            }
-            updateState { copy(showCompleted = true) }
+            updateState { copy(showCorrectCheck = false) }
+            completeLesson(topic)
             return
         }
 
@@ -152,6 +154,20 @@ class LessonViewModel(
                 showCorrectCheck = false,
                 showIncorrectCheck = false,
             )
+        }
+    }
+
+    /** The lesson is shown as completed only after its progress has been saved. */
+    private fun completeLesson(topic: Topic) {
+        if (currentState.isCompleting) return
+        updateState { copy(isCompleting = true, isCompletionFailed = false) }
+        viewModelScope.launch {
+            val result = lessonUc.completeLesson(topic = topic, lessonNumber = currentState.lessonNumber)
+            if (result.isSuccess) {
+                updateState { copy(isCompleting = false, showCompleted = true) }
+            } else {
+                updateState { copy(isCompleting = false, isCompletionFailed = true) }
+            }
         }
     }
 

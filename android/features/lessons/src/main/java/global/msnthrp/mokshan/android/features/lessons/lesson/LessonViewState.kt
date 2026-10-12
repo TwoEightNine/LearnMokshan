@@ -20,6 +20,9 @@ data class LessonViewState(
     val completedStepsCount: Int = 0,
     val translationHint: TranslationHint? = null,
     val isLoadFailed: Boolean = false,
+    // the last step is solved, progress is being saved before the lesson is shown as completed
+    val isCompleting: Boolean = false,
+    val isCompletionFailed: Boolean = false,
 ) {
 
     val progress: Float

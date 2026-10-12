@@ -114,6 +114,14 @@ fun LessonScreen(
         return
     }
 
+    if (viewState.isCompletionFailed) {
+        FailedView(onRetryClicked = lessonViewModel::onCompletionRetryClicked)
+        return
+    }
+    if (viewState.isCompleting) {
+        Loader()
+        return
+    }
     if (viewState.isLoadFailed) {
         FailedView(onRetryClicked = lessonViewModel::onRetryClicked)
         return

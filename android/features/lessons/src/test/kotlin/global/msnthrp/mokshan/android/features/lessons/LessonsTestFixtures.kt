@@ -54,10 +54,12 @@ class FakeStorage(
 ) : TopicsRepository.StorageDataSource {
     val writes = mutableListOf<Pair<Int, Int>>()
     var writeError: Throwable? = null
+    var gate: CompletableDeferred<Unit>? = null
 
     override suspend fun getTopicsProgress(): TopicsProgress = progress
 
     override suspend fun setTopicsProgress(topicId: Int, completedLessonNumber: Int) {
+        gate?.await()
         writeError?.let { throw it }
         writes += topicId to completedLessonNumber
         progress = TopicsProgress(IntRange(1, topicId.dec()).toList(), topicId, completedLessonNumber)
@@ -66,21 +68,30 @@ class FakeStorage(
 
 class FakeDao : DictionaryDao {
     val rows = mutableListOf<DictionaryEntity>()
+    var error: Throwable? = null
 
     override suspend fun insert(entity: DictionaryEntity) {
+        error?.let { throw it }
         rows += entity
     }
 
     override suspend fun insertMany(entities: List<DictionaryEntity>) {
+        error?.let { throw it }
         rows += entities
     }
 
-    override suspend fun getAll(): List<DictionaryEntity> = rows.toList()
+    override suspend fun getAll(): List<DictionaryEntity> {
+        error?.let { throw it }
+        return rows.toList()
+    }
 
-    override suspend fun findByMokshan(mokshan: String): List<DictionaryEntity> =
-        rows.filter { it.mokshan == mokshan }
+    override suspend fun findByMokshan(mokshan: String): List<DictionaryEntity> {
+        error?.let { throw it }
+        return rows.filter { it.mokshan == mokshan }
+    }
 
     override suspend fun updateByMokshan(mokshan: String, native: List<String>, addedTs: Long) {
+        error?.let { throw it }
         rows.replaceAll { if (it.mokshan == mokshan) it.copy(native = native, addedTs = addedTs) else it }
     }
 }

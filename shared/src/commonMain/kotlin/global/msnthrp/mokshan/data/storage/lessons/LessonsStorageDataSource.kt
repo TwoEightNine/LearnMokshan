@@ -15,11 +15,9 @@ class LessonsStorageDataSource(
 
     override suspend fun getTopicsProgress(): TopicsProgress {
         val preferences = prefs.data.first()
-        val progress = when {
-            progressKey in preferences -> preferences[progressKey]
-            else -> "1_0"
-        }
-        return progress?.toProgress() ?: throw IllegalStateException("Progress $progress cannot be parsed")
+        // an unreadable value is treated as "no progress": failing here would lock the user out of
+        // the lessons, while the next completed lesson overwrites the broken value
+        return preferences[progressKey]?.toProgress() ?: DEFAULT_PROGRESS
     }
 
     override suspend fun setTopicsProgress(topicId: Int, completedLessonNumber: Int) {
@@ -28,15 +26,23 @@ class LessonsStorageDataSource(
     }
 
     private fun String.toProgress(): TopicsProgress? {
-        val ints = split("_").mapNotNull { it.toIntOrNull() }
-        val ongoingTopicId = ints.getOrNull(0) ?: return null
-        val ongoingTopicLessonNumber = ints.getOrNull(1) ?: return null
+        val parts = split("_")
+        val ongoingTopicId = parts.getOrNull(0)?.toIntOrNull()?.takeIf { it >= 1 } ?: return null
+        val ongoingTopicLessonNumber = parts.getOrNull(1)?.toIntOrNull()?.takeIf { it >= 0 } ?: return null
 
         val completedTopicIds = IntRange(1, ongoingTopicId.dec()).toList()
         return TopicsProgress(
             completedTopicIds = completedTopicIds,
             ongoingTopicId = ongoingTopicId,
             ongoingTopicLessonNumber = ongoingTopicLessonNumber
+        )
+    }
+
+    private companion object {
+        val DEFAULT_PROGRESS = TopicsProgress(
+            completedTopicIds = emptyList(),
+            ongoingTopicId = 1,
+            ongoingTopicLessonNumber = 0,
         )
     }
 }

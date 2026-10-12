@@ -92,22 +92,36 @@ class LessonsStorageDataSourceTest {
     }
 
     @Test
-    fun unparsableProgress_failsWithIllegalState() = runTest {
-        listOf("garbage", "", "5", "1_", "_5", "a_b").forEach { raw ->
-            writeRaw(raw)
+    fun unparsableProgress_isTreatedAsNoProgress() = runTest {
+        val noProgress = TopicsProgress(emptyList(), 1, 0)
 
-            assertFailsWith<IllegalStateException>(raw) { storage.getTopicsProgress() }
-        }
+        listOf("garbage", "", "5", "1_", "_5", "a_b", "1_x_3", "abc_2_7", "1_-1", "0_0", "-1_2", "1.5_2")
+            .forEach { raw ->
+                writeRaw(raw)
+
+                assertEquals(noProgress, storage.getTopicsProgress(), raw)
+            }
     }
 
     @Test
-    fun nonNumericPartsAreSkipped_soSegmentsShift_knownBugB5() = runTest {
-        // KNOWN BUG B5: mapNotNull drops bad segments, so the remaining ones move forward
-        writeRaw("1_x_3")
-        assertEquals(TopicsProgress(emptyList(), 1, 3), storage.getTopicsProgress())
+    fun progressWrittenAfterUnparsableValue_replacesIt() = runTest {
+        writeRaw("garbage")
 
-        writeRaw("abc_2_7")
-        assertEquals(TopicsProgress(listOf(1), 2, 7), storage.getTopicsProgress())
+        storage.setTopicsProgress(3, 1)
+
+        assertEquals("3_1", readRaw())
+        assertEquals(TopicsProgress(listOf(1, 2), 3, 1), storage.getTopicsProgress())
+    }
+
+    @Test
+    fun corruptedStoreFile_isReplacedWithEmptyOne() = runTest {
+        fs.createDirectories(dir)
+        fs.write(dir / "default.preferences_pb") { writeUtf8("garbage garbage \u0000\u0001\u0002 not a protobuf") }
+
+        assertEquals(TopicsProgress(emptyList(), 1, 0), storage.getTopicsProgress())
+
+        storage.setTopicsProgress(2, 4)
+        assertEquals(TopicsProgress(listOf(1), 2, 4), storage.getTopicsProgress())
     }
 
     @Test
@@ -115,14 +129,5 @@ class LessonsStorageDataSourceTest {
         writeRaw("2_1_99")
 
         assertEquals(TopicsProgress(listOf(1), 2, 1), storage.getTopicsProgress())
-    }
-
-    @Test
-    fun nonPositiveTopic_hasNoCompletedTopics() = runTest {
-        writeRaw("0_0")
-        assertEquals(TopicsProgress(emptyList(), 0, 0), storage.getTopicsProgress())
-
-        writeRaw("-1_2")
-        assertEquals(TopicsProgress(emptyList(), -1, 2), storage.getTopicsProgress())
     }
 }

@@ -138,13 +138,54 @@ class DictionaryRepositoryTest {
     }
 
     @Test
-    fun addNewWords_storesDuplicateRows_knownBugB8() = runTest {
-        // KNOWN BUG B8: each entry is written in the loop and then once more by insertMany
-        repository.addNewWords(listOf(DictionaryEntry("лац", listOf("fine")))).assertSuccess()
-        assertEquals(2, dao.rows.size)
+    fun addNewWords_storesOneRowPerWord() = runTest {
+        repository.addNewWords(
+            listOf(DictionaryEntry("лац", listOf("fine")), DictionaryEntry("аф", listOf("not")))
+        ).assertSuccess()
 
-        repository.addNewWords(listOf(DictionaryEntry("лац", listOf("fine")))).assertSuccess()
-        assertEquals(3, dao.rows.size)
+        assertEquals(2, dao.rows.size)
+    }
+
+    @Test
+    fun addNewWords_repeatedWithSameEntries_doesNotGrowStorage() = runTest {
+        val entries = listOf(DictionaryEntry("лац", listOf("fine")))
+        repository.addNewWords(entries).assertSuccess()
+
+        repository.addNewWords(entries).assertSuccess()
+        repository.addNewWords(entries).assertSuccess()
+
+        assertEquals(1, dao.rows.size)
+        assertEquals(listOf("fine"), dao.rows.single().native)
+    }
+
+    @Test
+    fun addNewWords_ofKnownWord_updatesItsRowInsteadOfAddingOne() = runTest {
+        dao.insert(row("лац", "fine", ts = 1))
+
+        repository.addNewWords(listOf(DictionaryEntry("лац", listOf("ok")))).assertSuccess()
+
+        assertEquals(1, dao.rows.size)
+        assertEquals(listOf("fine", "ok"), dao.rows.single().native)
+    }
+
+    @Test
+    fun addNewWords_withSameWordTwiceInOneBatch_storesOneMergedRow() = runTest {
+        repository.addNewWords(
+            listOf(
+                DictionaryEntry("лац", listOf("fine", "ok")),
+                DictionaryEntry("лац", listOf("ok", "good")),
+            )
+        ).assertSuccess()
+
+        assertEquals(1, dao.rows.size)
+        assertEquals(listOf("fine", "ok", "good"), dao.rows.single().native)
+    }
+
+    @Test
+    fun getAllWords_stillCopesWithDuplicateRowsWrittenByOlderVersions() = runTest {
+        dao.insert(row("лац", "fine", ts = 1))
+        dao.insert(row("лац", "fine", ts = 1))
+
         assertEquals(1, repository.getAllWords().assertSuccess().size)
     }
 

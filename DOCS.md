@@ -208,10 +208,20 @@ string key `progress`. Its serialized form is:
 <ongoing-topic-id>_<ongoing-lesson-number>
 ```
 
-Missing progress defaults to `1_0`. Every positive topic ID below the ongoing
-topic is considered complete. Completing a topic's final lesson advances to the
-next topic at lesson zero; otherwise the current topic ID and completed lesson
-number are stored.
+Missing or unreadable progress defaults to `1_0` (a value whose first two
+`_`-separated parts are not a topic ID >= 1 and a lesson number >= 0 is unreadable;
+extra parts are ignored), and a corrupt DataStore file is replaced with an empty
+one, so the lessons are never locked by bad data. Every positive topic ID below
+the ongoing topic is considered complete. Completing a topic's final lesson
+advances to the next topic at lesson zero; otherwise the current topic ID and
+completed lesson number are stored. Progress only moves forward: completing an
+earlier lesson again leaves the stored progress unchanged.
+
+`LessonUseCase.completeLesson` saves the lesson's dictionary words first and the
+progress second, and returns the first failure. Saving words is idempotent, so a
+failed completion can be retried without losing words. `LessonViewModel` shows the
+lesson as completed only after both succeed; otherwise the lesson screen shows the
+shared failed view with a retry action.
 
 There is no migration or per-profile progress model. Changing this encoding
 requires an explicit compatibility plan.
@@ -235,9 +245,11 @@ converter change requires a Room migration and updated generated schemas.
 `DictionaryRepository` receives a `DictionaryDao` (obtained from `AppDatabase` in
 `repositoryModule`) so it can be tested without Room.
 
-`DictionaryRepository.addNewWords` currently performs per-entry insert/update
-work and then calls `insertMany` for all entries. Treat this as current behavior,
-not a recommended duplication pattern.
+`DictionaryRepository.addNewWords` writes each word once: it inserts an unknown
+word, or merges the new translations into the existing row and refreshes its
+timestamp. Repeating the call with the same entries does not add rows. The table
+has no unique index on `mokshan`, so databases written by older versions may still
+contain duplicate rows; `getAllWords` shows one entry per word.
 
 ### Articles
 
@@ -410,9 +422,10 @@ indexes.
   queries, and Compose UI.
 
 Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example progress writes that are never reported as failures, or a
-corrupt stored progress value being parsed leniently). They keep the suite green
-and are expected to fail when the bug is fixed; update them together with the fix.
+today (for example a network response being cached before it is validated, or
+Prelinar files with Windows line endings failing to parse). They keep the suite
+green and are expected to fail when the bug is fixed; update them together with
+the fix.
 Never "fix" such a test by weakening it without fixing the behaviour.
 
 `shared/src/commonTest/kotlin/content/ContentTests.kt` traverses lesson files and

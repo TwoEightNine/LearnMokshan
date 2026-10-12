@@ -8,6 +8,7 @@ import global.msnthrp.mokshan.domain.lessons.LessonStep
 import global.msnthrp.mokshan.domain.lessons.LessonStepType
 import global.msnthrp.mokshan.domain.lessons.UserInput
 import global.msnthrp.mokshan.usecase.lesson.LessonUseCase
+import kotlinx.coroutines.CompletableDeferred
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
@@ -460,19 +461,111 @@ class LessonViewModelTest {
     }
 
     @Test
-    fun completionIsShown_evenWhenSavingProgressFails_knownBugB3() {
-        // KNOWN BUG B3: the result of completeLesson is ignored by the view model
+    fun completion_isNotShown_whenSavingProgressFails() {
         val environment = LessonsEnvironment()
         environment.storage.writeError = IllegalStateException("disk is full")
         val viewModel = viewModel(4, environment)
 
-        repeat(3) {
+        solveAllSteps(viewModel)
+
+        val state = viewModel.state.value
+        assertFalse(state.showCompleted)
+        assertTrue(state.isCompletionFailed)
+        assertFalse(state.isCompleting)
+        assertTrue(environment.storage.writes.isEmpty())
+    }
+
+    @Test
+    fun completion_isNotShown_whenSavingDictionaryFails() {
+        val environment = LessonsEnvironment()
+        environment.dao.error = IllegalStateException("db is locked")
+        val viewModel = viewModel(1, environment)
+
+        solveAllSteps(viewModel)
+
+        assertTrue(viewModel.state.value.isCompletionFailed)
+        assertFalse(viewModel.state.value.showCompleted)
+    }
+
+    @Test
+    fun retryAfterFailedSave_completesTheLesson() {
+        val environment = LessonsEnvironment()
+        environment.storage.writeError = IllegalStateException("disk is full")
+        val viewModel = viewModel(4, environment)
+        solveAllSteps(viewModel)
+
+        environment.storage.writeError = null
+        viewModel.onCompletionRetryClicked()
+
+        val state = viewModel.state.value
+        assertTrue(state.showCompleted)
+        assertFalse(state.isCompletionFailed)
+        assertEquals(listOf(1 to 4), environment.storage.writes)
+    }
+
+    @Test
+    fun retryThatFailsAgain_staysFailed() {
+        val environment = LessonsEnvironment()
+        environment.storage.writeError = IllegalStateException("disk is full")
+        val viewModel = viewModel(4, environment)
+        solveAllSteps(viewModel)
+
+        viewModel.onCompletionRetryClicked()
+
+        assertTrue(viewModel.state.value.isCompletionFailed)
+        assertFalse(viewModel.state.value.showCompleted)
+    }
+
+    @Test
+    fun whileProgressIsBeingSaved_lessonIsCompletingButNotCompleted() {
+        val environment = LessonsEnvironment()
+        val gate = CompletableDeferred<Unit>()
+        environment.storage.gate = gate
+        val viewModel = viewModel(4, environment)
+
+        solveAllSteps(viewModel)
+
+        var state = viewModel.state.value
+        assertTrue(state.isCompleting)
+        assertFalse(state.showCompleted)
+        assertFalse(state.showCorrectCheck)
+
+        gate.complete(Unit)
+        state = viewModel.state.value
+        assertFalse(state.isCompleting)
+        assertTrue(state.showCompleted)
+    }
+
+    @Test
+    fun sheetClosedWhileSaving_doesNotStartSecondSave() {
+        val environment = LessonsEnvironment()
+        environment.storage.gate = CompletableDeferred()
+        val viewModel = viewModel(4, environment)
+        solveAllSteps(viewModel)
+
+        viewModel.onCheckSheetClosed()
+        viewModel.onCompletionRetryClicked()
+
+        environment.storage.gate!!.complete(Unit)
+        assertEquals(listOf(1 to 4), environment.storage.writes)
+    }
+
+    @Test
+    fun completion_isNotCompleting_beforeLastStep() {
+        val viewModel = viewModel(4)
+
+        viewModel.answerCorrectly()
+        viewModel.onCheckSheetClosed()
+
+        assertFalse(viewModel.state.value.isCompleting)
+        assertFalse(viewModel.state.value.isCompletionFailed)
+    }
+
+    private fun solveAllSteps(viewModel: LessonViewModel) {
+        repeat(viewModel.state.value.preparedLesson!!.lessonSteps.size) {
             viewModel.answerCorrectly()
             viewModel.onCheckSheetClosed()
         }
-
-        assertTrue(viewModel.state.value.showCompleted)
-        assertTrue(environment.storage.writes.isEmpty())
     }
 
     // endregion

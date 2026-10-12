@@ -92,24 +92,26 @@ class LessonUseCaseCompleteTest {
     }
 
     @Test
-    fun unreadableProgress_isTreatedAsNotCompleted() = runTest {
+    fun unreadableProgress_failsCompletionWithoutWritingProgress() = runTest {
         val harness = LessonHarness(sampleTopic())
-        harness.storage.readError = IllegalStateException("broken")
+        val boom = IllegalStateException("broken")
+        harness.storage.readError = boom
 
-        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+        val result = harness.useCase.completeLesson(harness.topic, 1)
 
-        assertEquals(listOf(1 to 1), harness.storage.writes)
+        assertEquals(boom, result.exceptionOrNull())
+        assertEquals(emptyList(), harness.storage.writes)
     }
 
     @Test
-    fun progressIsNotMonotonic_completingEarlierLessonMovesProgressBack() = runTest {
-        // pins current behaviour (B10): only the UI guarantees lessons are started in order
+    fun completingEarlierLesson_doesNotMoveProgressBack() = runTest {
         val harness = LessonHarness(sampleTopic())
         harness.storage.progress = TopicsProgress(emptyList(), 1, 5)
 
         harness.useCase.completeLesson(harness.topic, 2).assertSuccess()
 
-        assertEquals(2, harness.storage.progress.ongoingTopicLessonNumber)
+        assertEquals(5, harness.storage.progress.ongoingTopicLessonNumber)
+        assertEquals(emptyList(), harness.storage.writes)
     }
 
     // endregion
@@ -331,29 +333,67 @@ class LessonUseCaseCompleteTest {
 
     // endregion
 
-    // region failures are swallowed (B3)
+    // region failures are reported
 
     @Test
-    fun failureToSaveProgress_isReportedAsSuccess_knownBugB3() = runTest {
-        // KNOWN BUG B3: the Result of markLessonAsCompleted is ignored
+    fun failureToSaveProgress_isReported() = runTest {
         val harness = LessonHarness(sampleTopic())
-        harness.storage.writeError = IllegalStateException("disk is full")
+        val boom = IllegalStateException("disk is full")
+        harness.storage.writeError = boom
 
         val result = harness.useCase.completeLesson(harness.topic, 1)
 
-        assertTrue(result.isSuccess)
+        assertEquals(boom, result.exceptionOrNull())
         assertEquals(emptyList(), harness.storage.writes)
     }
 
     @Test
-    fun failureToSaveDictionary_isReportedAsSuccess_knownBugB3() = runTest {
-        // KNOWN BUG B3: the Result of addNewWords is ignored; progress is already advanced
+    fun failureToSaveDictionary_isReported_andProgressIsNotAdvanced() = runTest {
         val harness = LessonHarness(sampleTopic())
-        harness.dao.error = IllegalStateException("db is locked")
+        val boom = IllegalStateException("db is locked")
+        harness.dao.error = boom
 
         val result = harness.useCase.completeLesson(harness.topic, 1)
 
-        assertTrue(result.isSuccess)
+        assertEquals(boom, result.exceptionOrNull())
+        assertEquals(emptyList(), harness.storage.writes)
+    }
+
+    @Test
+    fun wordsAreSavedBeforeProgress_soFailedProgressCanBeRetriedWithoutLosingWords() = runTest {
+        val harness = LessonHarness(sampleTopic())
+        harness.storage.writeError = IllegalStateException("disk is full")
+        assertTrue(harness.useCase.completeLesson(harness.topic, 1).isFailure)
+        assertEquals(listOf("мон эрян", "шумбрат!"), harness.words().map { it.mokshan })
+
+        harness.storage.writeError = null
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+
+        assertEquals(listOf(1 to 1), harness.storage.writes)
+        assertEquals(2, harness.dao.rows.size)
+    }
+
+    @Test
+    fun retryAfterDictionaryFailure_completesTheLesson() = runTest {
+        val harness = LessonHarness(sampleTopic())
+        harness.dao.error = IllegalStateException("db is locked")
+        assertTrue(harness.useCase.completeLesson(harness.topic, 1).isFailure)
+
+        harness.dao.error = null
+        harness.useCase.completeLesson(harness.topic, 1).assertSuccess()
+
+        assertEquals(listOf(1 to 1), harness.storage.writes)
+        assertEquals(listOf("мон эрян", "шумбрат!"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun lessonWithoutWords_failsOnlyWhenProgressFails() = runTest {
+        val topic = topic(lessons = listOf(lesson(1, listOf(pair("Лац", "Fine")))))
+        val harness = LessonHarness(topic)
+        harness.dao.error = IllegalStateException("db is locked")
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
         assertEquals(listOf(1 to 1), harness.storage.writes)
     }
 

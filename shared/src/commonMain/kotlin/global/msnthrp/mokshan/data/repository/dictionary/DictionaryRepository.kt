@@ -21,20 +21,23 @@ class DictionaryRepository(
         }
     }
 
+    /**
+     * Saves each word once: an unknown word is inserted, a known one gets the new translations
+     * merged in and a fresh timestamp. It is safe to repeat with the same entries.
+     */
     suspend fun addNewWords(entries: List<DictionaryEntry>): Result<Unit> {
         val addedTs = nowProvider.getNow()
         return kotlin.runCatching {
-            entries.forEach { entry ->
-                val mokshan = entry.mokshan
+            entries.groupBy { it.mokshan }.forEach { (mokshan, sameWordEntries) ->
+                val natives = sameWordEntries.flatMap { it.native }.distinct()
                 val existingEntity = dictionaryDao.findByMokshan(mokshan).firstOrNull()
                 if (existingEntity != null) {
-                    val updatedNative = existingEntity.native.plus(entry.native).distinct()
+                    val updatedNative = existingEntity.native.plus(natives).distinct()
                     dictionaryDao.updateByMokshan(mokshan, updatedNative, addedTs)
                 } else {
-                    dictionaryDao.insert(entry.copy(addedTs = addedTs).toEntity())
+                    dictionaryDao.insert(DictionaryEntry(mokshan, natives, addedTs).toEntity())
                 }
             }
-            dictionaryDao.insertMany(entries.map { it.copy(addedTs = addedTs) }.toEntities())
         }
     }
 }

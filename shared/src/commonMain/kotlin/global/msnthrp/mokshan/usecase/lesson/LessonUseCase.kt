@@ -118,6 +118,10 @@ class LessonUseCase(
         return cleanInput in lesson.answers.map { it.normalizedForComparison() }
     }
 
+    /**
+     * Saves the new dictionary words and then the progress. The words go first and can be saved
+     * again without harm, so a failure of either step can simply be retried without losing words.
+     */
     suspend fun completeLesson(topic: Topic, lessonNumber: Int): Result<Unit> {
         if (lessonNumber == LESSON_NUMBER_REPEAT) {
             return Result.success(Unit)
@@ -127,17 +131,14 @@ class LessonUseCase(
             return Result.success(Unit)
         }
 
-        return kotlin.runCatching {
-            lessonRepository.markLessonAsCompleted(topic, lessonNumber)
-
-            getExactLesson(topic, lessonNumber)
-                ?.dec()
-                ?.takeIf { it < topic.lessons.size }
-                ?.let { topic.lessons.getOrNull(it) }
-                ?.also { lesson ->
-                    dictionaryRepository.addNewWords(getDictionaryEntries(topic, lesson))
-                }
+        val lesson = getExactLesson(topic, lessonNumber)
+            ?.dec()
+            ?.let { topic.lessons.getOrNull(it) }
+        if (lesson != null) {
+            val dictionaryResult = dictionaryRepository.addNewWords(getDictionaryEntries(topic, lesson))
+            if (dictionaryResult.isFailure) return dictionaryResult
         }
+        return lessonRepository.markLessonAsCompleted(topic, lessonNumber)
     }
 
     fun getTranslationsForWord(

@@ -46,7 +46,13 @@ class TopicsRepository(
             else -> completedLessonNumber
         }
         return kotlin.runCatching {
-            storageDs.setTopicsProgress(topicId, lessonNumber)
+            // progress only moves forward: completing an earlier lesson again must not undo it
+            val current = storageDs.getTopicsProgress()
+            val isAhead = topicId > current.ongoingTopicId ||
+                    (topicId == current.ongoingTopicId && lessonNumber > current.ongoingTopicLessonNumber)
+            if (isAhead) {
+                storageDs.setTopicsProgress(topicId, lessonNumber)
+            }
         }
     }
 

@@ -177,13 +177,59 @@ class TopicsRepositoryTest {
     }
 
     @Test
-    fun markLessonAsCompleted_doesNotGuardAgainstMovingBackwards() = runTest {
-        // pins current behaviour (B10)
+    fun markLessonAsCompleted_doesNotMoveProgressBackwards() = runTest {
         storage.progress = TopicsProgress(emptyList(), 1, 5)
 
         repository.markLessonAsCompleted(sampleTopic(1), 2).assertSuccess()
 
-        assertEquals(2, storage.progress.ongoingTopicLessonNumber)
+        assertEquals(emptyList(), storage.writes)
+        assertEquals(5, storage.progress.ongoingTopicLessonNumber)
+    }
+
+    @Test
+    fun markLessonAsCompleted_ofAlreadyRecordedLesson_writesNothing() = runTest {
+        storage.progress = TopicsProgress(emptyList(), 1, 5)
+
+        repository.markLessonAsCompleted(sampleTopic(1), 5).assertSuccess()
+
+        assertEquals(emptyList(), storage.writes)
+    }
+
+    @Test
+    fun markLessonAsCompleted_ofNextLesson_movesProgressForward() = runTest {
+        storage.progress = TopicsProgress(emptyList(), 1, 5)
+
+        repository.markLessonAsCompleted(sampleTopic(1), 6).assertSuccess()
+
+        assertEquals(listOf(1 to 6), storage.writes)
+    }
+
+    @Test
+    fun markLessonAsCompleted_ofEarlierTopic_doesNotMoveProgressBackwards() = runTest {
+        storage.progress = TopicsProgress(listOf(1, 2), 3, 1)
+
+        repository.markLessonAsCompleted(sampleTopic(2), 7).assertSuccess() // finishing topic 2 again
+
+        assertEquals(emptyList(), storage.writes)
+        assertEquals(3, storage.progress.ongoingTopicId)
+    }
+
+    @Test
+    fun markLessonAsCompleted_ofLastLessonOfOngoingTopic_movesToNextTopic() = runTest {
+        storage.progress = TopicsProgress(listOf(1), 2, 6)
+
+        repository.markLessonAsCompleted(sampleTopic(2), 7).assertSuccess()
+
+        assertEquals(listOf(3 to 0), storage.writes)
+    }
+
+    @Test
+    fun markLessonAsCompleted_whenProgressCannotBeRead_failsWithoutWriting() = runTest {
+        val boom = IllegalStateException("io")
+        storage.readError = boom
+
+        assertEquals(boom, repository.markLessonAsCompleted(sampleTopic(1), 1).assertFailure())
+        assertEquals(emptyList(), storage.writes)
     }
 
     // endregion
