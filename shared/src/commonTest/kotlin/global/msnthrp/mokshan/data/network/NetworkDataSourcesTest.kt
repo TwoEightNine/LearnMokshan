@@ -154,6 +154,28 @@ class NetworkDataSourcesTest {
         assertEquals(listOf("Language"), articles.categories)
     }
 
+    @Test
+    fun articlesIndexWithoutArticles_failsWithInvalidEntityAndIsNotCached() = runTest {
+        val url = "https://test/articles/index-en.json"
+        val network = mock(url to """{"categories": ["Language"]}""")
+
+        val error = assertFailsWith<InvalidEntityException> {
+            ArticlesNetworkDataSource(config, network.client).loadArticles(ForeignLanguage.ENGLISH)
+        }
+
+        assertEquals("Invalid articles index received from $url", error.message)
+        assertEquals(null, network.cache.cached(url))
+    }
+
+    @Test
+    fun articlesIndexWithEmptyList_isLoadedAsEmpty() = runTest {
+        val network = mock("https://test/articles/index-en.json" to """{"categories": [], "articles": []}""")
+
+        val articles = ArticlesNetworkDataSource(config, network.client).loadArticles(ForeignLanguage.ENGLISH)
+
+        assertEquals(emptyList(), articles.articles)
+    }
+
     // endregion
 
     // region jart
@@ -216,8 +238,8 @@ class NetworkDataSourcesTest {
     // region phrasebook
 
     @Test
-    fun phrasebook_isLoadedFromFixedProductionUrl() = runTest {
-        val url = "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/master/content/phrasebook/phrasebook.json"
+    fun phrasebook_isLoadedFromTheConfiguredUrl() = runTest {
+        val url = "https://test/phrasebook.json"
         val json = """
             {"version": 1,
              "categories": [{"category": "c", "translations": [{"value": "Cat", "language": "en"}]}],
@@ -225,7 +247,7 @@ class NetworkDataSourcesTest {
         """.trimIndent()
         val network = mock(url to json)
 
-        val phrasebook = PhrasebookNetworkDataSource(network.client).loadPhrasebook()
+        val phrasebook = PhrasebookNetworkDataSource(config, network.client).loadPhrasebook()
 
         assertEquals(listOf(url), network.requestedUrls)
         assertEquals("Лац", phrasebook.phrases.single().mokshanPhrase)
@@ -236,10 +258,20 @@ class NetworkDataSourcesTest {
         val network = MockNetwork { MockResponse.Ok("""{"version": 1}""") }
 
         val error = assertFailsWith<IllegalStateException> {
-            PhrasebookNetworkDataSource(network.client).loadPhrasebook()
+            PhrasebookNetworkDataSource(config, network.client).loadPhrasebook()
         }
 
         assertTrue(error.message!!.startsWith("Malformed"))
+    }
+
+    @Test
+    fun malformedPhrasebook_isNotCached() = runTest {
+        val url = "https://test/phrasebook.json"
+        val network = mock(url to """{"version": 1}""")
+
+        assertFailsWith<IllegalStateException> { PhrasebookNetworkDataSource(config, network.client).loadPhrasebook() }
+
+        assertEquals(null, network.cache.cached(url))
     }
 
     // endregion

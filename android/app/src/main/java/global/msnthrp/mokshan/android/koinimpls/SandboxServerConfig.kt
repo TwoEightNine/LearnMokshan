@@ -23,6 +23,15 @@ internal class SandboxServerConfig(
         return prodServerConfig.getArticlesDirUrl()
     }
 
+    override fun getPronunciationArticleUrl(langCode: String): String {
+        return prodServerConfig.getPronunciationArticleUrl(langCode)
+    }
+
+    // there is no sandbox phrasebook
+    override fun getPhrasebookUrl(): String {
+        return prodServerConfig.getPhrasebookUrl()
+    }
+
     private fun String.replaceIndex(): String = toSandboxIndexUrl()
 }
 

@@ -11,6 +11,7 @@ import global.msnthrp.mokshan.data.repository.article.ArticlesRepository
 import global.msnthrp.mokshan.data.repository.dictionary.DictionaryRepository
 import global.msnthrp.mokshan.data.repository.jart.JartRepository
 import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
+import global.msnthrp.mokshan.data.repository.phrasebook.PhrasebookRepositoryImpl
 import global.msnthrp.mokshan.data.repository.repositoryModule
 import global.msnthrp.mokshan.data.storage.base.AppDatabase
 import global.msnthrp.mokshan.data.storage.base.FileProducer
@@ -90,6 +91,7 @@ class KoinGraphTest {
         koin.get<ArticlesRepository>()
         koin.get<JartRepository>()
         koin.get<PhrasebookRepository>()
+        koin.get<PhrasebookRepositoryImpl.NetworkDataSource>()
         koin.get<TopicsRepository>()
     }
 

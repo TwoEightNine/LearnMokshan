@@ -6,7 +6,8 @@ import org.koin.dsl.module
 val phrasebookNetworkModule = module {
     single<PhrasebookRepositoryImpl.NetworkDataSource> {
         PhrasebookNetworkDataSource(
-            client = get()
+            serverConfig = get(),
+            client = get(),
         )
     }
 }

@@ -20,6 +20,12 @@ internal class ProdServerConfig : ServerConfig {
 
     override fun getArticlesDirUrl(): String = ARTICLES_BASE_URL
 
+    override fun getPronunciationArticleUrl(langCode: String): String {
+        return "${ARTICLES_BASE_URL}pronunciation-$langCode.json"
+    }
+
+    override fun getPhrasebookUrl(): String = PHRASEBOOK_URL
+
     companion object {
         private const val LANG_CODE_PLACEHOLDER = "{langCode}"
 
@@ -31,6 +37,8 @@ internal class ProdServerConfig : ServerConfig {
         private const val TOPICS_INDEX_URL = "$TOPICS_BASE_URL/index.json"
         private const val TOPIC_ID_PLACEHOLDER = "{topicId}"
         private const val TOPIC_URL = "$TOPICS_BASE_URL/$TOPIC_ID_PLACEHOLDER/lessons.json"
+
+        private const val PHRASEBOOK_URL = "$CONTENT_URL/phrasebook/phrasebook.json"
 
         private const val ARTICLES_BASE_URL = "$CONTENT_URL/articles/"
         private const val ARTICLES_URL = "${ARTICLES_BASE_URL}index-$LANG_CODE_PLACEHOLDER.json"

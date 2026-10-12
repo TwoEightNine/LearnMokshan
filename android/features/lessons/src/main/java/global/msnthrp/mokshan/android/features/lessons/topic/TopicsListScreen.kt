@@ -42,12 +42,6 @@ import global.msnthrp.mokshan.android.core.utils.stringResource
 import global.msnthrp.mokshan.android.features.lessons.R
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.usecase.lesson.LessonUseCase
-import java.util.Locale
-
-private const val ARTICLES_URL =
-    "https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/" +
-            "master/content/articles/"
-private const val PRONUNCIATION_ARTICLE_URL = "${ARTICLES_URL}pronunciation-{locale}.json"
 
 @Composable
 internal fun TopicsListScreen(
@@ -79,6 +73,8 @@ internal fun TopicsListScreen(
             onArticleClicked = onArticleClicked,
             onTopicClicked = onTopicClicked,
             onRetryClicked = { topicsListViewModel.load() },
+            getGrammarArticleUrl = topicsListViewModel::getGrammarArticleUrl,
+            getPronunciationArticleUrl = topicsListViewModel::getPronunciationArticleUrl,
         )
     }
 }
@@ -90,6 +86,8 @@ private fun TopicsList(
     onArticleClicked: (title: String, url: String) -> Unit,
     onTopicClicked: (TopicInfo, lessonNumber: Int) -> Unit,
     onRetryClicked: () -> Unit,
+    getGrammarArticleUrl: (TopicInfo) -> String?,
+    getPronunciationArticleUrl: () -> String,
 ) {
     when (state) {
         TopicsListState.Loading -> Loader()
@@ -108,7 +106,7 @@ private fun TopicsList(
                         onClick = {
                             onArticleClicked(
                                 articleTitle,
-                                PRONUNCIATION_ARTICLE_URL.replace("{locale}", getLocaleForUrl()),
+                                getPronunciationArticleUrl(),
                             )
                         },
                     )
@@ -132,7 +130,9 @@ private fun TopicsList(
                             topicInfo = topicInfo,
                             lessonsCompletedCount = lessonsCompletedCount,
                             isActive = isTopicActive,
-                            onGrammarClicked = { onArticleClicked("", ARTICLES_URL + it.grammar) },
+                            onGrammarClicked = { info ->
+                                getGrammarArticleUrl(info)?.let { url -> onArticleClicked("", url) }
+                            },
                             onStartLessonClicked = onTopicClicked,
                         )
                     }
@@ -364,10 +364,4 @@ private fun TopicInfoCardInactivePreview() {
             onGrammarClicked = {},
         )
     }
-}
-
-private fun getLocaleForUrl(): String {
-    val language = Locale.getDefault().language
-    val supportedLanguages = setOf("en", "ru")
-    return language.takeIf { it in supportedLanguages } ?: "en"
 }

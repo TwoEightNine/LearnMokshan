@@ -1,5 +1,6 @@
 package global.msnthrp.mokshan.android.features.lessons
 
+import global.msnthrp.mokshan.data.network.ServerConfig
 import global.msnthrp.mokshan.data.repository.dictionary.DictionaryRepository
 import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
 import global.msnthrp.mokshan.data.storage.dictionary.DictionaryDao
@@ -96,8 +97,17 @@ class FakeDao : DictionaryDao {
     }
 }
 
-class EnglishLocale : DeviceLocaleProvider {
-    override fun getDeviceLocale() = ForeignLanguage.ENGLISH
+class EnglishLocale(var language: ForeignLanguage = ForeignLanguage.ENGLISH) : DeviceLocaleProvider {
+    override fun getDeviceLocale() = language
+}
+
+class FakeServerConfig : ServerConfig {
+    override fun getTopicsIndexUrl(langCode: String) = "https://test/lessons-$langCode/index.json"
+    override fun getTopicUrl(langCode: String, topicId: Int) = "https://test/lessons-$langCode/$topicId/lessons.json"
+    override fun getArticlesIndexUrl(langCode: String) = "https://test/articles/index-$langCode.json"
+    override fun getArticlesDirUrl() = "https://test/articles/"
+    override fun getPronunciationArticleUrl(langCode: String) = "https://test/articles/pron-$langCode.json"
+    override fun getPhrasebookUrl() = "https://test/phrasebook.json"
 }
 
 /** Real use case and repositories wired over in-memory fakes. */

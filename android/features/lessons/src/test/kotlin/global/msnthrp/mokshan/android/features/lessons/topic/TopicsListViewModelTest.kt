@@ -1,11 +1,16 @@
 package global.msnthrp.mokshan.android.features.lessons.topic
 
+import global.msnthrp.mokshan.android.features.lessons.EnglishLocale
+import global.msnthrp.mokshan.android.features.lessons.FakeServerConfig
 import global.msnthrp.mokshan.android.features.lessons.LessonsEnvironment
 import global.msnthrp.mokshan.android.features.lessons.MainDispatcherRule
 import global.msnthrp.mokshan.android.features.lessons.sampleTopic
+import global.msnthrp.mokshan.data.network.ServerConfig
 import global.msnthrp.mokshan.domain.lessons.TopicInfo
 import global.msnthrp.mokshan.domain.lessons.TopicsProgress
 import global.msnthrp.mokshan.domain.lessons.TopicsSummary
+import global.msnthrp.mokshan.domain.phrasebook.ForeignLanguage
+import global.msnthrp.mokshan.usecase.DeviceLocaleProvider
 import kotlinx.coroutines.CompletableDeferred
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -31,8 +36,18 @@ class TopicsListViewModelTest {
 
     private val environment = LessonsEnvironment(sampleTopic(), summary)
 
+    private val locale = EnglishLocale()
+
     private fun createViewModel(): TopicsListViewModel {
-        startKoin { modules(module { single { environment.topicsRepository } }) }
+        startKoin {
+            modules(
+                module {
+                    single { environment.topicsRepository }
+                    single<ServerConfig> { FakeServerConfig() }
+                    single<DeviceLocaleProvider> { locale }
+                }
+            )
+        }
         return TopicsListViewModel()
     }
 
@@ -129,5 +144,31 @@ class TopicsListViewModelTest {
 
         val state = viewModel.state.value as TopicsListState.Loaded
         assertEquals(2, state.topics.progress.ongoingTopicId)
+    }
+
+    @Test
+    fun grammarArticleUrl_isArticlesDirPlusFileNameFromIndex() {
+        val viewModel = createViewModel()
+        val info = TopicInfo(1, 2, "One", "d", null, grammar = "grammar-1-3-en.prelinar")
+
+        assertEquals("https://test/articles/grammar-1-3-en.prelinar", viewModel.getGrammarArticleUrl(info))
+    }
+
+    @Test
+    fun grammarArticleUrl_isNullWithoutGrammar() {
+        val viewModel = createViewModel()
+
+        assertEquals(null, viewModel.getGrammarArticleUrl(TopicInfo(1, 2, "One", "d", null, grammar = null)))
+        assertEquals(null, viewModel.getGrammarArticleUrl(TopicInfo(1, 2, "One", "d", null, grammar = "  ")))
+    }
+
+    @Test
+    fun pronunciationArticleUrl_followsDeviceLanguage() {
+        val viewModel = createViewModel()
+
+        assertEquals("https://test/articles/pron-en.json", viewModel.getPronunciationArticleUrl())
+
+        locale.language = ForeignLanguage.RUSSIAN
+        assertEquals("https://test/articles/pron-ru.json", viewModel.getPronunciationArticleUrl())
     }
 }

@@ -250,7 +250,7 @@ class ContentContractTests {
     fun articleIndexes_areAcceptedByTheClientWithoutDroppingItems() {
         for (lang in languages) for (name in indexNames) {
             val response = articleIndex(lang, name)
-            val domain = response.toDomain("https://test/articles/")
+            val domain = assertNotNull(response.toDomain("https://test/articles/"), "$lang/$name is rejected")
 
             assertEquals(response.articles!!.size, domain.articles.size, "$lang/$name drops articles")
             assertTrue(domain.articles.all { it.added > 0 }, "$lang/$name has an unparsable date")

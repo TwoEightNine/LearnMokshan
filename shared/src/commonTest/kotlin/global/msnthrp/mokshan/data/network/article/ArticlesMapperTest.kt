@@ -68,14 +68,38 @@ class ArticlesMapperTest {
         val articles = ArticlesResponse(
             categories = listOf("Language", "Grammar"),
             articles = listOf(response(title = "a"), response(title = null), response(title = "b")),
-        ).toDomain(base)
+        ).toDomain(base)!!
 
         assertEquals(listOf("a", "b"), articles.articles.map { it.title })
         assertEquals(listOf("Language", "Grammar"), articles.categories)
     }
 
     @Test
-    fun articles_withMissingLists_areEmptyNotFailed() {
-        assertEquals(Articles(emptyList(), emptyList()), ArticlesResponse(null, null).toDomain(base))
+    fun index_withoutArticlesList_isRejected() {
+        assertNull(ArticlesResponse(categories = listOf("Language"), articles = null).toDomain(base))
+        assertNull(ArticlesResponse(null, null).toDomain(base))
+    }
+
+    @Test
+    fun index_withEmptyArticlesList_isValidAndEmpty() {
+        assertEquals(Articles(emptyList(), listOf("Language")), ArticlesResponse(listOf("Language"), emptyList()).toDomain(base))
+    }
+
+    @Test
+    fun index_whoseArticlesAreAllUnusable_isRejected() {
+        val index = ArticlesResponse(
+            categories = listOf("Language"),
+            articles = listOf(response(title = null), response(url = null)),
+        )
+
+        assertNull(index.toDomain(base))
+    }
+
+    @Test
+    fun index_withoutCategories_isTolerated() {
+        val articles = ArticlesResponse(categories = null, articles = listOf(response())).toDomain(base)!!
+
+        assertEquals(emptyList(), articles.categories)
+        assertEquals(1, articles.articles.size)
     }
 }

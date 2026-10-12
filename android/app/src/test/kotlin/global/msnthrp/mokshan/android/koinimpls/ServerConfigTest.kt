@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import java.io.File
 
 class ServerConfigTest {
 
@@ -38,12 +39,26 @@ class ServerConfigTest {
     }
 
     @Test
+    fun prod_pronunciationArticleUrl_isPerLanguageInsideArticlesDir() {
+        assertEquals("$content/articles/pronunciation-en.json", prod.getPronunciationArticleUrl("en"))
+        assertEquals("$content/articles/pronunciation-ru.json", prod.getPronunciationArticleUrl("ru"))
+        assertTrue(prod.getPronunciationArticleUrl("en").startsWith(prod.getArticlesDirUrl()))
+    }
+
+    @Test
+    fun prod_phrasebookUrl_pointsToThePhrasebookFile() {
+        assertEquals("$content/phrasebook/phrasebook.json", prod.getPhrasebookUrl())
+    }
+
+    @Test
     fun prod_urls_haveNoUnresolvedPlaceholders() {
         val urls = listOf(
             prod.getTopicsIndexUrl("en"),
             prod.getTopicUrl("ru", 3),
             prod.getArticlesIndexUrl("ru"),
             prod.getArticlesDirUrl(),
+            prod.getPronunciationArticleUrl("ru"),
+            prod.getPhrasebookUrl(),
         )
 
         urls.forEach { assertFalse(it, "{" in it || "}" in it) }
@@ -76,6 +91,12 @@ class ServerConfigTest {
     @Test
     fun sandbox_keepsArticlesDirectory() {
         assertEquals(prod.getArticlesDirUrl(), sandbox.getArticlesDirUrl())
+    }
+
+    @Test
+    fun sandbox_keepsProductionPronunciationArticleAndPhrasebook() {
+        assertEquals(prod.getPronunciationArticleUrl("ru"), sandbox.getPronunciationArticleUrl("ru"))
+        assertEquals(prod.getPhrasebookUrl(), sandbox.getPhrasebookUrl())
     }
 
     @Test
@@ -125,6 +146,47 @@ class ServerConfigTest {
             "https://index.example.com/index-sandbox.json",
             "https://index.example.com/index.json".toSandboxIndexUrl(),
         )
+    }
+
+    // endregion
+
+    // region URLs match the repository content
+
+    // the working directory of a module's unit tests is the module directory (android/app)
+    private val contentDir = File("../../content")
+
+    private fun fileOf(url: String): File {
+        assertTrue(url, url.startsWith("$content/"))
+        return File(contentDir, url.removePrefix("$content/"))
+    }
+
+    @Test
+    fun contentDirectory_isFound() {
+        assertTrue(contentDir.absolutePath, contentDir.isDirectory)
+    }
+
+    @Test
+    fun everyUrlOfProdConfig_pointsToAnExistingContentFile() {
+        for (lang in listOf("en", "ru")) {
+            val urls = listOf(
+                prod.getTopicsIndexUrl(lang),
+                prod.getArticlesIndexUrl(lang),
+                prod.getPronunciationArticleUrl(lang),
+            ) + (1..10).map { prod.getTopicUrl(lang, it) }
+
+            urls.forEach { assertTrue(it, fileOf(it).isFile) }
+        }
+        assertTrue(fileOf(prod.getPhrasebookUrl()).isFile)
+        assertTrue(fileOf(prod.getArticlesDirUrl()).isDirectory)
+    }
+
+    @Test
+    fun everyIndexUrlOfSandboxConfig_pointsToAnExistingContentFile() {
+        for (lang in listOf("en", "ru")) {
+            listOf(sandbox.getTopicsIndexUrl(lang), sandbox.getArticlesIndexUrl(lang)).forEach {
+                assertTrue(it, fileOf(it).isFile)
+            }
+        }
     }
 
     // endregion

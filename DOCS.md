@@ -141,8 +141,13 @@ are `articles/index-{language}.json`. Debug configuration rewrites only the file
 name of the two index URLs (`index.json` -> `index-sandbox.json`, `index-en.json`
 -> `index-sandbox-en.json`; the rewrite is idempotent and leaves hosts and
 directories alone). Topic URLs and the articles directory are never rewritten, so
-debug builds still read production topic files. Phrasebook loading uses its own
-fixed production URL and does not use `ServerConfig`.
+debug builds still read production topic files. Every content URL the client uses
+comes from `ServerConfig`: besides the indexes and topics it provides the articles
+directory (grammar articles are `directory + file name from the index`), the
+per-language pronunciation article, and the phrasebook file (no sandbox variant).
+Nothing else in the Android code builds content URLs. A unit test checks that every
+URL of `ProdServerConfig` (and the sandbox indexes) points to an existing file in
+`content/`.
 
 Changing the repository default branch, directory layout, or filenames can
 break installed clients because URLs are hard-coded.
@@ -301,9 +306,14 @@ its rows.
 ### Phrasebook
 
 Phrasebook JSON is converted into Mokshan phrases, translated categories, and
-English/Russian translations. `PhrasebookUseCase` filters it to the device
-locale and falls back to English. The data and feature module are present, but
-the feature is not reachable from current app navigation.
+English/Russian translations. `PhrasebookUseCase` returns phrases grouped by
+category in the order of the categories, with texts in the device language; a
+category or a phrase that has no translation into it is shown in English. A
+category without any usable phrase, a category without any usable translation
+(with its phrases), and a phrase without any usable translation are left out;
+duplicated category IDs keep the first one. If nothing is left, loading fails with
+"Phrasebook is empty". The data and feature module are present, but the feature
+is not reachable from current app navigation.
 
 ## 5. Content maintenance
 
@@ -353,7 +363,9 @@ Maintain these invariants:
 
 `content/articles/index-{en,ru}.json` lists categories and articles. Each article
 has a title, description, category list, relative URL, and ISO-style `added`
-date. Sandbox indexes are separate files. `added` (`yyyy-MM-dd`) is parsed
+date. An index without an `articles` list, or whose articles are all unusable, is
+rejected (not cached, last good copy kept) instead of showing an empty list; an
+empty `articles` list is valid, a missing `categories` list is tolerated. Sandbox indexes are separate files. `added` (`yyyy-MM-dd`) is parsed
 strictly and locale-independently as a calendar date in UTC (an invalid date
 becomes `0` and sorts last); the article list formats it back in UTC with the
 device locale's month names, so the displayed day never depends on the time zone.

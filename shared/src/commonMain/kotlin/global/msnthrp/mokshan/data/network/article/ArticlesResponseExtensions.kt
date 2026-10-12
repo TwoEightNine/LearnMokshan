@@ -6,9 +6,18 @@ import global.msnthrp.mokshan.utils.DateFormatter
 
 private val dateFormatter = DateFormatter("yyyy-MM-dd")
 
-internal fun ArticlesResponse.toDomain(urlBase: String): Articles {
+/**
+ * An index without an `articles` list, or one whose articles are all unusable, is malformed and
+ * is rejected (so it is not cached and the last good copy is used) instead of showing an empty
+ * list. A well-formed index may legitimately have no articles; single unusable articles and a
+ * missing `categories` list are tolerated.
+ */
+internal fun ArticlesResponse.toDomain(urlBase: String): Articles? {
+    val responseArticles = articles ?: return null
+    val articles = responseArticles.mapNotNull { it.toDomain(urlBase) }
+    if (responseArticles.isNotEmpty() && articles.isEmpty()) return null
     return Articles(
-        articles = articles?.mapNotNull { it.toDomain(urlBase) } ?: emptyList(),
+        articles = articles,
         categories = categories ?: emptyList(),
     )
 }

@@ -52,7 +52,7 @@ class PhrasebookUseCaseTest {
     }
 
     @Test
-    fun phrases_areGroupedByCategory_inOrderOfFirstPhrase() = runTest {
+    fun groups_followTheOrderOfCategories_notTheOrderOfPhrases() = runTest {
         val phrasebook = Phrasebook(
             1,
             listOf(greetings, food),
@@ -65,8 +65,8 @@ class PhrasebookUseCaseTest {
 
         val result = useCase(phrasebook).loadPhrasebook().assertSuccess()
 
-        assertEquals(listOf("food", "greetings"), result.phrases.map { it.category.id })
-        assertEquals(listOf("а", "в"), result.phrases[0].phrases.map { it.mokshanPhrase })
+        assertEquals(listOf("greetings", "food"), result.phrases.map { it.category.id })
+        assertEquals(listOf("а", "в"), result.phrases[1].phrases.map { it.mokshanPhrase })
     }
 
     @Test
@@ -83,7 +83,7 @@ class PhrasebookUseCaseTest {
     }
 
     @Test
-    fun phraseWithoutTranslationInLanguage_isHidden() = runTest {
+    fun phraseWithoutTranslationInLanguage_isShownInEnglish() = runTest {
         val phrasebook = Phrasebook(
             1,
             listOf(greetings),
@@ -93,13 +93,41 @@ class PhrasebookUseCaseTest {
             ),
         )
 
-        val result = useCase(phrasebook, RUSSIAN).loadPhrasebook().assertSuccess()
+        val phrases = useCase(phrasebook, RUSSIAN).loadPhrasebook().assertSuccess().phrases.single().phrases
 
-        assertEquals(listOf("б"), result.phrases.single().phrases.map { it.mokshanPhrase })
+        assertEquals(listOf("а", "б"), phrases.map { it.mokshanPhrase })
+        assertEquals(listOf(tr("Hello", ENGLISH)), phrases[0].translations)
+        assertEquals(listOf(tr("Привет", RUSSIAN)), phrases[1].translations)
     }
 
     @Test
-    fun phraseWhoseCategoryLacksLanguage_isHiddenSilently() = runTest {
+    fun deviceLanguageWins_overEnglish_whenBothExist() = runTest {
+        val phrasebook = Phrasebook(
+            1,
+            listOf(greetings),
+            listOf(phrase("а", greetings, tr("Hello", ENGLISH), tr("Привет", RUSSIAN))),
+        )
+
+        val phrase = useCase(phrasebook, RUSSIAN).loadPhrasebook().assertSuccess().phrases.single().phrases.single()
+
+        assertEquals(listOf(tr("Привет", RUSSIAN)), phrase.translations)
+    }
+
+    @Test
+    fun englishDevice_neverFallsBackToRussian() = runTest {
+        val phrasebook = Phrasebook(
+            1,
+            listOf(greetings),
+            listOf(phrase("а", greetings, tr("Привет", RUSSIAN)), phrase("б", greetings, tr("Hello", ENGLISH))),
+        )
+
+        val phrases = useCase(phrasebook, ENGLISH).loadPhrasebook().assertSuccess().phrases.single().phrases
+
+        assertEquals(listOf("б"), phrases.map { it.mokshanPhrase })
+    }
+
+    @Test
+    fun categoryNotTranslatedIntoDeviceLanguage_isShownInEnglish() = runTest {
         val englishOnly = category("misc", tr("Misc", ENGLISH))
         val phrasebook = Phrasebook(
             1,
@@ -112,7 +140,64 @@ class PhrasebookUseCaseTest {
 
         val result = useCase(phrasebook, RUSSIAN).loadPhrasebook().assertSuccess()
 
+        assertEquals(listOf("greetings", "misc"), result.phrases.map { it.category.id })
+        assertEquals(listOf(tr("Misc", ENGLISH)), result.phrases[1].category.translations)
+        assertEquals(listOf(tr("Вещь", RUSSIAN)), result.phrases[1].phrases.single().translations)
+    }
+
+    @Test
+    fun categoryWithoutAnyUsableTranslation_isLeftOutWithItsPhrases() = runTest {
+        val untitled = Category("untitled", emptyList())
+        val phrasebook = Phrasebook(
+            1,
+            listOf(untitled, greetings),
+            listOf(
+                phrase("а", untitled, tr("Thing", ENGLISH)),
+                phrase("б", greetings, tr("Hello", ENGLISH)),
+            ),
+        )
+
+        val result = useCase(phrasebook).loadPhrasebook().assertSuccess()
+
         assertEquals(listOf("greetings"), result.phrases.map { it.category.id })
+    }
+
+    @Test
+    fun phraseWithoutAnyUsableTranslation_isLeftOut() = runTest {
+        val phrasebook = Phrasebook(
+            1,
+            listOf(greetings),
+            listOf(phrase("а", greetings), phrase("б", greetings, tr("Hello", ENGLISH))),
+        )
+
+        val phrases = useCase(phrasebook).loadPhrasebook().assertSuccess().phrases.single().phrases
+
+        assertEquals(listOf("б"), phrases.map { it.mokshanPhrase })
+    }
+
+    @Test
+    fun duplicatedCategoryIds_firstOneWins() = runTest {
+        val first = category("c", tr("First", ENGLISH))
+        val second = category("c", tr("Second", ENGLISH))
+        val phrasebook = Phrasebook(1, listOf(first, second), listOf(phrase("а", first, tr("Hello", ENGLISH))))
+
+        val result = useCase(phrasebook).loadPhrasebook().assertSuccess()
+
+        assertEquals(1, result.phrases.size)
+        assertEquals("First", result.phrases.single().category.translations.single().value)
+    }
+
+    @Test
+    fun phrasesKeepTheirOrderInsideACategory() = runTest {
+        val phrasebook = Phrasebook(
+            1,
+            listOf(greetings),
+            listOf("в", "а", "б").map { phrase(it, greetings, tr("x $it", ENGLISH)) },
+        )
+
+        val phrases = useCase(phrasebook).loadPhrasebook().assertSuccess().phrases.single().phrases
+
+        assertEquals(listOf("в", "а", "б"), phrases.map { it.mokshanPhrase })
     }
 
     @Test
@@ -123,23 +208,6 @@ class PhrasebookUseCaseTest {
         val result = useCase(phrasebook, RUSSIAN).loadPhrasebook().assertSuccess()
 
         assertEquals(listOf(tr("Hi", ENGLISH)), result.phrases.single().phrases.single().translations)
-    }
-
-    @Test
-    fun partiallyTranslatedPhrasebook_isNotMergedWithEnglish() = runTest {
-        // pins current behaviour: English is used only when the device language yields nothing at all
-        val phrasebook = Phrasebook(
-            1,
-            listOf(greetings),
-            listOf(
-                phrase("а", greetings, tr("Hello", ENGLISH)),
-                phrase("б", greetings, tr("Привет", RUSSIAN)),
-            ),
-        )
-
-        val result = useCase(phrasebook, RUSSIAN).loadPhrasebook().assertSuccess()
-
-        assertEquals(1, result.phrases.single().phrases.size)
     }
 
     @Test
@@ -171,13 +239,12 @@ class PhrasebookUseCaseTest {
     }
 
     @Test
-    fun phraseCategory_keepsAllLanguages_whileGroupCategoryIsFiltered() = runTest {
-        // pins current behaviour (B24): the category nested into a phrase is not filtered
+    fun phraseCategory_isTheSameLocalizedCategoryAsTheGroup() = runTest {
         val phrasebook = Phrasebook(1, listOf(greetings), listOf(phrase("а", greetings, tr("Hello", ENGLISH))))
 
         val group = useCase(phrasebook).loadPhrasebook().assertSuccess().phrases.single()
 
         assertEquals(listOf(ENGLISH), group.category.translations.map { it.foreignLanguage })
-        assertEquals(listOf(ENGLISH, RUSSIAN), group.phrases.single().category.translations.map { it.foreignLanguage })
+        assertEquals(group.category, group.phrases.single().category)
     }
 }

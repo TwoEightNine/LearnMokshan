@@ -141,4 +141,6 @@ class FakeServerConfig : ServerConfig {
 
     override fun getArticlesIndexUrl(langCode: String) = "https://test/articles/index-$langCode.json"
     override fun getArticlesDirUrl() = "https://test/articles/"
+    override fun getPronunciationArticleUrl(langCode: String) = "https://test/articles/pronunciation-$langCode.json"
+    override fun getPhrasebookUrl() = "https://test/phrasebook.json"
 }
