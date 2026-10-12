@@ -4,6 +4,7 @@ import global.msnthrp.mokshan.data.repository.dictionary.DictionaryRepository
 import global.msnthrp.mokshan.data.repository.lessons.TopicsRepository
 import global.msnthrp.mokshan.domain.dictionary.DictionaryEntry
 import global.msnthrp.mokshan.domain.lessons.BankWord
+import global.msnthrp.mokshan.domain.lessons.Lesson
 import global.msnthrp.mokshan.domain.lessons.LessonPair
 import global.msnthrp.mokshan.domain.lessons.LessonStep
 import global.msnthrp.mokshan.domain.lessons.LessonStepDirection
@@ -132,20 +133,7 @@ class LessonUseCase(
                 ?.takeIf { it < topic.lessons.size }
                 ?.let { topic.lessons.getOrNull(it) }
                 ?.also { lesson ->
-                    val newWords = lesson.dictionary
-                    val lessonPairs = topic.lessons.flatMap { it.toNative }
-                    val entries = newWords.mapNotNull { mokshan ->
-                        lessonPairs
-                            .find { it.mokshan == mokshan }
-                            ?.native
-                            ?.let { native ->
-                                DictionaryEntry(
-                                    mokshan = mokshan.lowercase(),
-                                    native = native.map { it.lowercase() },
-                                )
-                            }
-                    }
-                    dictionaryRepository.addNewWords(entries)
+                    dictionaryRepository.addNewWords(getDictionaryEntries(topic, lesson))
                 }
         }
     }
@@ -177,6 +165,29 @@ class LessonUseCase(
         }
         val cleanTranslationsFromSentences = wordTranslationsFromSentences.map { it.cleanUp() }
         return (wordTranslations + cleanTranslationsFromSentences).distinct()
+    }
+
+    /**
+     * Entries are the words of `lesson.dictionary`. Their translations are taken from
+     * `topic.translations`; a word that has none there falls back to the lesson pair with the same
+     * text (whole phrases are listed in the dictionary but only exist as pairs). Words that cannot be
+     * translated either way are skipped.
+     */
+    private fun getDictionaryEntries(topic: Topic, lesson: Lesson): List<DictionaryEntry> {
+        val lessonPairs = topic.lessons.flatMap { it.toNative }
+        return lesson.dictionary.mapNotNull { word ->
+            val key = word.cleanUp().trim()
+            val natives = topic.translations
+                .filter { it.mokshan.cleanUp().trim() == key }
+                .map { it.native }
+                .ifEmpty { lessonPairs.find { it.mokshan.cleanUp().trim() == key }?.native.orEmpty() }
+            natives.takeIf { it.isNotEmpty() }?.let {
+                DictionaryEntry(
+                    mokshan = word.lowercase(),
+                    native = it.map { native -> native.lowercase() }.distinct(),
+                )
+            }
+        }
     }
 
     private fun getListExtendedFrom(

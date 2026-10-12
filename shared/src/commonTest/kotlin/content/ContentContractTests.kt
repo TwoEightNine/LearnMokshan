@@ -144,24 +144,20 @@ class ContentContractTests {
     }
 
     @Test
-    fun indexLessonsCount_matchesTopicFiles_knownIssueB1() {
-        // KNOWN ISSUE B1: the app takes the topic length from the index in the topics list and from
-        // the topic file in lessons, so these topics cannot be completed.
+    fun indexLessonsCount_matchesTopicFiles() {
+        // the topics list takes the topic length from the index, lessons from the topic file;
+        // a mismatch makes a topic impossible to complete
         val mismatched = sortedSetOf<String>()
         for (lang in languages) for (name in indexNames) {
             summary(lang, name).topicsInfo!!.forEach { info ->
                 val actual = topic(lang, info.id!!).lessons.size
-                if (info.lessonsCount != actual) mismatched += "$lang/$name/topic${info.id}"
+                if (info.lessonsCount != actual) {
+                    mismatched += "$lang/$name/topic${info.id}: index=${info.lessonsCount} actual=$actual"
+                }
             }
         }
 
-        assertEquals(
-            sortedSetOf(
-                "en/index-sandbox/topic7", "en/index-sandbox/topic8", "en/index/topic7", "en/index/topic8",
-                "ru/index-sandbox/topic8", "ru/index/topic8",
-            ),
-            mismatched,
-        )
+        assertEquals(emptySet<String>(), mismatched)
     }
 
     @Test

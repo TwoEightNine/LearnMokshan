@@ -51,7 +51,7 @@
     },
     {
       "id": 7,
-      "lessonsCount": 3,
+      "lessonsCount": 4,
       "title": "Food",
       "description": "Nouns and present tense",
       "emoji": "\uD83E\uDD56",
@@ -61,7 +61,7 @@
       "id": 8,
       "title": "Count",
       "description": "Numbers to 10 and plural nouns",
-      "lessonsCount": 3,
+      "lessonsCount": 4,
       "emoji": "7\uFE0F⃣",
       "grammar": "grammar-8-en.prelinar"
     },

@@ -208,10 +208,15 @@ requires an explicit compatibility plan.
 
 ### Learned-word dictionary
 
-Completing a non-repeat lesson may add that lesson's `dictionary` entries to the
-Room database `main.db`. `DictionaryRepository` resolves native translations
-from topic lesson pairs, lowercases both sides, and records the current
-timestamp. Existing Mokshan entries merge and deduplicate translations.
+Completing a non-repeat lesson may add that lesson's `dictionary` words to the
+Room database `main.db`. The entries are exactly the words listed in the lesson's
+`dictionary`. `LessonUseCase` takes their translations from the topic's
+`translations` (matched ignoring case and the punctuation removed by answer
+checking); a word with no `translations` entry falls back to the lesson pair with
+the same text, which is how whole phrases get a translation. A word that has
+neither is skipped. Both sides are lowercased, and `DictionaryRepository` records
+the current timestamp. Existing Mokshan entries merge and deduplicate
+translations.
 
 The Room 3 database is version 1 and contains `DictionaryEntity`. Lists of native
 translations are serialized into a single `|`-delimited column. A schema or
@@ -268,7 +273,9 @@ contains `order`, `toNative` phrase pairs, and dictionary words.
 
 Maintain these invariants:
 
-- Topic IDs, order, and lesson counts must agree between index and topic data.
+- Topic IDs, order, and lesson counts must agree between index and topic data:
+  `lessonsCount` in every `index*.json` must equal the number of lessons in the
+  topic's `lessons.json` (enforced by `ContentContractTests`).
 - English and Russian trees must retain equivalent topic structure unless a
   deliberate staged rollout is documented.
 - Every Mokshan word needed for lesson hints must appear in explicit
@@ -393,9 +400,8 @@ indexes.
   queries, and Compose UI.
 
 Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example the dictionary dropping single words, the topic length
-mismatch between an index and its topic file, or the answer bank not being
-shuffled for sentences of ten or more words). They keep the suite green and are
+today (for example the answer bank not being shuffled for sentences of ten or
+more words, or progress writes that are never reported as failures). They keep the suite green and are
 expected to fail when the bug is fixed; update them together with the fix.
 Never "fix" such a test by weakening it without fixing the behaviour.
 

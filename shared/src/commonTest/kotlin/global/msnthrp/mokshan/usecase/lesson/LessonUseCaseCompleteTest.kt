@@ -194,15 +194,13 @@ class LessonUseCaseCompleteTest {
     }
 
     @Test
-    fun dictionaryWordsThatAreNotWholePairs_areSilentlyDropped_knownBugB2() = runTest {
-        // KNOWN BUG B2: dictionary words are matched with exact `==` against whole pair sentences,
-        // so single words (even those listed in `topic.translations`) never reach the dictionary.
+    fun singleWords_areTranslatedByTopicTranslations() = runTest {
         val topic = topic(
             lessons = listOf(
                 lesson(
                     1,
                     listOf(pair("Кода тефне?", "How are you?")),
-                    dictionary = listOf("кода", "тефне", "Кода тефне?"),
+                    dictionary = listOf("кода", "тефне"),
                 ),
             ),
             translations = listOf(translation("кода", "how"), translation("тефне", "your deal")),
@@ -211,21 +209,113 @@ class LessonUseCaseCompleteTest {
 
         harness.useCase.completeLesson(topic, 1).assertSuccess()
 
-        assertEquals(listOf("кода тефне?"), harness.words().map { it.mokshan })
+        assertEquals(
+            listOf(
+                DictionaryEntry("кода", listOf("how"), 5_000L),
+                DictionaryEntry("тефне", listOf("your deal"), 5_000L),
+            ),
+            harness.words(),
+        )
     }
 
     @Test
-    fun dictionaryWordsDifferingOnlyByCase_areDropped_knownBugB2() = runTest {
+    fun entriesAreExactlyTheLessonDictionary_notEveryTranslation() = runTest {
         val topic = topic(
-            lessons = listOf(
-                lesson(1, listOf(pair("Лац", "Fine")), dictionary = listOf("лац")),
-            ),
+            lessons = listOf(lesson(1, listOf(pair("Лац", "Fine")), dictionary = listOf("кода"))),
+            translations = listOf(translation("кода", "how"), translation("лац", "fine")),
         )
         val harness = LessonHarness(topic)
 
         harness.useCase.completeLesson(topic, 1).assertSuccess()
 
-        assertEquals(emptyList(), harness.words())
+        assertEquals(listOf("кода"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun topicTranslations_takePriorityOverLessonPairs() = runTest {
+        val topic = topic(
+            lessons = listOf(lesson(1, listOf(pair("Лац", "Fine")), dictionary = listOf("Лац"))),
+            translations = listOf(translation("лац", "okay")),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(listOf("okay"), harness.words().single().native)
+    }
+
+    @Test
+    fun severalTranslationsOfOneWord_areAllKept() = runTest {
+        val topic = topic(
+            lessons = listOf(lesson(1, listOf(pair("а", "a")), dictionary = listOf("Кода"))),
+            translations = listOf(translation("кода", "how"), translation("кода", "in what way")),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(listOf("how", "in what way"), harness.words().single().native)
+    }
+
+    @Test
+    fun phraseWithoutTranslationEntry_fallsBackToLessonPair() = runTest {
+        val topic = topic(
+            lessons = listOf(
+                lesson(1, listOf(pair("Кода тефне?", "How are you?", "How is it going?")), dictionary = listOf("Кода тефне?")),
+            ),
+            translations = listOf(translation("кода", "how")),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(
+            listOf(DictionaryEntry("кода тефне?", listOf("how are you?", "how is it going?"), 5_000L)),
+            harness.words(),
+        )
+    }
+
+    @Test
+    fun wordsAreMatchedIgnoringCaseAndPunctuation() = runTest {
+        val topic = topic(
+            lessons = listOf(
+                lesson(1, listOf(pair("Лац!", "Fine")), dictionary = listOf("лац", "ПАРА.")),
+            ),
+            translations = listOf(translation("Пара", "good")),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(
+            mapOf("лац" to listOf("fine"), "пара." to listOf("good")),
+            harness.words().associate { it.mokshan to it.native },
+        )
+    }
+
+    @Test
+    fun wordWithoutAnyTranslation_isSkipped() = runTest {
+        val topic = topic(
+            lessons = listOf(lesson(1, listOf(pair("Лац", "Fine")), dictionary = listOf("Лац", "неведомо"))),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(listOf("лац"), harness.words().map { it.mokshan })
+    }
+
+    @Test
+    fun translationsAreLowercasedAndDeduplicated() = runTest {
+        val topic = topic(
+            lessons = listOf(lesson(1, listOf(pair("а", "a")), dictionary = listOf("Кода"))),
+            translations = listOf(translation("кода", "How"), translation("кода", "how")),
+        )
+        val harness = LessonHarness(topic)
+
+        harness.useCase.completeLesson(topic, 1).assertSuccess()
+
+        assertEquals(listOf("how"), harness.words().single().native)
     }
 
     @Test
