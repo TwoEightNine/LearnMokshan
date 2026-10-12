@@ -27,9 +27,7 @@ import kotlin.test.assertTrue
 
 /**
  * Checks the invariants the client relies on, using the real production parsers on `content/`.
- *
- * Tests named `*_knownIssue*` pin a defect that is currently present in the content, so the suite
- * stays green. When the content is fixed they fail on purpose: update the expectation to empty.
+ * A failure here means a content change would break or degrade the released clients.
  */
 class ContentContractTests {
 
@@ -210,23 +208,27 @@ class ContentContractTests {
     }
 
     @Test
-    fun lessonStructure_isTheSameInBothLanguages_knownIssueB18() {
-        // KNOWN ISSUE B18: the Russian tree has one pair less in lesson 1 of topic 1
-        val differing = sortedSetOf<Int>()
+    fun lessonStructure_isTheSameInBothLanguages() {
+        // the Mokshan side and the dictionary are language independent and must be identical
+        val differing = sortedSetOf<String>()
         for (id in topicIds("en")) {
             val en = topic("en", id)
             val ru = topic("ru", id)
-            val enShape = en.lessons.map { it.order to it.toNative.size to it.dictionary.size }
-            val ruShape = ru.lessons.map { it.order to it.toNative.size to it.dictionary.size }
-            if (enShape != ruShape) differing += id
+            fun shape(topic: Topic) = topic.lessons.map { lesson ->
+                Triple(lesson.order, lesson.toNative.map { it.mokshan }, lesson.dictionary)
+            }
+            if (shape(en) != shape(ru)) differing += "topic $id"
+            if (en.translations.map { it.mokshan } != ru.translations.map { it.mokshan }) {
+                differing += "topic $id translations"
+            }
         }
 
-        assertEquals(sortedSetOf(1), differing)
+        assertEquals(emptySet<String>(), differing)
     }
 
     @Test
-    fun dictionaryWords_areKnownToTheTopic_knownIssueB18() {
-        // every word that completing a lesson should add must exist in pairs or translations
+    fun dictionaryWords_areKnownToTheTopic() {
+        // every word that completing a lesson should add must exist in translations or pairs
         val unresolved = sortedSetOf<String>()
         for (lang in languages) for (id in topicIds(lang)) {
             val topic = topic(lang, id)
@@ -237,7 +239,7 @@ class ContentContractTests {
             }
         }
 
-        assertEquals(sortedSetOf("en/9: аньцек", "ru/1: Кода тевонте?", "ru/9: аньцек"), unresolved)
+        assertEquals(emptySet<String>(), unresolved)
     }
 
     // endregion

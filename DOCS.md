@@ -137,11 +137,12 @@ https://raw.githubusercontent.com/TwoEightNine/LearnMokshan/master/content
 ```
 
 Production lesson indexes are `lessons-{language}/index.json`; article indexes
-are `articles/index-{language}.json`. Debug configuration replaces every
-occurrence of `index` in these configured URLs with `index-sandbox`. Topic URLs
-normally contain no `index`, so they remain production topic files after this
-replacement. Phrasebook loading uses its own fixed production URL and does not
-use `ServerConfig`.
+are `articles/index-{language}.json`. Debug configuration rewrites only the file
+name of the two index URLs (`index.json` -> `index-sandbox.json`, `index-en.json`
+-> `index-sandbox-en.json`; the rewrite is idempotent and leaves hosts and
+directories alone). Topic URLs and the articles directory are never rewritten, so
+debug builds still read production topic files. Phrasebook loading uses its own
+fixed production URL and does not use `ServerConfig`.
 
 Changing the repository default branch, directory layout, or filenames can
 break installed clients because URLs are hard-coded.
@@ -340,6 +341,11 @@ Maintain these invariants:
   deliberate staged rollout is documented.
 - Every Mokshan word needed for lesson hints must appear in explicit
   translations or lesson dictionary data.
+- Every word in a lesson's `dictionary` must be translatable: it needs a
+  `translations` entry or a lesson pair with the same text (otherwise it is never
+  added to the user's dictionary).
+- The Mokshan side (pair texts, lesson `dictionary`, `translations` keys) must be
+  identical in the English and Russian trees; only the native texts differ.
 - Grammar filenames referenced by indexes must exist in `content/articles/`.
 - Update sandbox indexes deliberately; do not assume they mirror production.
 
@@ -465,11 +471,11 @@ indexes.
 - Not covered by unit tests: `AndroidCacheStorage` (needs a `Context`), real Room
   queries, and Compose UI.
 
-Tests whose names contain `knownBug`/`knownIssue` pin behaviour that is wrong
-today (for example the Russian lesson 1 of topic 1 having one pair less than the
-English one). They keep the suite green and are expected to fail when the bug is
-fixed; update them together with the fix.
-Never "fix" such a test by weakening it without fixing the behaviour.
+Convention for known defects: a test whose name contains `knownBug`/`knownIssue`
+pins behaviour that is wrong today, so the suite stays green; it is expected to
+fail when the defect is fixed and must be updated together with the fix. There are
+currently no such tests. Never weaken a test to make it pass without fixing the
+behaviour.
 
 `shared/src/commonTest/kotlin/content/ContentTests.kt` traverses lesson files and
 checks translation-hint coverage. Content work must run this test when the

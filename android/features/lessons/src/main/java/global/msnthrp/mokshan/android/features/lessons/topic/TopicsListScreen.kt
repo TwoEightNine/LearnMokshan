@@ -181,7 +181,7 @@ private fun TopicInfoCard(
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.Center),
-                    text = topicInfo.emoji ?: topicInfo.title.first().toString().uppercase(),
+                    text = topicInfo.badgeText(),
                     color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight.Black,
                     style = MaterialTheme.typography.headlineSmall,

@@ -85,4 +85,47 @@ class ServerConfigTest {
     }
 
     // endregion
+
+    // region sandbox index conversion
+
+    @Test
+    fun sandboxIndex_convertsOnlyTheIndexFileName() {
+        assertEquals("https://h/lessons-en/index-sandbox.json", "https://h/lessons-en/index.json".toSandboxIndexUrl())
+        assertEquals("https://h/articles/index-sandbox-ru.json", "https://h/articles/index-ru.json".toSandboxIndexUrl())
+    }
+
+    @Test
+    fun sandboxIndex_isIdempotent() {
+        listOf("https://h/lessons-en/index.json", "https://h/articles/index-en.json").forEach { url ->
+            val once = url.toSandboxIndexUrl()
+
+            assertEquals(once, once.toSandboxIndexUrl())
+            assertEquals(once, once.toSandboxIndexUrl().toSandboxIndexUrl())
+        }
+    }
+
+    @Test
+    fun sandboxIndex_leavesHostsDirectoriesAndOtherFilesAlone() {
+        listOf(
+            "https://index.example.com/content/lessons-en/1/lessons.json",
+            "https://h/index/lessons-en/1/lessons.json",
+            "https://h/indexes/a.json",
+            "https://h/articles/",
+            "https://h/articles/reindex.json",
+            "https://h/articles/index.json/more/lessons.json",
+            "https://h/lessons-en/1/lessons.json",
+        ).forEach { url ->
+            assertEquals(url, url.toSandboxIndexUrl())
+        }
+    }
+
+    @Test
+    fun sandboxIndex_worksForHostsThatContainIndex() {
+        assertEquals(
+            "https://index.example.com/index-sandbox.json",
+            "https://index.example.com/index.json".toSandboxIndexUrl(),
+        )
+    }
+
+    // endregion
 }
