@@ -57,7 +57,7 @@
       "toNative": [
         {
           "mokshan": "Мон ярхцан кшида",
-          "native": ["I eat porridge"]
+          "native": ["I eat bread"]
         },
         {
           "mokshan": "Тон ярхцат сырда",
@@ -113,7 +113,7 @@
         },
         {
           "mokshan": "Пяряка",
-          "native": ["Cake"]
+          "native": ["Pie"]
         },
         {
           "mokshan": "Ям",
@@ -165,7 +165,7 @@
         },
         {
           "mokshan": "Ярхцайхть пярякада",
-          "native": ["They eat cake"]
+          "native": ["They eat pie"]
         }
       ],
       "dictionary": [
@@ -295,7 +295,7 @@
     },
     {
       "mokshan": "пярякада",
-      "native": "cake"
+      "native": "pie"
     }
   ]
 }

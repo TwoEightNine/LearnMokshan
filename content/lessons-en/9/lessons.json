@@ -106,7 +106,7 @@
         },
         {
           "mokshan": "Монь аш братоне",
-          "native": ["I don't have a younger brother"]
+          "native": ["I don't have younger brothers"]
         },
         {
           "mokshan": "Тонь альнякаце",
@@ -118,7 +118,7 @@
         },
         {
           "mokshan": "Сонь аканза",
-          "native": ["He has an older sisters", "She has an older sisters"]
+          "native": ["He has older sisters", "She has older sisters"]
         },
         {
           "mokshan": "Тонь братоце?",
@@ -172,7 +172,7 @@
           "native": ["You don't have children"]
         },
         {
-          "mokshan": "Сонь шабасна",
+          "mokshan": "Синь шабасна",
           "native": ["They have a child", "They have children"]
         },
         {
@@ -191,7 +191,7 @@
         },
         {
           "mokshan": "Тинь атянте? – Да, минь атяньке и щятяньке",
-          "native": ["Do you have paternal grandfather? – Yes, we have paternal grandfather and grandmother"]
+          "native": ["Do you have a paternal grandfather? – Yes, we have paternal and maternal grandfathers"]
         },
         {
           "mokshan": "Синь ули бабасна? – Да, синь улихть бабасна и щавасна",
@@ -262,7 +262,7 @@
     },
     {
       "mokshan": "альнякаце",
-      "native": "my older brother"
+      "native": "your older brother"
     },
     {
       "mokshan": "ули",

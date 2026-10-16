@@ -97,7 +97,7 @@
         },
         {
           "mokshan": "Коса сон тонафни?",
-          "native": ["Where does he study?", "Where does he study?"]
+          "native": ["Where does he study?", "Where does she study?"]
         },
         {
           "mokshan": "Коса тинь покатада?",
@@ -153,7 +153,7 @@
         },
         {
           "mokshan": "Синь эряйхть отельса",
-          "native": ["They live in an hotel"]
+          "native": ["They live in a hotel"]
         },
         {
           "mokshan": "Коса тинь покатада? – Тяса",
@@ -165,7 +165,7 @@
         }
       ],
       "dictionary": [
-        "покамс", "тонафнемс", "офис", "завод", "лавка", "отель", "куд", "квартира", "город", "село", "школа", "университет"
+        "покамс", "тонафнемс", "офис", "завод", "лавка", "отель", "куд", "квартира", "ош", "веле", "школа", "университет"
       ]
     },
     {
@@ -189,7 +189,7 @@
         },
         {
           "mokshan": "Коза тинь мольхтяда?",
-          "native": ["Where are you going?"]
+          "native": ["Where are you all going?"]
         },
         {
           "mokshan": "Синь молихть университету",
@@ -267,7 +267,7 @@
     {"mokshan": "эрятада", "native": "live"},
     {"mokshan": "велеса", "native": "in a village"},
     {"mokshan": "эряйхть", "native": "live"},
-    {"mokshan": "отельса", "native": "in an hotel"},
+    {"mokshan": "отельса", "native": "in a hotel"},
     {"mokshan": "тонафнетяда", "native": "study"},
     {"mokshan": "молян", "native": "go"},
     {"mokshan": "лавкав", "native": "to a store"},
@@ -292,8 +292,8 @@
     {"mokshan": "отель", "native": "hotel"},
     {"mokshan": "куд", "native": "house"},
     {"mokshan": "квартира", "native": "apartment"},
-    {"mokshan": "город", "native": "city"},
-    {"mokshan": "село", "native": "village"},
+    {"mokshan": "ош", "native": "city"},
+    {"mokshan": "веле", "native": "village"},
     {"mokshan": "школа", "native": "school"},
     {"mokshan": "университет", "native": "university"},
     {"mokshan": "молемс", "native": "to go"},
