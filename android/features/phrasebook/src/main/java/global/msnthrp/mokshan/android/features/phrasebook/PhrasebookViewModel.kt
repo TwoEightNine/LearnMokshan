@@ -23,12 +23,6 @@ class PhrasebookViewModel : ViewModel() {
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch {
             val result = phrasebookUc.loadPhrasebook()
-            result.getOrNull()?.also {
-                println(it)
-            }
-            result.exceptionOrNull()?.also {
-                it.printStackTrace()
-            }
             _state.update {
                 it.copy(
                     isLoading = false,

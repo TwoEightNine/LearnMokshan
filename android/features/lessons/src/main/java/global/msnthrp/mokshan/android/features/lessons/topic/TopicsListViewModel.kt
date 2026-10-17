@@ -35,12 +35,6 @@ internal class TopicsListViewModel : BaseViewModel<TopicsListState>() {
         viewModelScope.launch {
             val summaryResult = topicsRepository.getTopicsSummaryWithProgress()
             val summary = summaryResult.getOrNull()
-            summaryResult.getOrNull()?.also {
-                println(it)
-            }
-            summaryResult.exceptionOrNull()?.also {
-                it.printStackTrace()
-            }
             if (summary == null) {
                 updateState { TopicsListState.Failed }
             } else {

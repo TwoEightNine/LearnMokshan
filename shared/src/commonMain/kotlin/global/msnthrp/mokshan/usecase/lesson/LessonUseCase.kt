@@ -24,7 +24,6 @@ class LessonUseCase(
 ) {
 
     suspend fun prepareLesson(topicId: Int, lessonNumber: Int): Result<PreparedLesson> {
-        println("prepareLesson(topicId=$topicId, lessonNumber=$lessonNumber)")
         val topicResult = lessonRepository.getTopic(topicId)
         val topic = topicResult.getOrNull() ?: return Result.failureOf(topicResult)
         if (lessonNumber !in 1..topic.topicLength && lessonNumber != LESSON_NUMBER_REPEAT) {
@@ -35,12 +34,10 @@ class LessonUseCase(
                 )
             )
         }
-        println("LessonUC: topic = $topic")
 
         val lessonsCount = topic.lessons.size
         val lessonByNumber = getLessonByNumber(lessonsCount, lessonNumber)
         val exactLesson = getExactLesson(topic, lessonNumber)
-        println("LessonUC: lessonsCount = $lessonsCount, lessonByNumber = $lessonByNumber, exactLesson = $exactLesson")
 
         val lessonPairsFromMokshan = when (exactLesson) {
             null -> topic.lessons.flatMap { it.toNative }
@@ -48,7 +45,6 @@ class LessonUseCase(
         }
             // a pair without a translation has nothing to ask or to accept as an answer
             .filter { it.native.isNotEmpty() }
-        println("LessonUC: lessonPairs(${lessonPairsFromMokshan.size}) = $lessonPairsFromMokshan")
         if (lessonPairsFromMokshan.isEmpty()) {
             return Result.failure(IllegalStateException("Lesson pairs not found"))
         }

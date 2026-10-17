@@ -19,9 +19,6 @@ class ArticlesListViewModel(
             val result = articlesRepository.loadArticles()
             val articles = result.getOrNull()
 
-            articles?.also { println(it) }
-            result.exceptionOrNull()?.printStackTrace()
-
             if (articles == null) {
                 updateState { ArticlesListState.Failed }
             } else {

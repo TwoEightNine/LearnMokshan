@@ -159,20 +159,32 @@ break installed clients because URLs are hard-coded.
 - lenient Kotlin serialization that ignores unknown keys and explicit nulls;
 - a 30-second request timeout;
 - response-status exceptions (`expectSuccess = true`);
-- header-level logging; and
+- header-level logging only when the Koin property `HTTP_LOGGING_PROPERTY` is
+  `true` (the Android application sets it to `BuildConfig.DEBUG`); and
 - both Ktor `HttpCache` and an application cache abstraction.
 
+`NetworkClient` reads the cache and parses bodies on `Dispatchers.Default`, so
+callers on the main thread are never blocked by disk access or JSON/Prelinar
+parsing.
+
 On Android, the application cache stores response bodies in
-`cacheDir/ktor_cache`, keyed by a SHA-512 hash of the URL. Creation timestamps
-are held in `SharedPreferences` named `ktor_cache_meta`. The default TTL is one
-hour. A fresh entry is returned immediately; after expiry, the client attempts a
-network request. A response body is cached and returned only after it has been
-parsed (decoded and, for the data sources, mapped to the domain model)
-successfully, so an error page or malformed file never replaces a good cached
-copy, and an unparsable cached entry is ignored. If the request fails or its body
-cannot be parsed, an expired cached copy that parses is returned. If nothing is
-usable, the request error (or the parse error) is thrown. Coroutine cancellation is
-never turned into a cache fallback.
+`cacheDir/ktor_cache`, keyed by a SHA-512 hash of the URL, and reads and writes
+them on `Dispatchers.IO`. Bodies already read or written in the current process
+are also kept in a bounded in-memory LRU, so screens that reload on resume do not
+touch the disk again. Creation timestamps are held in `SharedPreferences` named
+`ktor_cache_meta`. The default TTL is one hour. A fresh entry is returned
+immediately; after expiry, the client attempts a network request. A response body
+is cached and returned only after it has been parsed (decoded and, for the data
+sources, mapped to the domain model) successfully, so an error page or malformed
+file never replaces a good cached copy, and an unparsable cached entry is ignored.
+An expired cached copy is parsed only when it is needed as a fallback. If the
+request fails or its body cannot be parsed, an expired cached copy that parses is
+returned. If the request has not answered within three seconds
+(`NetworkClient.STALE_FALLBACK_TIMEOUT_MS`) and an expired copy parses, that copy is
+returned at once while the request keeps running in the background and updates the
+cache for the next load; without a usable copy the client keeps waiting for the
+request. If nothing is usable, the request error (or the parse error) is thrown.
+Coroutine cancellation is never turned into a cache fallback.
 
 ### Lessons
 
@@ -504,8 +516,6 @@ and do not claim the check passed.
   official style, or automated Markdown validation.
 - Production content URLs depend on the `master` branch name and GitHub raw-file
   availability.
-- Network logs include response headers and several ViewModels print data or
-  stack traces directly.
 - The repository has no standalone license file.
 
 These items are documentation, not authorization to fix unrelated technical

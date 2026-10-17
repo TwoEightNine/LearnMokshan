@@ -1,5 +1,6 @@
 package global.msnthrp.mokshan.data.network
 
+import global.msnthrp.mokshan.data.network.base.NetworkClient
 import global.msnthrp.mokshan.data.network.base.defaultJson
 import global.msnthrp.mokshan.testutil.FakeCacheStorage
 import global.msnthrp.mokshan.testutil.MockNetwork
@@ -8,6 +9,8 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.Serializable
@@ -26,8 +29,9 @@ class NetworkClientTest {
 
     private fun network(
         cache: FakeCacheStorage = FakeCacheStorage(),
-        handler: (String) -> MockResponse,
-    ) = MockNetwork(cache, handler)
+        staleFallbackTimeoutMs: Long = NetworkClient.STALE_FALLBACK_TIMEOUT_MS,
+        handler: suspend (String) -> MockResponse,
+    ) = MockNetwork(cache, staleFallbackTimeoutMs, handler)
 
     // region caching strategy
 
@@ -73,6 +77,54 @@ class NetworkClientTest {
         val network = network(cache) { MockResponse.Crash(IllegalStateException("offline")) }
 
         assertEquals("stale", network.client.getPlain(url))
+    }
+
+    @Test
+    fun expiredCache_isNotParsed_whenNetworkAnswers() = runTest {
+        val cache = FakeCacheStorage().apply { put(url, "stale", isExpired = true) }
+        val network = network(cache) { MockResponse.Ok("fresh") }
+        val parsed = mutableListOf<String>()
+
+        assertEquals("fresh", network.client.getParsed(url) { parsed += it; it })
+        assertEquals(listOf("fresh"), parsed)
+    }
+
+    @Test
+    fun slowNetwork_answersFromExpiredCache_andRefreshUpdatesCacheLater() = runTest {
+        val cache = FakeCacheStorage().apply { put(url, "stale", isExpired = true) }
+        val release = CompletableDeferred<Unit>()
+        val network = network(cache, staleFallbackTimeoutMs = 50) {
+            release.await()
+            MockResponse.Ok("fresh")
+        }
+
+        assertEquals("stale", network.client.getPlain(url))
+
+        release.complete(Unit)
+        network.awaitRefreshes()
+        assertEquals(listOf(url to "fresh"), cache.saved)
+        assertEquals("fresh", network.client.getPlain(url))
+    }
+
+    @Test
+    fun slowNetwork_withoutCache_isAwaited() = runTest {
+        val network = network(staleFallbackTimeoutMs = 1) {
+            delay(100)
+            MockResponse.Ok("fresh")
+        }
+
+        assertEquals("fresh", network.client.getPlain(url))
+    }
+
+    @Test
+    fun slowNetwork_withUnusableCache_isAwaited() = runTest {
+        val cache = FakeCacheStorage().apply { put(url, "garbage", isExpired = true) }
+        val network = network(cache, staleFallbackTimeoutMs = 1) {
+            delay(100)
+            MockResponse.Ok("""{"id": 1}""")
+        }
+
+        assertEquals(Dto(id = 1), network.client.get<Dto>(url))
     }
 
     @Test

@@ -33,7 +33,6 @@ class LessonViewModel(
     private fun loadLesson(topicId: Int, lessonNumber: Int) {
         viewModelScope.launch {
             val preparedLesson = lessonUc.prepareLesson(topicId = topicId, lessonNumber = lessonNumber).getOrNull()
-            println(preparedLesson)
             if (preparedLesson == null) {
                 updateState { copy(isLoadFailed = true) }
                 return@launch

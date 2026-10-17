@@ -10,6 +10,9 @@ import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError
 import io.ktor.http.HttpStatusCode
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.job
 import kotlin.test.assertTrue
 
 fun pair(mokshan: String, vararg native: String) = LessonPair(mokshan, native.toList())
@@ -64,9 +67,13 @@ fun sampleTopic(id: Int = 1): Topic = topic(
 /** Builds a [NetworkClient] over a Ktor [MockEngine] that mimics `expectSuccess = true`. */
 class MockNetwork(
     val cache: FakeCacheStorage = FakeCacheStorage(),
-    private val handler: (url: String) -> MockResponse,
+    staleFallbackTimeoutMs: Long = NetworkClient.STALE_FALLBACK_TIMEOUT_MS,
+    private val handler: suspend (url: String) -> MockResponse,
 ) {
     val requestedUrls = mutableListOf<String>()
+
+    /** Where refreshes outliving their caller run; see [awaitRefreshes]. */
+    private val refreshScope = CoroutineScope(SupervisorJob())
 
     private val engine = MockEngine { request ->
         val url = request.url.toString()
@@ -81,7 +88,13 @@ class MockNetwork(
     val client = NetworkClient(
         client = HttpClient(engine) { expectSuccess = true },
         cacheStorage = cache,
+        refreshScope = refreshScope,
+        staleFallbackTimeoutMs = staleFallbackTimeoutMs,
     )
+
+    suspend fun awaitRefreshes() {
+        refreshScope.coroutineContext.job.children.forEach { it.join() }
+    }
 
     sealed interface MockResponse {
         data class Ok(val body: String) : MockResponse

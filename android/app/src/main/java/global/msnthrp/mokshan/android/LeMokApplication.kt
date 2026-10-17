@@ -14,6 +14,7 @@ import global.msnthrp.mokshan.android.koinimpls.ProdServerConfig
 import global.msnthrp.mokshan.android.koinimpls.SandboxServerConfig
 import global.msnthrp.mokshan.androidModules
 import global.msnthrp.mokshan.data.network.ServerConfig
+import global.msnthrp.mokshan.data.network.base.HTTP_LOGGING_PROPERTY
 import global.msnthrp.mokshan.data.repository.repositoryModule
 import global.msnthrp.mokshan.data.storage.base.FileProducer
 import global.msnthrp.mokshan.usecase.DeviceLocaleProvider
@@ -30,6 +31,7 @@ class LeMokApplication : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@LeMokApplication)
+            properties(mapOf(HTTP_LOGGING_PROPERTY to BuildConfig.DEBUG))
             loadKoinModules(
                 listOf(
                     repositoryModule,

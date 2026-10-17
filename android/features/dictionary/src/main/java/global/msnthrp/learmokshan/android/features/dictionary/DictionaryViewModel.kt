@@ -15,12 +15,6 @@ class DictionaryViewModel(
         updateState { copy(isLoading = true, isFailed = false) }
         viewModelScope.launch {
             val result = dictionaryRepository.getAllWords()
-            result.getOrNull()?.also {
-                println(it)
-            }
-            result.exceptionOrNull()?.also {
-                it.printStackTrace()
-            }
             updateState {
                 // words that are already shown stay on screen when a refresh fails
                 val dictionary = result.getOrNull() ?: dictionary
